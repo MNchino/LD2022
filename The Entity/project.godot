@@ -13,6 +13,10 @@ config_version=4
 config/name="The Entity"
 config/icon="res://icon.png"
 
+[debug]
+
+shapes/collision/shape_color=Color( 0.733333, 0.733333, 0.733333, 0.419608 )
+
 [physics]
 
 common/enable_pause_aware_picking=true
