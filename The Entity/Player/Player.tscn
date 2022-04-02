@@ -20,3 +20,13 @@ shape = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="DashTime" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="DashCoolDown" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
+[connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
