@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Player
 
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
@@ -9,8 +10,7 @@ var dir : Vector2 = Vector2(1,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	GameState.set_player(self);
 
 func _physics_process(delta):
 	if GInput.dir.x != 0:
