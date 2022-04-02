@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/Entity/EntityFrames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Sprite/Entity/EntityMaskFrames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Sprite/Entity/EntityMask.gd" type="Script" id=3]
+
+[node name="EntitySprite" type="AnimatedSprite"]
+frames = ExtResource( 1 )
+offset = Vector2( 0, -24 )
+
+[node name="EntityMask" type="AnimatedSprite" parent="."]
+z_index = 1
+frames = ExtResource( 2 )
+offset = Vector2( 0, -24 )
+script = ExtResource( 3 )
