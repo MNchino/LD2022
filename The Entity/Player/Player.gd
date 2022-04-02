@@ -1,6 +1,8 @@
 extends KinematicBody2D
 class_name Player
 
+var shoot_template = preload('res://Player/Lighterang/LighterangThrower.tscn')
+
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
 var motion_frict : float = .4
@@ -60,7 +62,11 @@ func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
 	
 func shoot():
-	pass
+
+	var i = shoot_template.instance()
+	add_child(i)
+	i.set_as_toplevel(true)
+	i.global_position = global_position 
 	
 func attack():
 	pass

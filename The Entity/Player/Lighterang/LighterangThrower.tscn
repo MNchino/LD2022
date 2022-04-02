@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Player/Lighterang/Lighterang.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player/Lighterang/LighterangThrower.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Lighterang:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Lighterang:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "Throw"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Lighterang:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, 0, -27.9168, 0, 27.9168, 150, -0.1, -7.33482, 0.310198, 22.7524, 0, 0, 26.5279, 0, -26.5279 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Lighterang:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 31.1962, -0.2, -0.171318, 0.2, 0.171318, 0, 0, -2.42336, 0, 2.42336, -30.76, -0.2, -0.171318, 0.2, 0.171318, 0, -0.5, -6.93052, 0.5, 6.93052 ),
+"times": PoolRealArray( 0, 0.4, 0.5, 0.6, 1 )
+}
+
+[node name="LighterangThrower" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 2 )
+anims/Throw = SubResource( 1 )
+
+[node name="Lighterang" parent="." instance=ExtResource( 1 )]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

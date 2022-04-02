@@ -9,7 +9,7 @@ var xdir : int = 0 setget , get_xdir
 var ydir : int = 0 setget , get_ydir
 var dir : Vector2 = Vector2(1,0) setget , get_dir
 
-signal action_pressed
+signal shoot_pressed
 signal dash_pressed
 signal attack_pressed
 
@@ -42,6 +42,7 @@ func _input(event : InputEvent):
 		elif event.is_action_released("game_down"):
 			_down_input = 0
 	elif event.is_action_pressed("game_shoot"):
+		print("aaaa")
 		emit_signal("shoot_pressed")
 	elif event.is_action_pressed("game_dash"):
 		emit_signal("dash_pressed")
