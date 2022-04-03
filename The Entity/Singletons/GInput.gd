@@ -8,6 +8,7 @@ var _down_input : int = 0
 var xdir : int = 0 setget , get_xdir
 var ydir : int = 0 setget , get_ydir
 var dir : Vector2 = Vector2(1,0) setget , get_dir
+var game_input_enabled : bool = true
 
 signal shoot_pressed
 signal dash_pressed
@@ -15,10 +16,12 @@ signal attack_pressed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	GameState.connect("player_won", self, "disable_game_input")
 
 func _input(event : InputEvent):
+	if !game_input_enabled:
+		return
+		
 	if event.is_action("game_left"):
 		if event.is_action_pressed("game_left"):
 			_left_input =  -1
@@ -47,6 +50,19 @@ func _input(event : InputEvent):
 		emit_signal("dash_pressed")
 	elif event.is_action_pressed("game_attack"):
 		emit_signal("attack_pressed")
+		
+func disable_game_input(player : Player):
+	game_input_enabled = false
+	reset_inputs()
+	
+func enable_game_input():
+	game_input_enabled = true
+	
+func reset_inputs():
+	_left_input = 0
+	_right_input = 0
+	_up_input = 0
+	_down_input = 0
 			
 #########################################################################################
 

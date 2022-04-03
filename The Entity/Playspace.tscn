@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://PlayerSpawnpoint/PlayerSpawnpoint.tscn" type="PackedScene" id=1]
 [ext_resource path="res://test_light.png" type="Texture" id=2]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Level/LevelGeometry/LevelGeometry.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/DeathGUI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/WinGUI.tscn" type="PackedScene" id=6]
 
 [node name="Playspace" type="Node2D"]
 
@@ -37,3 +38,5 @@ position = Vector2( 78, 141 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
+
+[node name="WinGUI" parent="UI" instance=ExtResource( 6 )]

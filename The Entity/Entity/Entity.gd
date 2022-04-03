@@ -17,6 +17,7 @@ var bullet_speed : float = 800
 func _ready():
 	GameState.connect("player_spawned", self, "start_player_follow")
 	GameState.connect("player_died", self, "stop_player_follow")
+	GameState.connect("player_won", self, "stop_player_follow")
 	
 func _physics_process(delta):
 	

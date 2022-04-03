@@ -18,6 +18,7 @@ var is_dashing_cd : bool = false
 var is_shooting_cd : bool = false
 var is_attacking_cd : bool = false
 var is_knocking_back : bool = false
+var invincible : bool = false
 var is_slowed : bool = false
 var slowed_max_velocity = 150
 
@@ -27,6 +28,7 @@ func _ready():
 	GInput.connect("attack_pressed", self, "attack")
 	GInput.connect("shoot_pressed", self, "shoot")
 	GInput.connect("dash_pressed", self, "dash")
+	GameState.connect("player_won", self, 'set_win_state')
 
 func _physics_process(delta):
 	if is_knocking_back:
@@ -117,8 +119,13 @@ func stop_slow_down():
 	is_slowed = false
 	
 func insta_kill():
+	if invincible:
+		return
 	GameState.unset_player(self)
 	queue_free()
+	
+func set_win_state(player : Player):
+	invincible = true
 		
 func _on_DashTime_timeout():
 	is_dashing = false
@@ -136,7 +143,6 @@ func _on_AttackCoolDown_timeout():
 
 func _on_KnockBackTime_timeout():
 	is_knocking_back = false
-
 
 func _on_Hurtbox_area_entered(area):
 	insta_kill()
