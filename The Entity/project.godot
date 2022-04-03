@@ -21,7 +21,13 @@ _global_script_class_icons={
 [application]
 
 config/name="The Entity"
+run/main_scene="res://Playspace.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameState="*res://Singletons/GameState.gd"
+GInput="*res://Singletons/GInput.gd"
 
 [debug]
 
