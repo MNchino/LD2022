@@ -112,6 +112,8 @@ func dash():
 		is_dashing = true
 		GameState.use_dash()
 		$DashTime.start()
+		set_collision_mask_bit(8, false)
+		set_collision_mask_bit(9, false)
 		
 func slow_down():
 	is_slowed = true
@@ -131,6 +133,7 @@ func set_win_state(player : Player):
 func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
+	set_collision_mask_bit(8, true)
 	$DashCoolDown.start()
 
 func _on_DashCoolDown_timeout():
@@ -147,3 +150,6 @@ func _on_KnockBackTime_timeout():
 
 func _on_Hurtbox_area_entered(area):
 	insta_kill()
+
+func _on_Player_tree_exiting():
+	pass

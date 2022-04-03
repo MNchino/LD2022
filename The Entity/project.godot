@@ -130,6 +130,7 @@ game_dash={
 2d_physics/layer_6="EnemyHitbox"
 2d_physics/layer_7="EnemyHurtbox"
 2d_physics/layer_8="LighterangHitbox"
+2d_physics/layer_9="Water"
 
 [physics]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Level/Glowberry/Glowberry.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Sprite/Glowberry/GlowberrySprite.tscn" type="PackedScene" id=2]
 [ext_resource path="res://testlight2.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -53,12 +53,6 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ParryHurtbox"]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.14902, 1, 0, 1 )
-light_mask = 0
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 2 )
-
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 3 )
 texture_scale = 0.01
@@ -66,6 +60,9 @@ texture_scale = 0.01
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/LightUp = SubResource( 2 )
 anims/RESET = SubResource( 3 )
+
+[node name="AnimatedSprite" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, 8 )
 
 [connection signal="area_entered" from="LightHurtbox" to="." method="_on_LightHurtbox_area_entered"]
 [connection signal="area_entered" from="ParryHurtbox" to="." method="_on_ParryHurtbox_area_entered"]
