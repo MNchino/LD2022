@@ -39,7 +39,12 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="KnockBackTime" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
 [connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
 [connection signal="timeout" from="ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
 [connection signal="timeout" from="AttackCoolDown" to="." method="_on_AttackCoolDown_timeout"]
+[connection signal="timeout" from="KnockBackTime" to="." method="_on_KnockBackTime_timeout"]

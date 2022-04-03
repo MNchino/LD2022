@@ -10,11 +10,14 @@ var motion_frict : float = .4
 var input_speed : float = 100
 var max_velocity : float = 400
 var dash_speed : float = 3*max_velocity
+var knock_back_speed = 600
 var dir : Vector2 = Vector2(1,0) 
+var knock_back_dir : Vector2 = Vector2(0,0)
 var is_dashing : bool = false
 var is_dashing_cd : bool = false
 var is_shooting_cd : bool = false
 var is_attacking_cd : bool = false
+var is_knocking_back : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,10 +27,11 @@ func _ready():
 	GInput.connect("dash_pressed", self, "dash")
 
 func _physics_process(delta):
-	if is_dashing:
+	if is_knocking_back:
+		motion_velocity = knock_back_dir*knock_back_speed
+	elif is_dashing:
 		update_sprite_yflip(dir.y)
 		motion_velocity = motion_velocity.normalized()*dash_speed
-		
 	else:
 		if GInput.dir.x != 0:
 			dir.x = GInput.dir.x
@@ -85,6 +89,15 @@ func attack():
 	i.global_position = global_position 
 	$AttackCoolDown.start()
 	is_attacking_cd = true
+	
+	
+func knock_back():
+	if is_knocking_back:
+		return
+	
+	knock_back_dir = -motion_velocity.normalized()
+	is_knocking_back = true
+	$KnockBackTime.start()
 
 func dash():
 	if !is_dashing && !is_dashing_cd:
@@ -104,3 +117,6 @@ func _on_ShootCoolDown_timeout():
 
 func _on_AttackCoolDown_timeout():
 	is_attacking_cd = false
+
+func _on_KnockBackTime_timeout():
+	is_knocking_back = false
