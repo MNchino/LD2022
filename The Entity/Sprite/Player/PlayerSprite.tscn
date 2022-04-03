@@ -4,5 +4,4 @@
 
 [node name="PlayerSprite" type="AnimatedSprite"]
 frames = ExtResource( 1 )
-animation = "Throw"
 offset = Vector2( 0, -12 )
