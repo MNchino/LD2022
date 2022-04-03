@@ -9,7 +9,7 @@ var xdir : int = 0 setget , get_xdir
 var ydir : int = 0 setget , get_ydir
 var dir : Vector2 = Vector2(1,0) setget , get_dir
 
-signal action_pressed
+signal shoot_pressed
 signal dash_pressed
 signal attack_pressed
 
