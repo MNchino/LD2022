@@ -18,6 +18,8 @@ var is_dashing_cd : bool = false
 var is_shooting_cd : bool = false
 var is_attacking_cd : bool = false
 var is_knocking_back : bool = false
+var is_slowed : bool = false
+var slowed_max_velocity = 150
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -47,8 +49,12 @@ func _physics_process(delta):
 		else:
 			motion_velocity.y = lerp(motion_velocity.y, 0, motion_frict)
 	
-		motion_velocity.x = clamp(motion_velocity.x, -max_velocity, max_velocity)
-		motion_velocity.y = clamp(motion_velocity.y, -max_velocity, max_velocity)
+		if is_slowed:
+			motion_velocity.x = clamp(motion_velocity.x, -slowed_max_velocity, slowed_max_velocity)
+			motion_velocity.y = clamp(motion_velocity.y, -slowed_max_velocity, slowed_max_velocity)
+		else:
+			motion_velocity.x = clamp(motion_velocity.x, -max_velocity, max_velocity)
+			motion_velocity.y = clamp(motion_velocity.y, -max_velocity, max_velocity)
 	
 		
 	move_and_slide(motion_velocity)
@@ -103,6 +109,12 @@ func dash():
 	if !is_dashing && !is_dashing_cd:
 		is_dashing = true
 		$DashTime.start()
+		
+func slow_down():
+	is_slowed = true
+	
+func stop_slow_down():
+	is_slowed = false
 		
 func _on_DashTime_timeout():
 	is_dashing = false

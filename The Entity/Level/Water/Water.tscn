@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="Water" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+modulate = Color( 0, 0.654902, 0.784314, 1 )

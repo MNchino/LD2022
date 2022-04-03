@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Level/Bramble/BrambleTrigger.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Level/Water/Water.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Level/Mud/MudTrigger.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -66,6 +68,12 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 89.5, 58 )
 
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 112, 57.5 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 87.5, 49.5 )
+
 [node name="LevelGeometry" type="Node2D"]
 
 [node name="Static" type="Node2D" parent="."]
@@ -83,4 +91,18 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 position = Vector2( 639, 118 )
 shape = SubResource( 6 )
 
+[node name="Water" parent="." instance=ExtResource( 3 )]
+
+[node name="CollisionShape2D" parent="Water" index="0"]
+position = Vector2( 483, 266 )
+shape = SubResource( 7 )
+
+[node name="MudTrigger" parent="." instance=ExtResource( 4 )]
+
+[node name="CollisionShape2D" parent="MudTrigger" index="0"]
+position = Vector2( 504, -21 )
+shape = SubResource( 8 )
+
 [editable path="Area2D"]
+[editable path="Water"]
+[editable path="MudTrigger"]
