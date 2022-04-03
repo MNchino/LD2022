@@ -115,6 +115,10 @@ func slow_down():
 	
 func stop_slow_down():
 	is_slowed = false
+	
+func insta_kill():
+	GameState.unset_player(self)
+	queue_free()
 		
 func _on_DashTime_timeout():
 	is_dashing = false
@@ -132,3 +136,7 @@ func _on_AttackCoolDown_timeout():
 
 func _on_KnockBackTime_timeout():
 	is_knocking_back = false
+
+
+func _on_Hurtbox_area_entered(area):
+	insta_kill()

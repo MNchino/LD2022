@@ -16,6 +16,7 @@ var bullet_speed : float = 800
 
 func _ready():
 	GameState.connect("player_spawned", self, "start_player_follow")
+	GameState.connect("player_died", self, "stop_player_follow")
 	
 func _physics_process(delta):
 	
@@ -49,6 +50,8 @@ func start_shoot():
 	is_shooting = true
 	
 func fire_shot():
+	if !active:
+		return
 	var target_position = GameState.cur_player.global_position
 	var angle_to_travel = (target_position - global_position).normalized()
 	var i = bullet_template.instance()
@@ -59,6 +62,9 @@ func fire_shot():
 	
 func start_player_follow(player : Player):
 	active = true
+
+func stop_player_follow(player : Player):
+	active = false
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:

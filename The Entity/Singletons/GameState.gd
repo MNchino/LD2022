@@ -5,10 +5,15 @@ var started : bool = false
 var time_taken : float = 0
 
 signal player_spawned(player)
+signal player_died(player)
 
 func set_player(player : Player):
 	cur_player = player
 	emit_signal('player_spawned', player)
+	
+func unset_player(player : Player):
+	cur_player = player
+	emit_signal('player_died', player)
 
 func _process(delta):
 	if started:

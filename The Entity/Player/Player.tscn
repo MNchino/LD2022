@@ -1,10 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://testlight2.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id=2]
 radius = 8.0
 
 [node name="Player" type="KinematicBody2D"]
@@ -43,8 +46,17 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+modulate = Color( 0, 0.0862745, 1, 1 )
+shape = SubResource( 2 )
+
 [connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
 [connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
 [connection signal="timeout" from="ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
 [connection signal="timeout" from="AttackCoolDown" to="." method="_on_AttackCoolDown_timeout"]
 [connection signal="timeout" from="KnockBackTime" to="." method="_on_KnockBackTime_timeout"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
