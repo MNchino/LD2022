@@ -38,13 +38,11 @@ func knock_back(away_from_position : Vector2):
 		knocked_back = true
 		knock_back_dir = (global_position - away_from_position).normalized()
 		$KnockbackTime.start()
-		print('KNOCKEM')
 
 func _on_KnockbackTime_timeout():
 	knocked_back = false
 
 
 func _on_Hurtbox_area_entered(area):
-	print('KNOCKEM')
 	knock_back(area.global_position)
 	area.queue_free()

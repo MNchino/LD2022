@@ -31,5 +31,15 @@ position = Vector2( -1, 10 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
+[node name="ShootCoolDown" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="AttackCoolDown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
 [connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
+[connection signal="timeout" from="ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
+[connection signal="timeout" from="AttackCoolDown" to="." method="_on_AttackCoolDown_timeout"]

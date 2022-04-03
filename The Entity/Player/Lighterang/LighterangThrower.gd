@@ -7,7 +7,6 @@ func _ready():
 	$AnimationPlayer.play("Throw")
 	
 func _physics_process(delta):
-	print("lerp is", $Lighterang.global_position.x, " ", GameState.cur_player.global_position.x, " ", lerp_to_player)
 	$Lighterang.global_position.x = lerp($Lighterang.global_position.x, GameState.cur_player.global_position.x, lerp_to_player)
 	$Lighterang.global_position.y = lerp($Lighterang.global_position.y, GameState.cur_player.global_position.y, lerp_to_player)
 	

@@ -13,6 +13,8 @@ var dash_speed : float = 3*max_velocity
 var dir : Vector2 = Vector2(1,0) 
 var is_dashing : bool = false
 var is_dashing_cd : bool = false
+var is_shooting_cd : bool = false
+var is_attacking_cd : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -63,18 +65,26 @@ func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
 	
 func shoot():
+	if is_shooting_cd:
+		return
 	var target_position = get_global_mouse_position()
 	var i = shoot_template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.rotation = target_position.angle_to_point(global_position)
+	is_shooting_cd = true
+	$ShootCoolDown.start()
 	
 func attack():
+	if is_attacking_cd:
+		return
 	var i = attack_template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
+	$AttackCoolDown.start()
+	is_attacking_cd = true
 
 func dash():
 	if !is_dashing && !is_dashing_cd:
@@ -89,4 +99,8 @@ func _on_DashTime_timeout():
 func _on_DashCoolDown_timeout():
 	is_dashing_cd = false
 
+func _on_ShootCoolDown_timeout():
+	is_shooting_cd = false
 
+func _on_AttackCoolDown_timeout():
+	is_attacking_cd = false
