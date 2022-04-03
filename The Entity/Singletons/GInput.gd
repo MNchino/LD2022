@@ -42,7 +42,6 @@ func _input(event : InputEvent):
 		elif event.is_action_released("game_down"):
 			_down_input = 0
 	elif event.is_action_pressed("game_shoot"):
-		print("aaaa")
 		emit_signal("shoot_pressed")
 	elif event.is_action_pressed("game_dash"):
 		emit_signal("dash_pressed")

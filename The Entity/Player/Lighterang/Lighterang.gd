@@ -1,7 +1,7 @@
 extends Node2D
 
 var particle_template = preload("res://Player/Lighterang/LightParticle.tscn")
-var rotation_speed = 90 # degrees per second
+var rotation_speed = 270 # degrees per second
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -13,7 +13,7 @@ func _ready():
 
 
 func _process(delta):
-	$Sprite.rotation_degrees += 90*delta
+	$Sprite.rotation_degrees += rotation_speed*delta
 
 
 func _on_ParticleSpawnTimer_timeout():

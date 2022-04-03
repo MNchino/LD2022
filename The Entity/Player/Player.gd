@@ -62,11 +62,12 @@ func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
 	
 func shoot():
-
+	var target_position = get_global_mouse_position()
 	var i = shoot_template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
+	i.rotation = target_position.angle_to_point(global_position)
 	
 func attack():
 	pass

@@ -25,9 +25,22 @@ tracks/1/keys = {
 "points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0 )
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:lerp_to_player")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "Throw"
+length = 3.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Lighterang:position:x")
 tracks/0/interp = 1
@@ -35,8 +48,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 0, 0, -27.9168, 0, 27.9168, 150, -0.1, -7.33482, 0.310198, 22.7524, 0, 0, 26.5279, 0, -26.5279 ),
-"times": PoolRealArray( 0, 0.5, 1 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 400, -1.1, 1.06519, 1.1, -1.06519 ),
+"times": PoolRealArray( 0, 1.5 )
 }
 tracks/1/type = "bezier"
 tracks/1/path = NodePath("Lighterang:position:y")
@@ -45,8 +58,34 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 31.1962, -0.2, -0.171318, 0.2, 0.171318, 0, 0, -2.42336, 0, 2.42336, -30.76, -0.2, -0.171318, 0.2, 0.171318, 0, -0.5, -6.93052, 0.5, 6.93052 ),
-"times": PoolRealArray( 0, 0.4, 0.5, 0.6, 1 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, 0, -2.42336, 0, 2.42336 ),
+"times": PoolRealArray( 0, 1.5 )
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:lerp_to_player")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 8.57419, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "stop_tracking_position"
+} ]
 }
 
 [node name="LighterangThrower" type="Node2D"]
