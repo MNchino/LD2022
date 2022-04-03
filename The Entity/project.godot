@@ -111,6 +111,11 @@ game_dash={
 
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Wall"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="PlayerHitbox"
+2d_physics/layer_5="PlayerHurtbox"
+2d_physics/layer_6="EnemyHitbox"
+2d_physics/layer_7="EnemyHurtbox"
 
 [physics]
 

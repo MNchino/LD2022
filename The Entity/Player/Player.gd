@@ -2,6 +2,7 @@ extends KinematicBody2D
 class_name Player
 
 var shoot_template = preload('res://Player/Lighterang/LighterangThrower.tscn')
+var attack_template = preload("res://Player/Attack/Attack.tscn")
 
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
@@ -70,7 +71,10 @@ func shoot():
 	i.rotation = target_position.angle_to_point(global_position)
 	
 func attack():
-	pass
+	var i = attack_template.instance()
+	add_child(i)
+	i.set_as_toplevel(true)
+	i.global_position = global_position 
 
 func dash():
 	if !is_dashing && !is_dashing_cd:
