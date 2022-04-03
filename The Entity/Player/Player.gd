@@ -108,8 +108,9 @@ func knock_back():
 	$KnockBackTime.start()
 
 func dash():
-	if !is_dashing && !is_dashing_cd:
+	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
 		is_dashing = true
+		GameState.use_dash()
 		$DashTime.start()
 		
 func slow_down():
