@@ -42,6 +42,8 @@ func _process(delta):
 		if !is_shooting && !is_shooting_cd:
 			start_shoot()
 			
+		$EntitySprite.flip_h = GameState.cur_player.global_position.x - global_position.x < 0
+			
 func start_shoot():
 	$AnimationPlayer.play("Shoot")
 	is_shooting = true
