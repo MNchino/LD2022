@@ -9,7 +9,6 @@ func activate():
 	
 	active = true
 	$AnimationPlayer.play("LightUp")
-	print('actov')
 
 func _on_LightHurtbox_area_entered(area):
 	activate()
