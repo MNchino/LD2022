@@ -1,7 +1,10 @@
 tool
 extends AnimatedSprite
 
-var parent : AnimatedSprite = get_parent()
+var parent : AnimatedSprite
+
+func _ready():
+	parent = get_parent();
 
 func _process(delta):
 	animation = parent.animation
