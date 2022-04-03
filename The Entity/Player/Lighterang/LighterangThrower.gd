@@ -15,7 +15,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:x')), true)
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:y')), true)
 	queue_free()
-
+ 
 func stop_tracking_position():
 	var anim = $AnimationPlayer.get_animation("Throw")
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:x')), false)

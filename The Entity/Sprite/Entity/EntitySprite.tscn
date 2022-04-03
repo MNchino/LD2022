@@ -13,3 +13,6 @@ z_index = 1
 frames = ExtResource( 2 )
 offset = Vector2( 0, -24 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
