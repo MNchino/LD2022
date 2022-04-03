@@ -7,6 +7,7 @@ var can_home_player : bool = true
 func _ready():
 	$AnimationPlayer.play("Throw")
 	GameState.connect("player_died", self, "stop_player_follow")
+	GameState.connect("player_won", self, "stop_player_follow")
 	
 func _physics_process(delta):
 	if can_home_player:
@@ -24,5 +25,5 @@ func stop_tracking_position():
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:x')), false)
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:y')), false)
 
-func stop_player_follow():
+func stop_player_follow(player):
 	can_home_player = false

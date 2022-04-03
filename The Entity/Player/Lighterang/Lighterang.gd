@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 var particle_template = preload("res://Player/Lighterang/LightParticle.tscn")
 var rotation_speed = 270 # degrees per second
