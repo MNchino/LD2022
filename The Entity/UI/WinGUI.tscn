@@ -22,21 +22,41 @@ margin_bottom = 50.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 393.0
-margin_bottom = 93.0
+margin_bottom = 115.0
 custom_constants/separation = 30
 alignment = 1
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer"]
-margin_top = 11.0
 margin_right = 386.0
-margin_bottom = 25.0
+margin_bottom = 14.0
 text = "cool you won, now play it again"
 align = 1
 
-[node name="ResetButton" type="Button" parent="Panel/VBoxContainer"]
-margin_top = 55.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 44.0
 margin_right = 386.0
-margin_bottom = 75.0
+margin_bottom = 58.0
+custom_constants/separation = 50
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 111.0
+margin_right = 147.0
+margin_bottom = 14.0
+text = "Time:"
+valign = 1
+
+[node name="TimeInSeconds" type="Label" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 197.0
+margin_right = 275.0
+margin_bottom = 14.0
+text = "0000.00 sec"
+align = 1
+
+[node name="ResetButton" type="Button" parent="Panel/VBoxContainer"]
+margin_top = 88.0
+margin_right = 386.0
+margin_bottom = 108.0
 text = "RESTART"
 
 [connection signal="pressed" from="Panel/VBoxContainer/ResetButton" to="." method="_on_ResetButton_pressed"]
