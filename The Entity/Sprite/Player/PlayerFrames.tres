@@ -22,21 +22,17 @@ region = Rect2( 48, 144, 24, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 72, 144, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 96, 24, 24 )
+region = Rect2( 24, 0, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 24, 96, 24, 24 )
+region = Rect2( 0, 24, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 48, 96, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
-region = Rect2( 72, 96, 24, 24 )
+region = Rect2( 24, 24, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 1 )
@@ -54,25 +50,29 @@ region = Rect2( 48, 120, 24, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 72, 120, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 72, 24, 24 )
+region = Rect2( 0, 96, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 1 )
-region = Rect2( 24, 0, 24, 24 )
+region = Rect2( 24, 96, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 96, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 1 )
+region = Rect2( 72, 96, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 48, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 24, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
-region = Rect2( 24, 24, 24, 24 )
+region = Rect2( 0, 72, 24, 24 )
 
 [resource]
 animations = [ {
@@ -86,33 +86,33 @@ animations = [ {
 "name": "AttackUp",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
-"name": "Throw",
-"speed": 20.0
+"name": "WalkDown",
+"speed": 6.0
+}, {
+"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "WalkUp",
+"speed": 6.0
 }, {
 "frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
 "loop": true,
 "name": "AttackDown",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 6 ) ],
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
-"name": "DashUp",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
-"loop": true,
-"name": "WalkDown",
-"speed": 6.0
+"name": "Throw",
+"speed": 20.0
 }, {
 "frames": [ SubResource( 5 ) ],
 "loop": true,
 "name": "DashDown",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "WalkUp",
-"speed": 6.0
+"name": "DashUp",
+"speed": 5.0
 } ]
