@@ -9,23 +9,48 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "Hitbox",
+"language": "GDScript",
+"path": "res://System/Hitbox.gd"
+}, {
+"base": "Area2D",
+"class": "Hurtbox",
+"language": "GDScript",
+"path": "res://System/Hurtbox.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://Player/Player.gd"
 } ]
 _global_script_class_icons={
+"Hitbox": "",
+"Hurtbox": "",
 "Player": ""
 }
 
 [application]
 
 config/name="The Entity"
+run/main_scene="res://Playspace.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GInput="*res://Singletons/GInput.gd"
+GameState="*res://Singletons/GameState.gd"
 
 [debug]
 
 shapes/collision/shape_color=Color( 0.733333, 0.733333, 0.733333, 0.419608 )
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/size/test_width=1280
+window/size/test_height=720
 
 [importer_defaults]
 
