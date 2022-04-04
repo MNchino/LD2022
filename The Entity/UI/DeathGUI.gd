@@ -13,8 +13,11 @@ func _ready():
 
 func show_after_death():
 	visible = true
+	$AnimationPlayer.play("RESET")
 
-func _on_ResetButton_pressed():
-	GameState.reset()
-	# warning-ignore:return_value_discarded
-	get_tree().reload_current_scene()
+func _input(_event):
+	if Input.is_action_just_pressed("game_restart"):
+		if visible:
+			GameState.reset()
+			# warning-ignore:return_value_discarded
+			get_tree().reload_current_scene()

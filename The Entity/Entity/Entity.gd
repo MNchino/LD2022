@@ -9,15 +9,19 @@ var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
 var input_speed : Vector2 = Vector2(90,90)
 var max_velocity : Vector2 = Vector2(90,90)
-var drift_const : float = 20
+var drift_const : float = 50
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
 var knock_back_speed : float = 300
 var is_shooting : bool = false
-var is_shooting_cd : bool = false
-var bullet_speed : float = 200 
+var is_shooting_cd : bool = true
+var bullet_speed : float = 120 
 var homing_bullet_speed : float = 100
 var homing_angle : float = 120
+var starting_move : bool = true
+var starting_speed : Vector2 = Vector2(30,30)
+var shoot_delay_min : float = 1
+var shoot_delay_max : float = 3
 
 func _ready():
 	GameState.set_entity(self)
@@ -29,11 +33,19 @@ func _ready():
 func _physics_process(_delta):
 	#TODO Convert to NavMesh Later
 	if active:
-		if knocked_back:
+		if starting_move:
+			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
+				
+			motion_velocity.x += ( dir_to_player.x * input_speed.x ) * motion_accel
+			motion_velocity.y += ( dir_to_player.y * input_speed.y ) * motion_accel
+			
+			motion_velocity.x = clamp(motion_velocity.x, -starting_speed.x, starting_speed.x)
+			motion_velocity.y = clamp(motion_velocity.y, -starting_speed.y, starting_speed.y)
+		elif knocked_back:
 			motion_velocity = knock_back_speed * knock_back_dir
 		elif is_shooting:
 			# TODO: Movement logic when big meanie fires pew pew
-			var direction = -position.direction_to(GameState.cur_player.position) 
+			var direction = -position.direction_to(GameState.cur_player.position)
 			motion_velocity = direction * drift_const
 		else:
 			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
@@ -99,6 +111,10 @@ func _on_Hurtbox_area_entered(area):
 	knock_back(area.global_position)
 	if area.name != "Attack":
 		area.queue_free()
+	elif starting_move:
+		starting_move = false
+		if $ShootingCoolDown.time_left > 0.5:
+			$ShootingCoolDown.start(0.25)
 
 func _on_ShootingWindUp_timeout():
 	$EntitySprite.play("AttackShoot")
@@ -107,9 +123,11 @@ func _on_ShootingWindUp_timeout():
 	
 func _on_ShootingWindDown_timeout():
 	$EntitySprite.play("Idle")
+	$ShootingCoolDown.wait_time = rand_range(shoot_delay_min, shoot_delay_max)
 	$ShootingCoolDown.start()
 	is_shooting = false
 	is_shooting_cd = true
 
 func _on_ShootingCoolDown_timeout():
 	is_shooting_cd = false
+	starting_move = false

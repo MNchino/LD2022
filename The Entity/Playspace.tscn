@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://PlayerSpawnpoint/PlayerSpawnpoint.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=2]
@@ -11,6 +11,36 @@
 [ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=10]
 [ext_resource path="res://Sprite/Particles/HitParticle.gd" type="Script" id=11]
+
+[sub_resource type="Animation" id=5]
+resource_name = "RESET"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/path = NodePath("FadeIn")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("UI/FadeIn/ColorRect:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0780488, 1 )
@@ -77,12 +107,23 @@ position = Vector2( 102, 234 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
+visible = false
 
 [node name="WinGUI" parent="UI" instance=ExtResource( 6 )]
 
 [node name="HUD" parent="UI" instance=ExtResource( 7 )]
 visible = false
 mouse_filter = 2
+
+[node name="FadeIn" type="AnimationPlayer" parent="UI"]
+root_node = NodePath("../..")
+autoplay = "RESET"
+anims/RESET = SubResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
+modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 
 [node name="PlayerCamera" parent="." instance=ExtResource( 8 )]
 position = Vector2( 78, 141 )
