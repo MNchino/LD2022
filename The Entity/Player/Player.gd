@@ -207,7 +207,6 @@ func _on_ShootTime_timeout():
 	is_shooting_cd = true
 	is_shooting = false
 	$Timers/ShootCoolDown.start()
-	print("wow")
 
 func _on_ShootCoolDown_timeout():
 	is_shooting_cd = false
