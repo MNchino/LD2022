@@ -70,7 +70,13 @@ func _physics_process(delta):
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity, max_velocity)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity, max_velocity)
 	
-	move_and_slide(motion_velocity)
+	if is_dashing:
+		var collider = move_and_collide(motion_velocity * delta)
+		if collider != null:
+			$Timers/DashTime.stop()
+			_on_DashTime_timeout()
+	else:
+		move_and_slide(motion_velocity)
 	
 func _process(delta):
 	update_animations()
@@ -143,6 +149,7 @@ func knock_back():
 func dash():
 	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
 		is_dashing = true
+		$DashParticles.emitting = true
 		GameState.use_dash()
 		$Timers/DashTime.start()
 		set_collision_mask_bit(8, false)
@@ -167,10 +174,8 @@ func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
 	
-	#Check if drowning
-	#if is_in_water:
+	$DashParticles.emitting = false
 	$Timers/WateryTime.start()
-	
 	$Timers/DashCoolDown.start()
 
 func _on_DashCoolDown_timeout():
