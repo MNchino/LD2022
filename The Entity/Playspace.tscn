@@ -30,7 +30,7 @@ tracks/0/keys = {
 } ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("UI/FadeIn/ColorRect:modulate")
+tracks/1/path = NodePath("FadeIn/ColorRect:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -106,6 +106,15 @@ position = Vector2( 102, 234 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 
+[node name="FadeIn" type="AnimationPlayer" parent="UI"]
+autoplay = "RESET"
+anims/RESET = SubResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
+modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
 visible = false
 
@@ -114,16 +123,6 @@ visible = false
 [node name="HUD" parent="UI" instance=ExtResource( 7 )]
 visible = false
 mouse_filter = 2
-
-[node name="FadeIn" type="AnimationPlayer" parent="UI"]
-root_node = NodePath("../..")
-autoplay = "RESET"
-anims/RESET = SubResource( 5 )
-
-[node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
-modulate = Color( 0, 0, 0, 1 )
-anchor_right = 1.0
-anchor_bottom = 1.0
 
 [node name="PlayerCamera" parent="." instance=ExtResource( 8 )]
 position = Vector2( 78, 141 )
