@@ -8,31 +8,30 @@ var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
 var input_speed : Vector2 = Vector2(90,90)
 var max_velocity : Vector2 = Vector2(90,90)
-var drift_velocity : Vector2 = Vector2()
-var drift_divisor : float = 2
+var drift_const : float = 20
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
 var knock_back_speed : float = 300
 var is_shooting : bool = false
 var is_shooting_cd : bool = false
-var bullet_speed : float = 200
+var bullet_speed : float = 200 
 
 func _ready():
 	GameState.set_entity(self)
 	GameState.connect("player_spawned", self, "start_player_follow")
 	GameState.connect("player_died", self, "stop_player_follow")
 	GameState.connect("player_won", self, "stop_player_follow")
+	$EntitySprite.play("Idle")
 	
 func _physics_process(delta):
-	
 	#TODO Convert to NavMesh Later
 	if active:
 		if knocked_back:
 			motion_velocity = knock_back_speed * knock_back_dir
 		elif is_shooting:
 			# TODO: Movement logic when big meanie fires pew pew
-			motion_velocity = drift_velocity
-			pass
+			var direction = -position.direction_to(GameState.cur_player.position) 
+			motion_velocity = direction * drift_const
 		else:
 			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
 				
@@ -41,7 +40,6 @@ func _physics_process(delta):
 			
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity.x, max_velocity.x)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity.y, max_velocity.y)
-			
 		move_and_slide(motion_velocity)
 		
 func _process(delta):
@@ -52,10 +50,9 @@ func _process(delta):
 		$EntitySprite.flip_h = GameState.cur_player.global_position.x - global_position.x < 0
 			
 func start_shoot():
-	$AnimationPlayer.play("Shoot")
+	$EntitySprite.play("AttackPrep")
+	$ShootingWindUp.start()
 	is_shooting = true
-	drift_velocity = motion_velocity / drift_divisor
-	
 	
 func fire_shot():
 	if !active:
@@ -64,7 +61,7 @@ func fire_shot():
 	var angle_to_travel = (target_position - global_position).normalized()
 	var i = bullet_template.instance()
 	add_child(i)
-	i.global_position = global_position 
+	i.global_position = global_position
 	i.dir = angle_to_travel
 	i.speed = bullet_speed
 	
@@ -83,17 +80,20 @@ func knock_back(away_from_position : Vector2):
 func _on_KnockbackTime_timeout():
 	knocked_back = false
 
-
 func _on_Hurtbox_area_entered(area):
 	knock_back(area.global_position)
 	area.queue_free()
 
-
-func _on_ShootingCoolDown_timeout():
-	is_shooting_cd = false
-
-
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_ShootingWindUp_timeout():
+	$EntitySprite.play("AttackShoot")
+	$ShootingWindDown.start()
+	fire_shot()
+	
+func _on_ShootingWindDown_timeout():
+	$EntitySprite.play("Idle")
 	$ShootingCoolDown.start()
 	is_shooting = false
 	is_shooting_cd = true
+
+func _on_ShootingCoolDown_timeout():
+	is_shooting_cd = false
