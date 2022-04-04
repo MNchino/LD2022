@@ -1,23 +1,31 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/DeadPlaceholder.gd" type="Script" id=2]
-[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=3]
 
 [node name="DeadPlaceholder" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="PlayerSprite" parent="." instance=ExtResource( 1 )]
-material = ExtResource( 3 )
+light_mask = 16
 position = Vector2( 0, 10 )
+z_index = 1000
+z_as_relative = false
 animation = "Dead"
 
 [node name="DashIndicator" parent="PlayerSprite" index="0"]
 visible = false
 
 [node name="FinishedDying" type="Timer" parent="."]
+wait_time = 1.5
 one_shot = true
 autostart = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+light_mask = 16
+z_index = 1000
+z_as_relative = false
+color = Color( 0, 0, 0, 1 )
 
 [connection signal="timeout" from="FinishedDying" to="." method="_on_FinishedDying_timeout"]
 

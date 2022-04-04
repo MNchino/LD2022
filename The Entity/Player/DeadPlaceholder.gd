@@ -1,15 +1,13 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$PlayerSprite.play("Dead")
-
+	
+func _process(delta):
+	if $PlayerSprite.frame == 0:
+		$PlayerSprite.position.x = rand_range(-1,1)
+	else:
+		$PlayerSprite.position.x = 0
 
 func _on_FinishedDying_timeout():
 	GameState.start_death_gui()
