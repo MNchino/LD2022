@@ -166,11 +166,10 @@ func set_win_state(player : Player):
 func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
-	set_collision_mask_bit(8, true)
 	
 	#Check if drowning
-	if is_in_water:
-		insta_kill()
+	#if is_in_water:
+	$Timers/WateryTime.start()
 	
 	$Timers/DashCoolDown.start()
 
@@ -241,3 +240,9 @@ func _on_WaterDetector_body_exited(body):
 		water_bodies.erase(body)
 		if water_bodies.size() == 0:
 			is_in_water = false
+
+func _on_WateryTime_timeout():
+	set_collision_mask_bit(8, true)
+	
+	if is_in_water:
+		insta_kill()

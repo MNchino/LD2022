@@ -74,6 +74,10 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="WateryTime" type="Timer" parent="Timers"]
+wait_time = 0.25
+one_shot = true
+
 [node name="WaterDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 256
@@ -100,5 +104,6 @@ texture = ExtResource( 3 )
 [connection signal="timeout" from="Timers/ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
 [connection signal="timeout" from="Timers/DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
 [connection signal="timeout" from="Timers/KnockBackTime" to="." method="_on_KnockBackTime_timeout"]
+[connection signal="timeout" from="Timers/WateryTime" to="." method="_on_WateryTime_timeout"]
 [connection signal="body_entered" from="WaterDetector" to="." method="_on_WaterDetector_body_entered"]
 [connection signal="body_exited" from="WaterDetector" to="." method="_on_WaterDetector_body_exited"]
