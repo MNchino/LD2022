@@ -18,30 +18,12 @@ script = ExtResource( 2 )
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 3 )
 
-[node name="DashTime" type="Timer" parent="."]
-wait_time = 0.25
-one_shot = true
-
-[node name="DashCoolDown" type="Timer" parent="."]
-one_shot = true
-
 [node name="AnimatedSprite" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 10 )
+animation = "AttackDown"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
-
-[node name="ShootCoolDown" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
-[node name="AttackCoolDown" type="Timer" parent="."]
-wait_time = 0.3
-one_shot = true
-
-[node name="KnockBackTime" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 16
@@ -51,20 +33,50 @@ collision_mask = 32
 modulate = Color( 0, 0.0862745, 1, 1 )
 shape = SubResource( 2 )
 
-[node name="ShootTime" type="Timer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="AttackPrep" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="ShootPrep" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="DashTime" type="Timer" parent="Timers"]
+wait_time = 0.25
+one_shot = true
+
+[node name="AttackTime" type="Timer" parent="Timers"]
 wait_time = 0.2
 one_shot = true
 
-[node name="AttackTime" type="Timer" parent="."]
+[node name="ShootTime" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="AttackCoolDown" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
+[node name="ShootCoolDown" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="DashCoolDown" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="KnockBackTime" type="Timer" parent="Timers"]
 wait_time = 0.2
 one_shot = true
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
-[connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
-[connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
-[connection signal="timeout" from="ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
-[connection signal="timeout" from="AttackCoolDown" to="." method="_on_AttackCoolDown_timeout"]
-[connection signal="timeout" from="KnockBackTime" to="." method="_on_KnockBackTime_timeout"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
-[connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
-[connection signal="timeout" from="AttackTime" to="." method="_on_AttackTime_timeout"]
+[connection signal="timeout" from="Timers/AttackPrep" to="." method="_on_AttackPrep_timeout"]
+[connection signal="timeout" from="Timers/ShootPrep" to="." method="_on_ShootPrep_timeout"]
+[connection signal="timeout" from="Timers/DashTime" to="." method="_on_DashTime_timeout"]
+[connection signal="timeout" from="Timers/AttackTime" to="." method="_on_AttackTime_timeout"]
+[connection signal="timeout" from="Timers/ShootTime" to="." method="_on_ShootTime_timeout"]
+[connection signal="timeout" from="Timers/AttackCoolDown" to="." method="_on_AttackCoolDown_timeout"]
+[connection signal="timeout" from="Timers/ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
+[connection signal="timeout" from="Timers/DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
+[connection signal="timeout" from="Timers/KnockBackTime" to="." method="_on_KnockBackTime_timeout"]

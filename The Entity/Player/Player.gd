@@ -18,17 +18,17 @@ var is_dashing : bool = false
 var is_dashing_cd : bool = false
 var is_shooting : bool = false
 var is_shooting_cd : bool = false
-var is_attacking_up : bool = false
-var is_attacking_down : bool = false
+var is_attacking : bool = false
 var is_attacking_cd : bool = false
 var is_knocking_back : bool = false
 var invincible : bool = false
 var is_slowed : bool = false
+var is_facing_up : bool = false
 var slowed_max_velocity = 150
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GameState.set_player(self);
+	GameState.set_player(self)
 	GInput.connect("attack_pressed", self, "attack")
 	GInput.connect("shoot_pressed", self, "shoot")
 	GInput.connect("dash_pressed", self, "dash")
@@ -52,6 +52,7 @@ func _physics_process(delta):
 		if GInput.dir.y != 0:
 			dir.y = GInput.dir.y
 			motion_velocity.y += ( dir.y * input_speed ) * motion_accel
+			is_facing_up = motion_velocity.y < 0
 		else:
 			motion_velocity.y = lerp(motion_velocity.y, 0, motion_frict)
 	
@@ -63,25 +64,29 @@ func _physics_process(delta):
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity, max_velocity)
 	
 	move_and_slide(motion_velocity)
-	$AnimatedSprite.playing = motion_velocity.length() > 0
 	
 func _process(delta):
-	if is_attacking_up:
-		$AnimatedSprite.animation = "AttackUp"
-	if is_attacking_down:
-		$AnimatedSprite.animation = "AttackDown"
-	elif is_dashing:
-		$AnimatedSprite.animation = "DashUp" if dir.y < 0 else "DashDown"
-	elif is_shooting:
-		$AnimatedSprite.animation = "Throw"
-	elif GInput.dir.y != 0 ||  GInput.dir.x != 0:
-		$AnimatedSprite.animation = "WalkUp" if dir.y < 0 else "WalkDown"
-	else:
-		$AnimatedSprite.animation = "default"
+	update_animations()
 		
 func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
 	
+func update_animations():
+	if is_attacking:
+		$AnimatedSprite.animation = "AttackUp" if is_facing_up else "AttackDown"
+	if $Timers/ShootTime.time_left > 0:
+		$AnimatedSprite.animation = "Throw"
+	elif is_dashing:
+		$AnimatedSprite.animation = "DashUp" if is_facing_up else "DashDown"
+	else:
+		if motion_velocity.length() > 1:
+			$AnimatedSprite.playing = true
+		else:
+			$AnimatedSprite.playing = false
+			$AnimatedSprite.frame = 0
+			
+		$AnimatedSprite.animation = "WalkUp" if is_facing_up else "WalkDown"
+
 func shoot():
 	if is_shooting_cd || is_shooting:
 		return
@@ -92,21 +97,21 @@ func shoot():
 	i.global_position = global_position 
 	i.rotation = target_position.angle_to_point(global_position)
 	is_shooting = true
-	$ShootTime.start()
+	$Timers/ShootTime.start()
 	
 func attack():
-	if is_attacking_cd || is_attacking_up || is_attacking_down:
+	if is_attacking_cd || is_attacking:
 		return
-	var i = attack_template.instance()
-	add_child(i)
-	i.set_as_toplevel(true)
-	i.global_position = global_position 
-	$AttackTime.start()
+	
+	$AnimatedSprite.playing = false
+	$AnimatedSprite.frame = 0
+	$Timers/AttackPrep.start()
 	is_attacking_cd = true
-	if dir.y < 0:
-		is_attacking_up = true
-	else:
-		is_attacking_down = true
+	is_attacking = true
+	
+	if GameState.cur_entity != null:
+		is_facing_up = GameState.cur_entity.position.y < position.y
+		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
 	
 func knock_back():
 	if is_knocking_back:
@@ -114,13 +119,13 @@ func knock_back():
 	
 	knock_back_dir = -motion_velocity.normalized()
 	is_knocking_back = true
-	$KnockBackTime.start()
+	$Timers/KnockBackTime.start()
 
 func dash():
 	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
 		is_dashing = true
 		GameState.use_dash()
-		$DashTime.start()
+		$Timers/DashTime.start()
 		set_collision_mask_bit(8, false)
 		set_collision_mask_bit(9, false)
 		
@@ -143,23 +148,37 @@ func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
 	set_collision_mask_bit(8, true)
-	$DashCoolDown.start()
+	$Timers/DashCoolDown.start()
 
 func _on_DashCoolDown_timeout():
 	is_dashing_cd = false
 
+func _on_ShootPrep_timeout():
+	pass
+
 func _on_ShootCoolDown_timeout():
 	is_shooting_cd = false
 
+func _on_AttackPrep_timeout():
+	var i = attack_template.instance()
+	add_child(i)
+	i.set_as_toplevel(true)
+	i.global_position = global_position
+	
+	$AnimatedSprite.playing = true
+	$Timers/AttackTime.start()
+	print("AttackPrep")
+
+func _on_AttackTime_timeout():
+	is_attacking_cd = true
+	is_attacking = false
+	$Timers/AttackCoolDown.start()
+	print("AttackTime")
+
 func _on_AttackCoolDown_timeout():
 	is_attacking_cd = false
+	print("AttackCoolDown")
 	
-func _on_AttackTime_timeout():
-	is_attacking_up = false
-	is_attacking_down = false
-	is_attacking_cd = true
-	$AttackCoolDown.start()
-
 func _on_KnockBackTime_timeout():
 	is_knocking_back = false
 
@@ -173,9 +192,8 @@ func _on_Player_tree_exiting():
 
 func _on_GameState_dashes_changed(count:int):
 	$AnimatedSprite/DashIndicator.frame = count
- 
 
 func _on_ShootTime_timeout():
 	is_shooting = false
 	is_shooting_cd = true
-	$ShootCoolDown.start()
+	$Timers/ShootCoolDown.start()
