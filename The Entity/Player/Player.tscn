@@ -59,6 +59,13 @@ one_shot = true
 wait_time = 0.2
 one_shot = true
 
+[node name="WaterDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterDetector"]
+shape = SubResource( 1 )
+
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="timeout" from="DashTime" to="." method="_on_DashTime_timeout"]
 [connection signal="timeout" from="DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
@@ -68,3 +75,5 @@ one_shot = true
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
 [connection signal="timeout" from="AttackTime" to="." method="_on_AttackTime_timeout"]
+[connection signal="body_entered" from="WaterDetector" to="." method="_on_WaterDetector_body_entered"]
+[connection signal="body_exited" from="WaterDetector" to="." method="_on_WaterDetector_body_exited"]

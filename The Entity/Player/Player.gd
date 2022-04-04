@@ -24,6 +24,8 @@ var is_attacking_cd : bool = false
 var is_knocking_back : bool = false
 var invincible : bool = false
 var is_slowed : bool = false
+var water_bodies : Array = []
+var is_in_water : bool = false
 var slowed_max_velocity = 150
 
 # Called when the node enters the scene tree for the first time.
@@ -143,6 +145,10 @@ func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
 	set_collision_mask_bit(8, true)
+	#Check if drowning
+	if is_in_water:
+		insta_kill()
+	
 	$DashCoolDown.start()
 
 func _on_DashCoolDown_timeout():
@@ -164,7 +170,8 @@ func _on_KnockBackTime_timeout():
 	is_knocking_back = false
 
 func _on_Hurtbox_area_entered(area):
-	insta_kill()
+	if !is_dashing:
+		insta_kill()
 
 func _on_Player_tree_exiting():
 	var i = dead_template.instance()
@@ -174,6 +181,19 @@ func _on_Player_tree_exiting():
 func _on_GameState_dashes_changed(count:int):
 	$AnimatedSprite/DashIndicator.frame = count
  
+func _on_WaterDetector_body_entered(body):
+	if !water_bodies.has(body):
+		water_bodies.push_back(body)
+		is_in_water = true
+	if water_bodies.size() == 1:
+		print("In water")
+		
+func _on_WaterDetector_body_exited(body):
+	if water_bodies.has(body):
+		water_bodies.erase(body)
+		if water_bodies.size() == 0:
+			is_in_water = false
+			print("out of water")
 
 func _on_ShootTime_timeout():
 	is_shooting = false
