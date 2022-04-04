@@ -21,6 +21,7 @@ func _ready():
 		room.position = drunkard_position
 		used_map_positions.push_back(map_position)
 		if k == max_rooms - 1:
+			room.set_as_goal_room()
 			return
 		var routes_to_take = [0,1,2,3]
 		routes_to_take.shuffle()
