@@ -1,13 +1,18 @@
 extends Node2D
 var active : bool = false
 
+func _ready():
+	# warning-ignore:return_value_discarded
+	GameState.connect("player_died", self, "lights_out")
+
 func activate():
 	if active: 
 		return
 	
 	active = true
 	$Particles2D.emitting = true
-	GameState.hit_particle(global_position)
+	$HitParticle.restart()
+	$HitParticle.emitting = true
 	$AnimationPlayer.play("LightUp")
 	$Light2D.visible = true
 	$AnimatedSprite.animation = "On"
@@ -24,3 +29,6 @@ func _on_ParryHurtbox_area_entered(_area):
 		activate()
 	
 	GameState.reset_dashes()
+
+func lights_out(_player : Player):
+	$Light2D.visible = false

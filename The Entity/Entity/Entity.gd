@@ -82,6 +82,7 @@ func start_player_follow(_player : Player):
 
 func stop_player_follow(_player : Player):
 	active = false
+	queue_free()
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:

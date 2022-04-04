@@ -16,6 +16,7 @@ signal attack_pressed
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	GameState.connect("player_won", self, "disable_game_input")
+	GameState.connect("player_died", self, "reset_inputs_from_death")
 
 func _input(event : InputEvent):
 	if !game_input_enabled:
@@ -52,6 +53,9 @@ func _input(event : InputEvent):
 		
 func disable_game_input(_player : Player):
 	game_input_enabled = false
+	reset_inputs()
+
+func reset_inputs_from_death(_player : Player):
 	reset_inputs()
 	
 func enable_game_input():

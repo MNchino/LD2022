@@ -66,6 +66,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="ShootCoolDown" type="Timer" parent="Timers"]
+wait_time = 3.0
 one_shot = true
 
 [node name="DashCoolDown" type="Timer" parent="Timers"]

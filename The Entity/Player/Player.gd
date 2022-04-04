@@ -153,6 +153,9 @@ func knock_back():
 
 func dash():
 	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
+		if motion_velocity.length() < 1:
+			return
+			
 		is_dashing = true
 		$DashParticles.emitting = true
 		GameState.use_dash()
@@ -204,6 +207,7 @@ func _on_ShootTime_timeout():
 	is_shooting_cd = true
 	is_shooting = false
 	$Timers/ShootCoolDown.start()
+	print("wow")
 
 func _on_ShootCoolDown_timeout():
 	is_shooting_cd = false
@@ -237,8 +241,9 @@ func _on_Player_tree_exiting():
 	i.set_xflip($AnimatedSprite.flip_h)
 	if is_drowned:
 		i.drown_sprite()
-		
-	GameState.hit_particle(position)
+	else:
+		GameState.hit_particle(position)
+	
 	get_parent().call_deferred("add_child", i)
 	i.global_position = global_position
 
