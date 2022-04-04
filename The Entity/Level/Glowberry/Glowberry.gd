@@ -9,6 +9,8 @@ func activate():
 	
 	active = true
 	$AnimationPlayer.play("LightUp")
+	$Light2D.visible = true
+	$AnimatedSprite.animation = "On"
 
 func _on_LightHurtbox_area_entered(area):
 	activate()
