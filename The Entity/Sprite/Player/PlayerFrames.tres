@@ -90,12 +90,12 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
-"loop": true,
+"loop": false,
 "name": "AttackUp",
 "speed": 20.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
-"loop": true,
+"loop": false,
 "name": "Throw",
 "speed": 20.0
 }, {
@@ -105,7 +105,7 @@ animations = [ {
 "speed": 6.0
 }, {
 "frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
+"loop": false,
 "name": "AttackDown",
 "speed": 20.0
 }, {
@@ -120,7 +120,7 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 19 ), SubResource( 20 ) ],
-"loop": true,
+"loop": false,
 "name": "Dead",
 "speed": 2.0
 }, {
