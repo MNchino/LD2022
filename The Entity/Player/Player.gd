@@ -7,7 +7,7 @@ var dead_template = preload("res://Player/DeadPlaceholder.tscn")
 
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
-var motion_frict : float = .4
+var motion_frict : float = .2
 var input_speed : float = 10
 var max_velocity : float = 100
 var dash_speed : float = 4*max_velocity
@@ -44,20 +44,24 @@ func _physics_process(delta):
 	elif is_dashing:
 		motion_velocity = motion_velocity.normalized()*dash_speed
 	else:
-		if GInput.dir.x != 0:
-			dir.x = GInput.dir.x
-			update_sprite_xflip(dir.x)
-			motion_velocity.x += ( dir.x * input_speed ) * motion_accel
+		if !(is_attacking || is_shooting):
+			if GInput.dir.x != 0:
+				dir.x = GInput.dir.x
+				update_sprite_xflip(dir.x)
+				motion_velocity.x += ( dir.x * input_speed ) * motion_accel
+			else:
+				motion_velocity.x = lerp(motion_velocity.x, 0, motion_frict)
+				
+			if GInput.dir.y != 0:
+				dir.y = GInput.dir.y
+				motion_velocity.y += ( dir.y * input_speed ) * motion_accel
+				is_facing_up = motion_velocity.y < 0
+			else:
+				motion_velocity.y = lerp(motion_velocity.y, 0, motion_frict)
 		else:
 			motion_velocity.x = lerp(motion_velocity.x, 0, motion_frict)
-			
-		if GInput.dir.y != 0:
-			dir.y = GInput.dir.y
-			motion_velocity.y += ( dir.y * input_speed ) * motion_accel
-			is_facing_up = motion_velocity.y < 0
-		else:
 			motion_velocity.y = lerp(motion_velocity.y, 0, motion_frict)
-	
+			
 		if is_slowed:
 			motion_velocity.x = clamp(motion_velocity.x, -slowed_max_velocity, slowed_max_velocity)
 			motion_velocity.y = clamp(motion_velocity.y, -slowed_max_velocity, slowed_max_velocity)
@@ -76,7 +80,7 @@ func update_sprite_xflip(dir : int):
 func update_animations():
 	if is_attacking:
 		$AnimatedSprite.animation = "AttackUp" if is_facing_up else "AttackDown"
-	if $Timers/ShootTime.time_left > 0:
+	elif is_shooting:
 		$AnimatedSprite.animation = "Throw"
 	elif is_dashing:
 		$AnimatedSprite.animation = "DashUp" if is_facing_up else "DashDown"
@@ -90,24 +94,27 @@ func update_animations():
 		$AnimatedSprite.animation = "WalkUp" if is_facing_up else "WalkDown"
 
 func shoot():
-	if is_shooting_cd || is_shooting:
+	if is_shooting_cd || is_shooting || is_attacking:
 		return
-	var target_position = get_global_mouse_position()
-	var i = shoot_template.instance()
-	add_child(i)
-	i.set_as_toplevel(true)
-	i.global_position = global_position 
-	i.rotation = target_position.angle_to_point(global_position)
+	
+	$AnimatedSprite.playing = false
+	$AnimatedSprite.frame = 0
+	$Timers/ShootPrep.start()
+	
+	is_shooting_cd = true
 	is_shooting = true
-	$Timers/ShootTime.start()
+	
+	var target_position = get_global_mouse_position()
+	update_sprite_xflip(-1 if target_position.x < position.x else 1)
 	
 func attack():
-	if is_attacking_cd || is_attacking:
+	if is_attacking_cd || is_attacking || is_shooting:
 		return
 	
 	$AnimatedSprite.playing = false
 	$AnimatedSprite.frame = 0
 	$Timers/AttackPrep.start()
+	
 	is_attacking_cd = true
 	is_attacking = true
 	
@@ -150,6 +157,7 @@ func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
 	set_collision_mask_bit(8, true)
+	
 	#Check if drowning
 	if is_in_water:
 		insta_kill()
@@ -160,7 +168,21 @@ func _on_DashCoolDown_timeout():
 	is_dashing_cd = false
 
 func _on_ShootPrep_timeout():
-	pass
+	var target_position = get_global_mouse_position()
+	var i = shoot_template.instance()
+	add_child(i)
+	i.set_as_toplevel(true)
+	i.global_position = global_position 
+	i.rotation = target_position.angle_to_point(global_position)
+	update_sprite_xflip(-1 if target_position.x < position.x else 1)
+	
+	$AnimatedSprite.playing = true
+	$Timers/ShootTime.start()
+
+func _on_ShootTime_timeout():
+	is_shooting_cd = true
+	is_shooting = false
+	$Timers/ShootCoolDown.start()
 
 func _on_ShootCoolDown_timeout():
 	is_shooting_cd = false
@@ -173,17 +195,14 @@ func _on_AttackPrep_timeout():
 	
 	$AnimatedSprite.playing = true
 	$Timers/AttackTime.start()
-	print("AttackPrep")
 
 func _on_AttackTime_timeout():
 	is_attacking_cd = true
 	is_attacking = false
 	$Timers/AttackCoolDown.start()
-	print("AttackTime")
 
 func _on_AttackCoolDown_timeout():
 	is_attacking_cd = false
-	print("AttackCoolDown")
 	
 func _on_KnockBackTime_timeout():
 	is_knocking_back = false
@@ -204,17 +223,9 @@ func _on_WaterDetector_body_entered(body):
 	if !water_bodies.has(body):
 		water_bodies.push_back(body)
 		is_in_water = true
-	if water_bodies.size() == 1:
-		print("In water")
 		
 func _on_WaterDetector_body_exited(body):
 	if water_bodies.has(body):
 		water_bodies.erase(body)
 		if water_bodies.size() == 0:
 			is_in_water = false
-			print("out of water")
-
-func _on_ShootTime_timeout():
-	is_shooting = false
-	is_shooting_cd = true
-	$Timers/ShootCoolDown.start()
