@@ -8,6 +8,7 @@ var num_dashes : int = 2
 signal player_spawned(player)
 signal player_died(player)
 signal player_won(player)
+signal player_died_gui()
 signal dashes_changed(new_num)
 
 func set_player(player : Player):
@@ -33,6 +34,9 @@ func use_dash():
 func reset_dashes():
 	num_dashes = 2
 	emit_signal('dashes_changed', num_dashes)
+	
+func start_death_gui():
+	emit_signal('player_died_gui')
 
 func _process(delta):
 	if started:

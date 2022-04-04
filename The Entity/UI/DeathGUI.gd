@@ -8,9 +8,9 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GameState.connect("player_died", self, 'show_after_death')
+	GameState.connect("player_died_gui", self, 'show_after_death')
 
-func show_after_death(player_that_died: Player):
+func show_after_death():
 	visible = true
 
 func _on_ResetButton_pressed():
