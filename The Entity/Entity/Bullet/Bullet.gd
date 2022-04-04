@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Bullet
 
 var speed : float  = 0
 var dir : Vector2  = Vector2(0,0)
@@ -16,9 +17,9 @@ func _physics_process(delta):
 
 func _process(delta):
 	if parried:
-		$Sprite.rotation_degrees = rad2deg(direction_once_parried.angle())
+		rotation_degrees = rad2deg(direction_once_parried.angle())
 	else:
-		$Sprite.rotation_degrees = rad2deg(dir.angle())
+		rotation_degrees = rad2deg(dir.angle())
 
 func _on_ParrySwitcher_area_entered(area):
 	parried = true
