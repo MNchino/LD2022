@@ -69,10 +69,6 @@ texture_scale = 0.01
 anims/LightUp = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 
-<<<<<<< Updated upstream
-[node name="AnimatedSprite" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, 8 )
-=======
 [node name="Particles2D" type="Particles2D" parent="."]
 material = ExtResource( 6 )
 scale = Vector2( 0.2, 0.2 )
@@ -83,7 +79,6 @@ lifetime = 0.5
 one_shot = true
 process_material = ExtResource( 5 )
 texture = ExtResource( 4 )
->>>>>>> Stashed changes
 
 [connection signal="area_entered" from="LightHurtbox" to="." method="_on_LightHurtbox_area_entered"]
 [connection signal="area_entered" from="ParryHurtbox" to="." method="_on_ParryHurtbox_area_entered"]
