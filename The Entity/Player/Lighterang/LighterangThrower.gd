@@ -3,7 +3,7 @@ extends Node2D
 var moving_to_player = false
 export var lerp_to_player : float = 0
 var can_home_player : bool = true
-var playback_speed = 2.5
+var playback_speed = 2
 
 func _ready():
 	$AnimationPlayer.playback_speed = playback_speed

@@ -24,8 +24,11 @@ func _process(_delta):
 		rotation_degrees = rad2deg(dir.angle())
 
 func _on_ParrySwitcher_area_entered(_area):
+	if parried:
+		return
+		
 	parried = true
-	parried_speed = 2*speed	
+	parried_speed = 2*speed
 	parried_location = global_position;
 	direction_once_parried = (get_parent().global_position - parried_location).normalized()
 	$ParryHitbox/CollisionShape2D.set_deferred("disabled", false)

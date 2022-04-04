@@ -76,7 +76,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.4 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -177,6 +177,7 @@ anims/Parry = SubResource( 2 )
 anims/RESET = SubResource( 4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 47, 1, -11, -46, -36, 0, -11, 48 )
+polygon = PoolVector2Array( 34.1667, 1.66667, -11, -46, -36, 0, -11, 48 )
 
+[connection signal="area_entered" from="." to="." method="_on_Attack_area_entered"]
 [connection signal="timeout" from="DestructionTimer" to="." method="_on_DestructionTimer_timeout"]

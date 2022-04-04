@@ -1,5 +1,8 @@
 extends Area2D
 
+var firsthit : bool = false
+var freeze_time : float = 0.05
+
 func _ready():
 	$DestructionTimer.start()
 	$AnimationPlayer.play("Parry")
@@ -7,3 +10,17 @@ func _ready():
 
 func _on_DestructionTimer_timeout():
 	queue_free()
+
+func _on_Attack_area_entered(area : Area2D):
+	if area.get_parent() is Bullet || area.get_parent().name == "Entity":
+		if firsthit:
+			return
+			
+		firsthit = true
+		GameState.freeze(freeze_time)
+		GameState.emit_signal("parried", rotation)
+		#var pos = to_local(area.global_position)
+		#GameState.hit_particle(global_position.linear_interpolate(pos, .5))
+		GameState.hit_particle(area.global_position)
+		GameState.hit_particle(global_position)
+		$Sprite.visible = false

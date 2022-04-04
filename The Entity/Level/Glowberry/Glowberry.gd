@@ -1,6 +1,4 @@
 extends Node2D
-
-
 var active : bool = false
 
 func activate():
@@ -9,6 +7,7 @@ func activate():
 	
 	active = true
 	$Particles2D.emitting = true
+	GameState.hit_particle(global_position)
 	$AnimationPlayer.play("LightUp")
 	$Light2D.visible = true
 	$AnimatedSprite.animation = "On"
@@ -19,6 +18,8 @@ func _on_LightHurtbox_area_entered(_area):
 func _on_ParryHurtbox_area_entered(_area):
 	if active:
 		$Particles2D.emitting = true
+		$HitParticle.restart()
+		$HitParticle.emitting = true
 	else:
 		activate()
 	

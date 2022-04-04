@@ -1,7 +1,8 @@
 extends Node2D
 
 func _ready():
-	$PlayerSprite.play("Dead")
+	$PlayerSprite.play()
+	GameState.freeze(0.2)
 	
 func _process(_delta):
 	if $PlayerSprite.frame == 0:
@@ -11,3 +12,9 @@ func _process(_delta):
 
 func _on_FinishedDying_timeout():
 	GameState.start_death_gui()
+
+func set_xflip(flip : bool):
+	$PlayerSprite.flip_h = flip
+
+func drown_sprite():
+	$PlayerSprite.animation = "Drown"

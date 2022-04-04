@@ -11,9 +11,10 @@ var motion_frict : float = .2
 var input_speed : float = 10
 var max_velocity : float = 100
 var dash_speed : float = 4*max_velocity
-var knock_back_speed = 600
+var knock_back_speed = 200
 var dir : Vector2 = Vector2(1,0) 
 var knock_back_dir : Vector2 = Vector2(0,0)
+var attack_knock_back_time : float = 0.05
 var is_dashing : bool = false
 var is_dashing_cd : bool = false
 var is_shooting : bool = false
@@ -28,6 +29,7 @@ var is_in_water : bool = false
 var is_facing_up : bool = false
 var slowed_max_velocity = 150
 var shoot_object_path : NodePath = ""
+var is_drowned : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,7 +39,9 @@ func _ready():
 	GInput.connect("dash_pressed", self, "dash")
 	GameState.connect("player_won", self, 'set_win_state')
 	GameState.connect("dashes_changed", self, '_on_GameState_dashes_changed')
+	GameState.connect("parried", self, '_on_GameState_parried')
 	$AnimatedSprite.animation = "WalkDown"
+	motion_velocity = Vector2.ZERO
 
 func _physics_process(delta):
 	if is_knocking_back:
@@ -230,11 +234,24 @@ func _on_Hurtbox_area_entered(_area):
 
 func _on_Player_tree_exiting():
 	var i = dead_template.instance()
+	i.set_xflip($AnimatedSprite.flip_h)
+	if is_drowned:
+		i.drown_sprite()
+		
+	GameState.hit_particle(position)
 	get_parent().call_deferred("add_child", i)
 	i.global_position = global_position
 
 func _on_GameState_dashes_changed(count:int):
 	$AnimatedSprite/DashIndicator.frame = count
+	
+func _on_GameState_parried(direction:float):
+	knock_back_dir = -Vector2.RIGHT.rotated(direction)
+	is_knocking_back = true
+	var orig_wait_time = $Timers/KnockBackTime.wait_time
+	$Timers/KnockBackTime.wait_time = attack_knock_back_time
+	$Timers/KnockBackTime.start()
+	$Timers/KnockBackTime.wait_time = orig_wait_time
  
 func _on_WaterDetector_body_entered(body):
 	if !water_bodies.has(body):
@@ -252,3 +269,4 @@ func _on_WateryTime_timeout():
 	
 	if is_in_water:
 		insta_kill()
+		is_drowned = true

@@ -42,7 +42,7 @@ shape = SubResource( 2 )
 [node name="Timers" type="Node" parent="."]
 
 [node name="AttackPrep" type="Timer" parent="Timers"]
-wait_time = 0.2
+wait_time = 0.15
 one_shot = true
 
 [node name="ShootPrep" type="Timer" parent="Timers"]
@@ -72,7 +72,7 @@ one_shot = true
 one_shot = true
 
 [node name="KnockBackTime" type="Timer" parent="Timers"]
-wait_time = 0.2
+wait_time = 0.3
 one_shot = true
 
 [node name="WateryTime" type="Timer" parent="Timers"]

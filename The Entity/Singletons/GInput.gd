@@ -1,6 +1,5 @@
 extends Node
 
-
 var _left_input : int = 0
 var _right_input : int = 0
 var _up_input : int = 0

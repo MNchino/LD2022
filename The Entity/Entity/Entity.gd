@@ -88,13 +88,16 @@ func knock_back(away_from_position : Vector2):
 		knocked_back = true
 		knock_back_dir = (global_position - away_from_position).normalized()
 		$KnockbackTime.start()
+		$HitParticle.restart()
+		$HitParticle.emitting = true
 
 func _on_KnockbackTime_timeout():
 	knocked_back = false
 
 func _on_Hurtbox_area_entered(area):
 	knock_back(area.global_position)
-	area.queue_free()
+	if area.name != "Attack":
+		area.queue_free()
 
 func _on_ShootingWindUp_timeout():
 	$EntitySprite.play("AttackShoot")

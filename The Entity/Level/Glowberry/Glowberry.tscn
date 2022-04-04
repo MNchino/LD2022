@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Level/Glowberry/Glowberry.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Glowberry/GlowberrySprite.tscn" type="PackedScene" id=2]
@@ -39,6 +39,28 @@ tracks/0/keys = {
 "values": [ 0.01 ]
 }
 
+[sub_resource type="Gradient" id=5]
+offsets = PoolRealArray( 0, 0.0780488, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0.0634146, 0.0634146, 0.0634146, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+lifetime_randomness = 1.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 80.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 50.0
+damping_random = 0.5
+scale = 3.0
+scale_random = 0.8
+color_ramp = SubResource( 4 )
+
 [node name="Glowberry" type="Node2D"]
 script = ExtResource( 1 )
 
@@ -68,6 +90,18 @@ texture_scale = 0.01
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/LightUp = SubResource( 2 )
 anims/RESET = SubResource( 3 )
+
+[node name="HitParticle" type="Particles2D" parent="."]
+material = ExtResource( 6 )
+scale = Vector2( 0.2, 0.2 )
+z_index = 4096
+z_as_relative = false
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 6 )
 
 [node name="Particles2D" type="Particles2D" parent="."]
 material = ExtResource( 6 )
