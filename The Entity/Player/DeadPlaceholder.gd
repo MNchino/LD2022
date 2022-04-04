@@ -3,7 +3,7 @@ extends Node2D
 func _ready():
 	$PlayerSprite.play("Dead")
 	
-func _process(delta):
+func _process(_delta):
 	if $PlayerSprite.frame == 0:
 		$PlayerSprite.position.x = rand_range(-1,1)
 	else:

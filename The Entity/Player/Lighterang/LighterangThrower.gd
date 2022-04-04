@@ -11,12 +11,12 @@ func _ready():
 	GameState.connect("player_died", self, "stop_player_follow")
 	GameState.connect("player_won", self, "stop_player_follow")
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	if can_home_player:
 		$Lighterang.global_position.x = lerp($Lighterang.global_position.x, GameState.cur_player.global_position.x, lerp_to_player)
 		$Lighterang.global_position.y = lerp($Lighterang.global_position.y, GameState.cur_player.global_position.y, lerp_to_player)
 	
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	var anim = $AnimationPlayer.get_animation("Throw")
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:x')), true)
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:y')), true)
@@ -27,5 +27,5 @@ func stop_tracking_position():
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:x')), false)
 	anim.track_set_enabled(anim.find_track(NodePath('Lighterang:position:y')), false)
 
-func stop_player_follow(player):
+func stop_player_follow(_player):
 	can_home_player = false

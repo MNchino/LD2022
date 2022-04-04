@@ -13,7 +13,7 @@ func _ready():
 	direction = Vector2(randf()*2 - 1, randf()*2 - 1).normalized()
 	speed = rand_range(speed_range.x, speed_range.y)
 	
-func _process(delta : float):
+func _process(_delta : float):
 	global_position += speed*direction
 
 func _on_DestroyTimer_timeout():

@@ -32,7 +32,7 @@ func can_use_dash():
 	return num_dashes > 0
 	
 func use_dash():
-	num_dashes = max(0, num_dashes - 1)
+	num_dashes = int(max(0, num_dashes - 1))
 	emit_signal('dashes_changed', num_dashes)
 	
 func reset_dashes():

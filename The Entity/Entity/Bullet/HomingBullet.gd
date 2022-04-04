@@ -8,8 +8,9 @@ var minimum_angle_before_stop_homing = 30
 func _ready():
 	GameState.connect("player_died", self, "stop_player_follow")
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if parried:
+		# warning-ignore:return_value_discarded
 		move_and_slide(direction_once_parried*parried_speed)
 	else:
 		if homing:
@@ -22,8 +23,9 @@ func _physics_process(delta):
 			else:
 				#dir = dir.rotated(angle_difference)
 				dir = lerp(dir, angle_to_player, 0.02)
-
+				
+		# warning-ignore:return_value_discarded
 		move_and_slide(dir*speed)
 
-func stop_player_follow(player):
+func stop_player_follow(_player):
 	homing = false

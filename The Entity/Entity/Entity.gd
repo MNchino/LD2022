@@ -26,7 +26,7 @@ func _ready():
 	GameState.connect("player_won", self, "stop_player_follow")
 	$EntitySprite.play("Idle")
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	#TODO Convert to NavMesh Later
 	if active:
 		if knocked_back:
@@ -43,9 +43,10 @@ func _physics_process(delta):
 			
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity.x, max_velocity.x)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity.y, max_velocity.y)
+		# warning-ignore:return_value_discarded
 		move_and_slide(motion_velocity)
 		
-func _process(delta):
+func _process(_delta):
 	if active:
 		if !is_shooting && !is_shooting_cd:
 			start_shoot()
@@ -76,10 +77,10 @@ func fire_bullet(template, angle_to_travel, speed):
 	i.dir = angle_to_travel
 	i.speed = speed
 	
-func start_player_follow(player : Player):
+func start_player_follow(_player : Player):
 	active = true
 
-func stop_player_follow(player : Player):
+func stop_player_follow(_player : Player):
 	active = false
 
 func knock_back(away_from_position : Vector2):

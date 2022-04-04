@@ -1,6 +1,7 @@
 extends Control
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	GameState.connect("dashes_changed", self, 'update_dashes')
 	
 func update_dashes(new_num : int):

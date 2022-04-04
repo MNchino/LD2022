@@ -40,8 +40,8 @@ func _input(event : InputEvent):
 	elif event.is_action("game_down"):
 		if event.is_action_pressed("game_down"):
 			_down_input =  1
-			if self.ydir > 0:
-				emit_signal("down_pressed")
+#			if self.ydir > 0:
+#				emit_signal("down_pressed")
 		elif event.is_action_released("game_down"):
 			_down_input = 0
 	elif event.is_action_pressed("game_shoot"):
@@ -51,7 +51,7 @@ func _input(event : InputEvent):
 	elif event.is_action_pressed("game_attack"):
 		emit_signal("attack_pressed")
 		
-func disable_game_input(player : Player):
+func disable_game_input(_player : Player):
 	game_input_enabled = false
 	reset_inputs()
 	

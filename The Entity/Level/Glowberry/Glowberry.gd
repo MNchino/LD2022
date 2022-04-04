@@ -13,10 +13,10 @@ func activate():
 	$Light2D.visible = true
 	$AnimatedSprite.animation = "On"
 
-func _on_LightHurtbox_area_entered(area):
+func _on_LightHurtbox_area_entered(_area):
 	activate()
 
-func _on_ParryHurtbox_area_entered(area):
+func _on_ParryHurtbox_area_entered(_area):
 	if active:
 		$Particles2D.emitting = true
 	else:

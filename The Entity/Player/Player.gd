@@ -48,7 +48,7 @@ func _physics_process(delta):
 		if !(is_attacking || is_shooting):
 			if GInput.dir.x != 0:
 				dir.x = GInput.dir.x
-				update_sprite_xflip(dir.x)
+				update_sprite_xflip(int(dir.x))
 				motion_velocity.x += ( dir.x * input_speed ) * motion_accel
 			else:
 				motion_velocity.x = lerp(motion_velocity.x, 0, motion_frict)
@@ -76,9 +76,10 @@ func _physics_process(delta):
 			$Timers/DashTime.stop()
 			_on_DashTime_timeout()
 	else:
+		# warning-ignore:return_value_discarded
 		move_and_slide(motion_velocity)
 	
-func _process(delta):
+func _process(_delta):
 	update_animations()
 	
 	var shoot_node = get_node_or_null(shoot_object_path)
@@ -90,8 +91,8 @@ func _process(delta):
 		if lighterang != null:
 			$LighterangParticles.position = to_local(lighterang.global_position)
 		
-func update_sprite_xflip(dir : int):
-	$AnimatedSprite.flip_h = dir < 0
+func update_sprite_xflip(xdir : int):
+	$AnimatedSprite.flip_h = xdir < 0
 	
 func update_animations():
 	if is_attacking:
@@ -167,7 +168,7 @@ func insta_kill():
 	GameState.unset_player(self)
 	queue_free()
 	
-func set_win_state(player : Player):
+func set_win_state(_player : Player):
 	invincible = true
 		
 func _on_DashTime_timeout():
@@ -223,13 +224,13 @@ func _on_AttackCoolDown_timeout():
 func _on_KnockBackTime_timeout():
 	is_knocking_back = false
 
-func _on_Hurtbox_area_entered(area):
+func _on_Hurtbox_area_entered(_area):
 	if !is_dashing:
 		insta_kill()
 
 func _on_Player_tree_exiting():
 	var i = dead_template.instance()
-	get_parent().add_child(i)
+	get_parent().call_deferred("add_child", i)
 	i.global_position = global_position
 
 func _on_GameState_dashes_changed(count:int):
