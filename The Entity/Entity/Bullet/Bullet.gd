@@ -4,24 +4,30 @@ var speed : float  = 0
 var dir : Vector2  = Vector2(0,0)
 var parried : bool = false
 var parried_location : Vector2 = Vector2(0,0)
+var direction_once_parried : Vector2 = Vector2(0,0)
+var percent_traveled = 0.00
+var parried_speed = 0
 
 func _physics_process(delta):
 	if parried:
-		global_position = lerp(parried_location, get_parent().global_position,1 - $HomingTime.time_left/$HomingTime.wait_time)
-		dir = (get_parent().global_position - global_position).normalized()
+		move_and_slide(direction_once_parried*parried_speed)
 	else:
 		move_and_slide(dir*speed)
 
 func _process(delta):
-	$Light2D.rotation_degrees = rad2deg(dir.angle()) - 90
+	if parried:
+		$Sprite.rotation_degrees = rad2deg(direction_once_parried.angle())
+	else:
+		$Sprite.rotation_degrees = rad2deg(dir.angle())
 
 func _on_ParrySwitcher_area_entered(area):
 	parried = true
+	parried_speed = 2*speed	
 	parried_location = global_position;
+	direction_once_parried = (get_parent().global_position - parried_location).normalized()
 	$ParryHitbox/CollisionShape2D.set_deferred("disabled", false)
 	$Hitbox/CollisionShape2D.set_deferred("disabled", true)
-	$Light2D.color = "#ffffff"
-	$HomingTime.start()
+	$Sprite.self_modulate = "#ffffff"
 
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()

@@ -64,6 +64,7 @@ func fire_shot():
 	var angle_to_travel = (target_position - global_position).normalized()
 	var i = bullet_template.instance()
 	add_child(i)
+	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.dir = angle_to_travel
 	i.speed = bullet_speed

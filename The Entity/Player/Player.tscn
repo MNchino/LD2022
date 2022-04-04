@@ -81,10 +81,6 @@ shape = SubResource( 3 )
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
-[connection signal="timeout" from="ShootTime" to="." method="_on_ShootTime_timeout"]
-[connection signal="timeout" from="AttackTime" to="." method="_on_AttackTime_timeout"]
-[connection signal="body_entered" from="WaterDetector" to="." method="_on_WaterDetector_body_entered"]
-[connection signal="body_exited" from="WaterDetector" to="." method="_on_WaterDetector_body_exited"]
 [connection signal="timeout" from="Timers/AttackPrep" to="." method="_on_AttackPrep_timeout"]
 [connection signal="timeout" from="Timers/ShootPrep" to="." method="_on_ShootPrep_timeout"]
 [connection signal="timeout" from="Timers/DashTime" to="." method="_on_DashTime_timeout"]
@@ -94,3 +90,5 @@ shape = SubResource( 3 )
 [connection signal="timeout" from="Timers/ShootCoolDown" to="." method="_on_ShootCoolDown_timeout"]
 [connection signal="timeout" from="Timers/DashCoolDown" to="." method="_on_DashCoolDown_timeout"]
 [connection signal="timeout" from="Timers/KnockBackTime" to="." method="_on_KnockBackTime_timeout"]
+[connection signal="body_entered" from="WaterDetector" to="." method="_on_WaterDetector_body_entered"]
+[connection signal="body_exited" from="WaterDetector" to="." method="_on_WaterDetector_body_exited"]
