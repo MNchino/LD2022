@@ -3,8 +3,10 @@ extends Node2D
 var moving_to_player = false
 export var lerp_to_player : float = 0
 var can_home_player : bool = true
+var playback_speed = 2.5
 
 func _ready():
+	$AnimationPlayer.playback_speed = playback_speed
 	$AnimationPlayer.play("Throw")
 	GameState.connect("player_died", self, "stop_player_follow")
 	GameState.connect("player_won", self, "stop_player_follow")

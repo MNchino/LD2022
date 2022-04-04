@@ -1,7 +1,7 @@
 extends Area2D
 
 var particle_template = preload("res://Player/Lighterang/LightParticle.tscn")
-var rotation_speed = 270 # degrees per second
+var rotation_speed = 270*7 # degrees per second
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"

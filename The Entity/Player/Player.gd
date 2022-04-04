@@ -7,9 +7,9 @@ var attack_template = preload("res://Player/Attack/Attack.tscn")
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
 var motion_frict : float = .4
-var input_speed : float = 100
-var max_velocity : float = 400
-var dash_speed : float = 3*max_velocity
+var input_speed : float = 10
+var max_velocity : float = 100
+var dash_speed : float = 4*max_velocity
 var knock_back_speed = 600
 var dir : Vector2 = Vector2(1,0) 
 var knock_back_dir : Vector2 = Vector2(0,0)
@@ -29,6 +29,7 @@ func _ready():
 	GInput.connect("shoot_pressed", self, "shoot")
 	GInput.connect("dash_pressed", self, "dash")
 	GameState.connect("player_won", self, 'set_win_state')
+	$AnimatedSprite.animation = "WalkDown"
 
 func _physics_process(delta):
 	if is_knocking_back:
@@ -58,20 +59,14 @@ func _physics_process(delta):
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity, max_velocity)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity, max_velocity)
 	
-		
 	move_and_slide(motion_velocity)
+	$AnimatedSprite.playing = motion_velocity.length() > 0
 	
 func update_sprite_yflip(dir : int):
 	if is_dashing:
-		if dir < 0:
-			$AnimatedSprite.play('DashUp')
-		else:
-			$AnimatedSprite.play('DashDown')
+		$AnimatedSprite.animation = "DashUp" if dir < 0 else "DashDown"
 	else:
-		if dir < 0:
-			$AnimatedSprite.play('WalkUp')
-		else:
-			$AnimatedSprite.play('WalkDown')
+		$AnimatedSprite.animation = "WalkUp" if dir < 0 else "WalkDown"
 	
 func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
