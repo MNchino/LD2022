@@ -6,14 +6,13 @@
 [ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=4]
 
 [node name="EntitySprite" type="AnimatedSprite"]
-z_index = 1
 frames = ExtResource( 1 )
 offset = Vector2( 0, -24 )
 
 [node name="EntityMask" type="AnimatedSprite" parent="."]
 light_mask = 0
 material = ExtResource( 4 )
-z_index = 2
+z_index = 1
 frames = ExtResource( 2 )
 offset = Vector2( 0, -24 )
 script = ExtResource( 3 )

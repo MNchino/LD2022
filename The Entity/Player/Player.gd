@@ -27,6 +27,7 @@ var water_bodies : Array = []
 var is_in_water : bool = false
 var is_facing_up : bool = false
 var slowed_max_velocity = 150
+var shoot_object_path : NodePath = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -73,6 +74,15 @@ func _physics_process(delta):
 	
 func _process(delta):
 	update_animations()
+	
+	var shoot_node = get_node_or_null(shoot_object_path)
+	$LighterangParticles.emitting = shoot_node != null
+	
+	if shoot_node != null:
+		var shoot_object = shoot_node
+		var lighterang : Node2D = shoot_object.get_node_or_null("Lighterang")
+		if lighterang != null:
+			$LighterangParticles.position = to_local(lighterang.global_position)
 		
 func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
@@ -174,8 +184,10 @@ func _on_ShootPrep_timeout():
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.rotation = target_position.angle_to_point(global_position)
-	update_sprite_xflip(-1 if target_position.x < position.x else 1)
 	
+	shoot_object_path = i.get_path()
+	
+	update_sprite_xflip(-1 if target_position.x < position.x else 1)
 	$AnimatedSprite.playing = true
 	$Timers/ShootTime.start()
 

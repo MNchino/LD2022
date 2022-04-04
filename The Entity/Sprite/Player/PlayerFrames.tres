@@ -97,12 +97,12 @@ animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 6 ) ],
 "loop": true,
 "name": "WalkDown",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "WalkUp",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": false,
