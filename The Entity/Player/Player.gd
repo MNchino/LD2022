@@ -11,7 +11,7 @@ var motion_frict : float = .2
 var input_speed : float = 10
 var max_velocity : float = 100
 var dash_speed : float = 4*max_velocity
-var knock_back_speed = 200
+var knock_back_speed = 300
 var dir : Vector2 = Vector2(1,0) 
 var knock_back_dir : Vector2 = Vector2(0,0)
 var attack_knock_back_time : float = 0.05
@@ -45,7 +45,8 @@ func _ready():
 
 func _physics_process(delta):
 	if is_knocking_back:
-		motion_velocity = knock_back_dir*knock_back_speed
+		move_and_slide(knock_back_dir*knock_back_speed)
+		return
 	elif is_dashing:
 		motion_velocity = motion_velocity.normalized()*dash_speed
 	else:
@@ -148,6 +149,7 @@ func knock_back():
 		return
 	
 	knock_back_dir = -motion_velocity.normalized()
+	motion_velocity = Vector2(0,0)
 	is_knocking_back = true
 	$Timers/KnockBackTime.start()
 
@@ -274,3 +276,7 @@ func _on_WateryTime_timeout():
 	if is_in_water:
 		insta_kill()
 		is_drowned = true
+
+
+func _on_BrambleDetector_body_entered(body):
+	knock_back()

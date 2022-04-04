@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -15,6 +15,9 @@ radius = 8.0
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 1.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 8.5
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 258
@@ -73,7 +76,7 @@ one_shot = true
 one_shot = true
 
 [node name="KnockBackTime" type="Timer" parent="Timers"]
-wait_time = 0.3
+wait_time = 0.05
 one_shot = true
 
 [node name="WateryTime" type="Timer" parent="Timers"]
@@ -104,6 +107,14 @@ amount = 32
 local_coords = false
 process_material = ExtResource( 6 )
 
+[node name="BrambleDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BrambleDetector"]
+modulate = Color( 0.431373, 0, 0.482353, 1 )
+shape = SubResource( 4 )
+
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="Timers/AttackPrep" to="." method="_on_AttackPrep_timeout"]
@@ -118,3 +129,4 @@ process_material = ExtResource( 6 )
 [connection signal="timeout" from="Timers/WateryTime" to="." method="_on_WateryTime_timeout"]
 [connection signal="body_entered" from="WaterDetector" to="." method="_on_WaterDetector_body_entered"]
 [connection signal="body_exited" from="WaterDetector" to="." method="_on_WaterDetector_body_exited"]
+[connection signal="body_entered" from="BrambleDetector" to="." method="_on_BrambleDetector_body_entered"]
