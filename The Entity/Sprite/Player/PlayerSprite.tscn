@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerFrames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Sprite/Player/PlayerDashFrames.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Sprite/Player/PlayerDashIndictator.gd" type="Script" id=3]
 
 [node name="PlayerSprite" type="AnimatedSprite"]
+z_index = 1
 frames = ExtResource( 1 )
 offset = Vector2( 0, -12 )
 
@@ -11,3 +13,4 @@ offset = Vector2( 0, -12 )
 frames = ExtResource( 2 )
 frame = 2
 offset = Vector2( 0, -12 )
+script = ExtResource( 3 )

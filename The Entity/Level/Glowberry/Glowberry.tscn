@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Level/Glowberry/Glowberry.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Glowberry/GlowberrySprite.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=3]
+[ext_resource path="res://Sprite/Particles/GlowberryActivate.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Particles/GlowberryActivate.tres" type="Material" id=5]
+[ext_resource path="res://Sprite/Additive.tres" type="Material" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -66,8 +69,21 @@ texture_scale = 0.01
 anims/LightUp = SubResource( 2 )
 anims/RESET = SubResource( 3 )
 
+<<<<<<< Updated upstream
 [node name="AnimatedSprite" parent="." instance=ExtResource( 2 )]
 position = Vector2( 0, 8 )
+=======
+[node name="Particles2D" type="Particles2D" parent="."]
+material = ExtResource( 6 )
+scale = Vector2( 0.2, 0.2 )
+z_index = 2
+emitting = false
+amount = 1
+lifetime = 0.5
+one_shot = true
+process_material = ExtResource( 5 )
+texture = ExtResource( 4 )
+>>>>>>> Stashed changes
 
 [connection signal="area_entered" from="LightHurtbox" to="." method="_on_LightHurtbox_area_entered"]
 [connection signal="area_entered" from="ParryHurtbox" to="." method="_on_ParryHurtbox_area_entered"]

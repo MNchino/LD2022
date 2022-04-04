@@ -1,15 +1,19 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Sprite/Entity/EntityFrames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Sprite/Entity/EntityMaskFrames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Sprite/Entity/EntityMask.gd" type="Script" id=3]
+[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=4]
 
 [node name="EntitySprite" type="AnimatedSprite"]
+z_index = 1
 frames = ExtResource( 1 )
 offset = Vector2( 0, -24 )
 
 [node name="EntityMask" type="AnimatedSprite" parent="."]
-z_index = 1
+light_mask = 0
+material = ExtResource( 4 )
+z_index = 2
 frames = ExtResource( 2 )
 offset = Vector2( 0, -24 )
 script = ExtResource( 3 )

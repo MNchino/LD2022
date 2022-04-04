@@ -29,6 +29,7 @@ func _ready():
 	GInput.connect("shoot_pressed", self, "shoot")
 	GInput.connect("dash_pressed", self, "dash")
 	GameState.connect("player_won", self, 'set_win_state')
+	GameState.connect("dashes_changed", self, '_on_GameState_dashes_changed')
 	$AnimatedSprite.animation = "WalkDown"
 
 func _physics_process(delta):
@@ -146,5 +147,10 @@ func _on_KnockBackTime_timeout():
 func _on_Hurtbox_area_entered(area):
 	insta_kill()
 
+<<<<<<< Updated upstream
 func _on_Player_tree_exiting():
 	pass
+=======
+func _on_GameState_dashes_changed(count:int):
+	$AnimatedSprite/DashIndicator.frame = count
+>>>>>>> Stashed changes

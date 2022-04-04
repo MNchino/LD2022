@@ -6,13 +6,15 @@ var active : bool = false
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
 var input_speed : Vector2 = Vector2(100,100)
-var max_velocity : Vector2 = Vector2(400,400)
+var max_velocity : Vector2 = Vector2(100,100)
+var drift_velocity : Vector2 = Vector2()
+var drift_divisor : float = 2
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
-var knock_back_speed : float = 300
+var knock_back_speed : float = 200
 var is_shooting : bool = false
 var is_shooting_cd : bool = false
-var bullet_speed : float = 800
+var bullet_speed : float = 200
 
 func _ready():
 	GameState.connect("player_spawned", self, "start_player_follow")
@@ -27,6 +29,7 @@ func _physics_process(delta):
 			motion_velocity = knock_back_speed * knock_back_dir
 		elif is_shooting:
 			# TODO: Movement logic when big meanie fires pew pew
+			motion_velocity = drift_velocity
 			pass
 		else:
 			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
@@ -49,6 +52,8 @@ func _process(delta):
 func start_shoot():
 	$AnimationPlayer.play("Shoot")
 	is_shooting = true
+	drift_velocity = motion_velocity / drift_divisor
+	
 	
 func fire_shot():
 	if !active:
