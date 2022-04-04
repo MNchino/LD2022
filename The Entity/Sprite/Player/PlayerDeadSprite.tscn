@@ -1,17 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerFrames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Sprite/Player/PlayerDashFrames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Sprite/Player/PlayerDashIndictator.gd" type="Script" id=3]
-[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=4]
 
 [node name="PlayerSprite" type="AnimatedSprite"]
-material = ExtResource( 4 )
 frames = ExtResource( 1 )
 offset = Vector2( 0, -12 )
 
 [node name="DashIndicator" type="AnimatedSprite" parent="."]
-material = ExtResource( 4 )
 frames = ExtResource( 2 )
 frame = 2
 offset = Vector2( 0, -12 )
