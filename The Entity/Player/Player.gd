@@ -167,13 +167,13 @@ func _on_Hurtbox_area_entered(area):
 	insta_kill()
 
 func _on_Player_tree_exiting():
-	pass
+	var i = dead_template.instance()
+	get_parent().add_child(i)
+	i.global_position = global_position
 
 func _on_GameState_dashes_changed(count:int):
 	$AnimatedSprite/DashIndicator.frame = count
-	var i = dead_template.instance()
-	get_parent().add_child(i)
-	i.global_position = global_position 
+ 
 
 func _on_ShootTime_timeout():
 	is_shooting = false
