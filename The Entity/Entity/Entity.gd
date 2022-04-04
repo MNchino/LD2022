@@ -2,6 +2,7 @@ extends KinematicBody2D
 class_name Entity
 
 var bullet_template = preload("res://Entity/Bullet/Bullet.tscn")
+var homing_bullet_template = preload("res://Entity/Bullet/HomingBullet.tscn")
 
 var active : bool = false
 var motion_velocity : Vector2  = Vector2(0,0)
@@ -15,6 +16,8 @@ var knock_back_speed : float = 300
 var is_shooting : bool = false
 var is_shooting_cd : bool = false
 var bullet_speed : float = 200 
+var homing_bullet_speed : float = 100
+var homing_angle : float = 120
 
 func _ready():
 	GameState.set_entity(self)
@@ -59,12 +62,19 @@ func fire_shot():
 		return
 	var target_position = GameState.cur_player.global_position
 	var angle_to_travel = (target_position - global_position).normalized()
-	var i = bullet_template.instance()
+	var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +homing_angle))
+	var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -homing_angle))
+	fire_bullet(bullet_template,angle_to_travel,bullet_speed)
+	fire_bullet(homing_bullet_template,bullet_dir_1,homing_bullet_speed)
+	fire_bullet(homing_bullet_template,bullet_dir_2,homing_bullet_speed)
+	
+func fire_bullet(template, angle_to_travel, speed):
+	var i = template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.dir = angle_to_travel
-	i.speed = bullet_speed
+	i.speed = speed
 	
 func start_player_follow(player : Player):
 	active = true
