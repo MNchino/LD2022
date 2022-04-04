@@ -35,7 +35,6 @@ func _physics_process(delta):
 	if is_knocking_back:
 		motion_velocity = knock_back_dir*knock_back_speed
 	elif is_dashing:
-		update_sprite_yflip(dir.y)
 		motion_velocity = motion_velocity.normalized()*dash_speed
 	else:
 		if GInput.dir.x != 0:
@@ -47,7 +46,6 @@ func _physics_process(delta):
 			
 		if GInput.dir.y != 0:
 			dir.y = GInput.dir.y
-			update_sprite_yflip(dir.y)
 			motion_velocity.y += ( dir.y * input_speed ) * motion_accel
 		else:
 			motion_velocity.y = lerp(motion_velocity.y, 0, motion_frict)
@@ -62,12 +60,14 @@ func _physics_process(delta):
 	move_and_slide(motion_velocity)
 	$AnimatedSprite.playing = motion_velocity.length() > 0
 	
-func update_sprite_yflip(dir : int):
+func _process(delta):
 	if is_dashing:
-		$AnimatedSprite.animation = "DashUp" if dir < 0 else "DashDown"
+		$AnimatedSprite.animation = "DashUp" if dir.y < 0 else "DashDown"
+	elif GInput.dir.y != 0 ||  GInput.dir.x != 0:
+		$AnimatedSprite.animation = "WalkUp" if dir.y < 0 else "WalkDown"
 	else:
-		$AnimatedSprite.animation = "WalkUp" if dir < 0 else "WalkDown"
-	
+		$AnimatedSprite.animation = "default"
+		
 func update_sprite_xflip(dir : int):
 	$AnimatedSprite.flip_h = dir < 0
 	
