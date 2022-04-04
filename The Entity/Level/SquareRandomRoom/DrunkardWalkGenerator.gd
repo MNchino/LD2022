@@ -12,6 +12,7 @@ var room_length = 11*tile_length # CHANGE THIS IF U USE LARGER SQUARE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	randomize()
 	for k in range(max_rooms):
 		var room = room_template.instance()
 		add_child(room)
@@ -21,10 +22,14 @@ func _ready():
 		used_map_positions.push_back(map_position)
 		if k == max_rooms - 1:
 			return
-		var dir = randi()%4
+		var routes_to_take = [0,1,2,3]
+		routes_to_take.shuffle()
+		var dir_index = randi()%4
+		var dir = routes_to_take[dir_index]
 		for i in range(4):
 			if (used_map_positions.has(map_position + enum_to_vector(dir))):
-				dir = (dir + 1)%4
+				dir_index = (dir_index + 1)%4
+				dir = routes_to_take[dir_index]
 				if i == 3:
 					# Cannot move anymore, stop
 					return
