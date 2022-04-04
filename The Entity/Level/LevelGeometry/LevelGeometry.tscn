@@ -38,4 +38,7 @@ position = Vector2( 342, 146 )
 [node name="Glowberry2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 357, 260 )
 
+[node name="Glowberry3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 102, 234 )
+
 [editable path="Goal"]

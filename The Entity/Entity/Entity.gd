@@ -1,4 +1,5 @@
 extends KinematicBody2D
+class_name Entity
 
 var bullet_template = preload("res://Entity/Bullet/Bullet.tscn")
 
@@ -17,6 +18,7 @@ var is_shooting_cd : bool = false
 var bullet_speed : float = 200
 
 func _ready():
+	GameState.set_entity(self)
 	GameState.connect("player_spawned", self, "start_player_follow")
 	GameState.connect("player_died", self, "stop_player_follow")
 	GameState.connect("player_won", self, "stop_player_follow")
