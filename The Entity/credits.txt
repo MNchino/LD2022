@@ -1,0 +1,23 @@
+LAST RESILIENCE
+by chinoki346 & fiaKaiera
+
+Entry for Ludum Dare 50 Extra
+Theme: Delay the inevitable
+https://ldjam.com
+
+===============================================
+
+Credits
+
+Main Programmer:
+	@chinoki346	
+	https://twitter.com/chinoki346
+
+Graphics & Co-programmer:
+	@fiaKaiera
+	https://twitter.com/fiaKaiera
+
+Music:
+	Heartbreaking by Kevin MacLeod | https://incompetech.com/
+	Creative Commons Creative Commons: By Attribution 3.0 License
+	http://creativecommons.org/licenses/by/3.0/

@@ -17,6 +17,7 @@ func _physics_process(_delta):
 			global_position = lerp(global_position, target.global_position, 0.12)
 
 func start_player_follow(_player):
+	target = GameState.cur_player
 	following = true
 	
 func stop_player_follow(_player):
