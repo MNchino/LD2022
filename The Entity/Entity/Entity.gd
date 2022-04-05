@@ -39,8 +39,9 @@ func _ready():
 	
 func _physics_process(_delta):
 	#TODO Convert to NavMesh Later
-	if active:
-		if starting_move:
+	
+	if starting_move:
+		if active:
 			if GameState.cur_player != null:
 				var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
 					
@@ -49,13 +50,14 @@ func _physics_process(_delta):
 				
 				motion_velocity.x = clamp(motion_velocity.x, -starting_speed.x, starting_speed.x)
 				motion_velocity.y = clamp(motion_velocity.y, -starting_speed.y, starting_speed.y)
-		elif knocked_back:
-			motion_velocity = knock_back_speed * knock_back_dir
-		elif is_shooting:
-			# TODO: Movement logic when big meanie fires pew pew
+	elif knocked_back:
+		motion_velocity = knock_back_speed * knock_back_dir
+	elif is_shooting:
+		if active:
 			var direction = -position.direction_to(GameState.cur_player.position)
 			motion_velocity = direction * drift_const
-		else:
+	else:
+		if active:
 			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
 				
 			motion_velocity.x += ( dir_to_player.x * input_speed.x ) * motion_accel
@@ -63,8 +65,8 @@ func _physics_process(_delta):
 			
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity.x, max_velocity.x)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity.y, max_velocity.y)
-		# warning-ignore:return_value_discarded
-		move_and_slide(motion_velocity)
+	# warning-ignore:return_value_discarded
+	move_and_slide(motion_velocity)
 		
 func _process(_delta):
 	if active:

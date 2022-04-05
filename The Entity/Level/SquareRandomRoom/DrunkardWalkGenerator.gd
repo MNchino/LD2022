@@ -1,7 +1,7 @@
 extends Node2D
 
 var room_template = preload("res://Level/SquareRandomRoom/SquareRandomRoom.tscn")
-var max_rooms = 15
+var max_rooms = 13
 var map_position = Vector2(0,0)
 var tile_length = 32
 var room_length = 16*tile_length # CHANGE THIS IF U USE LARGER SQUARE
@@ -10,7 +10,6 @@ var used_map_positions = []
 var tiles_to_visit = []
 var dirs_to_use = []
 var last_dir = 0
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
