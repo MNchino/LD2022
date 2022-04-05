@@ -1,5 +1,6 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
+[ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=2]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Level/LevelGeometry/LevelGeometry.tscn" type="PackedScene" id=4]
@@ -124,3 +125,8 @@ explosiveness = 1.0
 local_coords = false
 process_material = SubResource( 3 )
 script = ExtResource( 11 )
+
+[node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -22.0
+autoplay = true

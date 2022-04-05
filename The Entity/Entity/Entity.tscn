@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Entity/Entity.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Entity/EntitySprite.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=3]
 [ext_resource path="res://Sound/EntityParryHitKnockback.wav" type="AudioStream" id=4]
 [ext_resource path="res://Sound/EntityWaveAttack.wav" type="AudioStream" id=5]
+[ext_resource path="res://Sound/EntityCharge.wav" type="AudioStream" id=6]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 10.0
@@ -126,6 +127,10 @@ process_material = SubResource( 5 )
 
 [node name="ParryKnockback" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 4 )
+
+[node name="WaveCharge" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 6 )
+volume_db = -10.0
 
 [node name="WaveAttack" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 5 )

@@ -73,6 +73,8 @@ func _process(_delta):
 func start_shoot():
 	$EntitySprite.play("AttackPrep")
 	$ShootingWindUp.start()
+	$Audio/WaveCharge.pitch_scale = rand_range(0.9,1.1)
+	$Audio/WaveCharge.play()
 	is_shooting = true
 	
 func fire_shot():

@@ -51,6 +51,14 @@ func _physics_process(delta):
 		motion_velocity = motion_velocity.normalized()*dash_speed
 	else:
 		if !(is_attacking || is_shooting):
+			
+			if GInput.dir.x != 0 || GInput.dir.y != 0:
+				if $Timers/StepTimer.time_left == 0:
+					$Timers/StepTimer.start()
+					play_step()
+			else:
+				$Timers/StepTimer.stop()
+			
 			if GInput.dir.x != 0:
 				dir.x = GInput.dir.x
 				update_sprite_xflip(int(dir.x))
@@ -293,3 +301,7 @@ func _on_WateryTime_timeout():
 
 func _on_BrambleDetector_body_entered(_body):
 	knock_back()
+
+func play_step():
+	$Audio/Step.pitch_scale = rand_range(0.8, 1.2)
+	$Audio/Step.play()
