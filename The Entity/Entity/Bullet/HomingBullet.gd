@@ -6,6 +6,7 @@ var distance_before_stop_homing = 100
 var minimum_angle_before_stop_homing = 35
 
 func _ready():
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_died", self, "stop_player_follow")
 
 func _physics_process(_delta):

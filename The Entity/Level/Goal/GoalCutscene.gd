@@ -93,41 +93,41 @@ func move_state():
 			$Control/Label.text = "I.. don't have much time... left."
 			$ControlPlayer.play("FadeIn")
 		12:
-			$AnimationPlayer.play("3")
 			$Control/Label.text = "Dear..."
 			$Control/Label.self_modulate = Color("#777586")
 			$ControlPlayer.play("FadeIn")
-			auto_next = false
 		13:
-			set_accept_input(true)
-			auto_next = true
+			$AnimationPlayer.play("3")
 		14:
-			$Timer.wait_time = 2
+			$Timer.wait_time = 1
 			$Timer.start()
 		15:
 			$Heartbreak.play()
+			$Timer.wait_time = 2
+			$Timer.start()
+		16:
 			$Control/Label.text = "Thank you for everything."
 			$ControlPlayer.play("FadeIn")
-		16:
+		17:
 			$Control/Label.text = "To give me a chance to see you\n\none last time..."
 			$ControlPlayer.play("FadeIn")
-		17:
+		18:
 			$Timer.wait_time = 3
 			$Timer.start() 
-		18:
+		19:
 			$Control/Label.text = "Please, take care of the kids."
 			$Control/Label.self_modulate = Color("#fff")
 			$ControlPlayer.play("FadeIn")
-		19:
+		20:
 			$Timer.wait_time = 2
 			$Timer.start()
-		20:
+		21:
 			$Control/Label.text = "I'll miss you."
 			$Control/Label.self_modulate = Color("#777586")
 			$ControlPlayer.play("FadeIn")
 			auto_next = false
 			$AnimationPlayer.play("4")
-		21:
+		22:
 			var node = $Heartbreak
 			remove_child(node)
 			get_tree().get_current_scene().add_child(node)

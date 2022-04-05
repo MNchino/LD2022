@@ -17,7 +17,14 @@ Graphics & Co-programmer:
 	@fiaKaiera
 	https://twitter.com/fiaKaiera
 
+BGS:
+	Noises.Online
+	https://noises.online
+	Creative Commons Creative Commons: By Attribution 3.0 License
+	http://creativecommons.org/licenses/by/3.0/
+
 Music:
-	Heartbreaking by Kevin MacLeod | https://incompetech.com/
+	Heartbreaking by Kevin MacLeod
+	https://incompetech.com
 	Creative Commons Creative Commons: By Attribution 3.0 License
 	http://creativecommons.org/licenses/by/3.0/

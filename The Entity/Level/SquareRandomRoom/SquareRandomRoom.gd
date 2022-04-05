@@ -101,4 +101,4 @@ func _on_Area2D_body_entered(_body):
 	if !is_travelled:
 		GameState.travelled_rooms += 1
 		is_travelled = true
-		print("entered", GameState.travelled_rooms, "of", GameState.num_rooms)
+		#print("entered", GameState.travelled_rooms, "of", GameState.num_rooms)

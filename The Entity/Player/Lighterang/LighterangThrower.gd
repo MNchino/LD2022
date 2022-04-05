@@ -8,7 +8,9 @@ var playback_speed = 2
 func _ready():
 	$AnimationPlayer.playback_speed = playback_speed
 	$AnimationPlayer.play("Throw")
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_died", self, "stop_player_follow")
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_won", self, "stop_player_follow")
 	
 func _physics_process(_delta):

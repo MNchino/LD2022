@@ -9,6 +9,8 @@ var num_dashes : int = 2
 var num_rooms : int = 0
 var travelled_rooms : int = -1
 var camera : Camera2D = null
+var finished : bool = false
+var drowned : bool = false
 
 var freeze_timer : Timer
 var root : Viewport
@@ -41,6 +43,7 @@ func set_entity(entity : Entity):
 	cur_entity = entity
 
 func set_player(player : Player):
+	randomize()
 	camera = get_tree().get_current_scene().get_node("PlayerCamera")
 	cur_player = player
 	started = true
@@ -55,6 +58,7 @@ func set_hit_particle(hitpart : Particles2D):
 	
 func finish_game(player : Player):
 	started = false
+	finished = true
 	emit_signal('player_won', player)
 	
 func can_use_dash():

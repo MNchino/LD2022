@@ -34,11 +34,17 @@ var active : bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# warning-ignore:return_value_discarded
 	GInput.connect("attack_pressed", self, "attack")
+	# warning-ignore:return_value_discarded
 	GInput.connect("shoot_pressed", self, "shoot")
+	# warning-ignore:return_value_discarded
 	GInput.connect("dash_pressed", self, "dash")
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_won", self, 'set_win_state')
+	# warning-ignore:return_value_discarded
 	GameState.connect("dashes_changed", self, '_on_GameState_dashes_changed')
+	# warning-ignore:return_value_discarded
 	GameState.connect("parried", self, '_on_GameState_parried')
 	$AnimatedSprite.animation = "WalkDown"
 	motion_velocity = Vector2.ZERO
@@ -145,7 +151,7 @@ func shoot():
 	$Audio/Prep.play()
 	
 	var target_position = get_global_mouse_position()
-	update_sprite_xflip(-1 if target_position.x < position.x else 1)
+	update_sprite_xflip(-1 if target_position.x < global_position.x else 1)
 	
 func attack():
 	if !active:
@@ -166,6 +172,10 @@ func attack():
 	if is_instance_valid(GameState.cur_entity):
 		is_facing_up = GameState.cur_entity.position.y < position.y
 		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
+	else:
+		var maus = get_global_mouse_position()
+		is_facing_up = maus.y < global_position.y
+		update_sprite_xflip(-1 if maus.x < global_position.x else 1)
 	
 func knock_back():
 	if !active:
@@ -277,6 +287,7 @@ func _on_Player_tree_exiting():
 	var i = dead_template.instance()
 	i.set_xflip($AnimatedSprite.flip_h)
 	if is_drowned:
+		GameState.drowned = true
 		i.drown_sprite()
 	else:
 		GameState.hit_particle(position)
