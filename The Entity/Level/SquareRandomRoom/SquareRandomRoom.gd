@@ -7,6 +7,10 @@ var right_blockers = [preload("res://Level/RoomLayouts/RightBlocker2.tscn"), pre
 var up_blockers = [preload("res://Level/RoomLayouts/UpBlocker1.tscn"),preload("res://Level/RoomLayouts/UpBlocker2.tscn"),preload("res://Level/RoomLayouts/UpBlocker3.tscn"),]
 var down_blockers = [preload("res://Level/RoomLayouts/DownBlocker1.tscn"), preload("res://Level/RoomLayouts/DownBlocker2.tscn")]
 var centers = [preload("res://Level/RoomLayouts/Center1.tscn"),preload("res://Level/RoomLayouts/Center2.tscn"),preload("res://Level/RoomLayouts/Center3.tscn"),preload("res://Level/RoomLayouts/Center4.tscn"),preload("res://Level/RoomLayouts/Center5.tscn")]
+var left = null
+var right = null
+var up = null
+var down = null
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -18,22 +22,25 @@ enum WALLS {
 	LEFT
 }
 var center_set = false
+
+func _ready():
+	block_down()
+	block_left()
+	block_up()
+	block_right()
 	
 func block_left():
-	spawn_blocker(left_blockers)
+	left = spawn_blocker(left_blockers)
 	
 func block_right():
-	spawn_blocker(right_blockers)
+	right = spawn_blocker(right_blockers)
 	
 func block_down():
-#	var i = spawn_blocker()
-#	for child in i.get_children():
-#		turn_tilemap(child)
-	spawn_blocker(down_blockers)
+	down = spawn_blocker(down_blockers)
 			
 			
 func block_up():
-	spawn_blocker(up_blockers)
+	up = spawn_blocker(up_blockers)
 	
 func spawn_blocker(blockers_array):
 	var blocker_to_use = blockers_array[randi()%blockers_array.size()]
@@ -48,21 +55,13 @@ func set_center_if_unset():
 func open(dir : int):
 	match(dir):
 		WALLS.UP:
-			block_down()
-			block_left()
-			block_right()
+			up.queue_free()
 		WALLS.RIGHT:
-			block_down()
-			block_left()
-			block_up()
+			right.queue_free()
 		WALLS.LEFT:
-			block_down()
-			block_right()
-			block_up()
+			left.queue_free()
 		WALLS.DOWN:
-			block_left()
-			block_right()
-			block_up()
+			down.queue_free()
 			
 func set_as_goal_room():
 	var i = goal_template.instance()
