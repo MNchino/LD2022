@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Entity/Entity.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Entity/EntitySprite.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=3]
+[ext_resource path="res://Sound/EntityParryHitKnockback.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sound/EntityWaveAttack.wav" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 10.0
@@ -90,9 +92,20 @@ explosiveness = 1.0
 local_coords = false
 process_material = SubResource( 5 )
 
+[node name="Audio" type="Node" parent="."]
+
+[node name="ParryKnockback" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 4 )
+
+[node name="WaveAttack" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 5 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
-[connection signal="body_entered" from="Hurtbox" to="." method="_on_Hurtbox_body_entered"]
 [connection signal="timeout" from="KnockbackTime" to="." method="_on_KnockbackTime_timeout"]
 [connection signal="timeout" from="ShootingWindUp" to="." method="_on_ShootingWindUp_timeout"]
 [connection signal="timeout" from="ShootingWindDown" to="." method="_on_ShootingWindDown_timeout"]
 [connection signal="timeout" from="ShootingCoolDown" to="." method="_on_ShootingCoolDown_timeout"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

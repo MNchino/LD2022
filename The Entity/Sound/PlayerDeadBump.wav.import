@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PlayerDeadBump.wav-0d003e0a6744f4beb03e5225d3c9cceb.sample"
+
+[deps]
+
+source_file="res://Sound/PlayerDeadBump.wav"
+dest_files=[ "res://.import/PlayerDeadBump.wav-0d003e0a6744f4beb03e5225d3c9cceb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

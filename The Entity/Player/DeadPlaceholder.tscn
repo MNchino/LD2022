@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/DeadPlaceholder.gd" type="Script" id=2]
+[ext_resource path="res://Sound/PlayerDeadHit.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sound/PlayerDeadBump.wav" type="AudioStream" id=4]
 
 [node name="DeadPlaceholder" type="Node2D"]
 script = ExtResource( 2 )
@@ -26,6 +28,15 @@ light_mask = 16
 z_index = 1000
 z_as_relative = false
 color = Color( 0, 0, 0, 1 )
+
+[node name="Audio" type="Node" parent="."]
+pause_mode = 2
+
+[node name="DeadHit" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 3 )
+
+[node name="DeadBump" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 4 )
 
 [connection signal="timeout" from="FinishedDying" to="." method="_on_FinishedDying_timeout"]
 

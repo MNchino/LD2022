@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Level/Glowberry/Glowberry.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Glowberry/GlowberrySprite.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Sprite/Particles/GlowberryActivate.png" type="Texture" id=4]
 [ext_resource path="res://Sprite/Particles/GlowberryActivate.tres" type="Material" id=5]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=6]
+[ext_resource path="res://Sound/GlowberryReveal.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sound/GlowberryHit.wav" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -112,6 +114,15 @@ lifetime = 0.5
 one_shot = true
 process_material = ExtResource( 5 )
 texture = ExtResource( 4 )
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Reveal" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 7 )
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource( 8 )
+max_distance = 500.0
 
 [connection signal="area_entered" from="LightHurtbox" to="." method="_on_LightHurtbox_area_entered"]
 [connection signal="area_entered" from="ParryHurtbox" to="." method="_on_ParryHurtbox_area_entered"]

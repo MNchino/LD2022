@@ -45,6 +45,7 @@ func _ready():
 
 func _physics_process(delta):
 	if is_knocking_back:
+		# warning-ignore:return_value_discarded
 		move_and_slide(knock_back_dir*knock_back_speed)
 		return
 	elif is_dashing:
@@ -126,6 +127,9 @@ func shoot():
 	is_shooting_cd = true
 	is_shooting = true
 	
+	$Audio/Prep.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Prep.play()
+	
 	var target_position = get_global_mouse_position()
 	update_sprite_xflip(-1 if target_position.x < position.x else 1)
 	
@@ -140,6 +144,9 @@ func attack():
 	is_attacking_cd = true
 	is_attacking = true
 	
+	$Audio/Prep.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Prep.play()
+	
 	if GameState.cur_entity != null:
 		is_facing_up = GameState.cur_entity.position.y < position.y
 		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
@@ -151,6 +158,8 @@ func knock_back():
 	knock_back_dir = -motion_velocity.normalized()
 	motion_velocity = Vector2(0,0)
 	is_knocking_back = true
+	$Audio/Prep.play()
+	$Audio/Prep.pitch_scale = rand_range(0.95,1.05)
 	$Timers/KnockBackTime.start()
 
 func dash():
@@ -164,6 +173,8 @@ func dash():
 		$Timers/DashTime.start()
 		set_collision_mask_bit(8, false)
 		set_collision_mask_bit(9, false)
+		$Audio/Dash.pitch_scale = rand_range(0.95,1.05)
+		$Audio/Dash.play()
 		
 func slow_down():
 	is_slowed = true
@@ -202,6 +213,8 @@ func _on_ShootPrep_timeout():
 	shoot_object_path = i.get_path()
 	
 	update_sprite_xflip(-1 if target_position.x < position.x else 1)
+	$Audio/Shoot.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Shoot.play()
 	$AnimatedSprite.playing = true
 	$Timers/ShootTime.start()
 
@@ -219,6 +232,8 @@ func _on_AttackPrep_timeout():
 	i.set_as_toplevel(true)
 	i.global_position = global_position
 	
+	$Audio/Attack.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Attack.play()
 	$AnimatedSprite.playing = true
 	$Timers/AttackTime.start()
 
@@ -277,6 +292,5 @@ func _on_WateryTime_timeout():
 		insta_kill()
 		is_drowned = true
 
-
-func _on_BrambleDetector_body_entered(body):
+func _on_BrambleDetector_body_entered(_body):
 	knock_back()

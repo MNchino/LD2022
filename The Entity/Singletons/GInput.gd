@@ -15,6 +15,7 @@ signal attack_pressed
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	pause_mode = PAUSE_MODE_PROCESS
 	GameState.connect("player_won", self, "disable_game_input")
 	GameState.connect("player_died", self, "reset_inputs_from_death")
 

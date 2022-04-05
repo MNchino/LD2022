@@ -22,11 +22,15 @@ var starting_move : bool = true
 var starting_speed : Vector2 = Vector2(30,30)
 var shoot_delay_min : float = 1
 var shoot_delay_max : float = 3
+var is_catching_up : bool = true
 
 func _ready():
 	GameState.set_entity(self)
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_spawned", self, "start_player_follow")
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_died", self, "stop_player_follow")
+	# warning-ignore:return_value_discarded
 	GameState.connect("player_won", self, "stop_player_follow")
 	$EntitySprite.play("Idle")
 	
@@ -91,6 +95,8 @@ func fire_bullet(template, angle_to_travel, speed):
 	
 func start_player_follow(_player : Player):
 	active = true
+	var distance = global_position.distance_to(GameState.cur_player.global_position)
+	global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
 func stop_player_follow(_player : Player):
 	active = false
@@ -109,6 +115,8 @@ func _on_KnockbackTime_timeout():
 
 func _on_Hurtbox_area_entered(area):
 	knock_back(area.global_position)
+	$Audio/ParryKnockback.pitch_scale = rand_range(0.95,1.05)
+	$Audio/ParryKnockback.play()
 	if area.name != "Attack":
 		area.queue_free()
 	elif starting_move:
@@ -118,6 +126,8 @@ func _on_Hurtbox_area_entered(area):
 
 func _on_ShootingWindUp_timeout():
 	$EntitySprite.play("AttackShoot")
+	$Audio/WaveAttack.pitch_scale = rand_range(0.95,1.05)
+	$Audio/WaveAttack.play()
 	$ShootingWindDown.start()
 	fire_shot()
 	
@@ -131,3 +141,13 @@ func _on_ShootingWindDown_timeout():
 func _on_ShootingCoolDown_timeout():
 	is_shooting_cd = false
 	starting_move = false
+
+
+func _on_VisibilityNotifier2D_screen_entered():
+	is_catching_up = false
+	pass
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	is_catching_up = true
+	pass

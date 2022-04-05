@@ -15,7 +15,11 @@ func _on_Attack_area_entered(area : Area2D):
 	if area.get_parent() is Bullet || area.get_parent().name == "Entity":
 		if firsthit:
 			return
-			
+		
+		if area.get_parent() is Bullet:
+			$ParrySound.pitch_scale = rand_range(0.95,1.05)
+			$ParrySound.play()
+		
 		firsthit = true
 		GameState.freeze(freeze_time)
 		GameState.emit_signal("parried", rotation)
