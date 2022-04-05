@@ -4,7 +4,14 @@ var active : bool = false
 func _ready():
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_died", self, "lights_out")
-	get_tree().get_nodes_in_group('sortyboy')[0].add_child(self)
+	call_deferred("reparent",self)
+
+func reparent(node):
+	var target_new_parent = get_tree().get_nodes_in_group('sortyboy')[0]
+	var temp_pos = node.global_position
+	node.get_parent().remove_child(node) # error here  
+	target_new_parent.add_child(node)
+	node.global_position = temp_pos
 
 func activate():
 	if active: 

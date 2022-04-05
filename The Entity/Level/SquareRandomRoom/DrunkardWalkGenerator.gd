@@ -2,7 +2,7 @@ extends Node2D
 
 var room_template = preload("res://Level/SquareRandomRoom/SquareRandomRoom.tscn")
 var used_map_positions = []
-var max_rooms = 20
+var max_rooms = 23
 var map_position = Vector2(0,0)
 var drunkard_position = Vector2(0,0)
 var last_dir = 0
