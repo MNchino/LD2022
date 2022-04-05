@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
@@ -7,6 +7,7 @@
 [ext_resource path="res://UI/WinGUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://System/PlayerCamera.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Level/Goal/GoalCutscene.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=10]
 [ext_resource path="res://Sprite/Particles/HitParticle.gd" type="Script" id=11]
 
@@ -75,6 +76,9 @@ __meta__ = {
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
 
 [node name="Entity" parent="YSort" instance=ExtResource( 3 )]
+
+[node name="GoalCutscene" parent="YSort" instance=ExtResource( 9 )]
+position = Vector2( 245, 164 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 

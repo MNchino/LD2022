@@ -22,6 +22,8 @@ var starting_move : bool = true
 var starting_speed : Vector2 = Vector2(30,30)
 var shoot_delay_min : float = 1
 var shoot_delay_max : float = 3
+var repos_delay_min : float = 5
+var repos_delay_max : float = 8
 var spawn_distance : float = 250
 var repos_distance : float = 150
 
@@ -39,13 +41,14 @@ func _physics_process(_delta):
 	#TODO Convert to NavMesh Later
 	if active:
 		if starting_move:
-			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
+			if GameState.cur_player != null:
+				var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
+					
+				motion_velocity.x += ( dir_to_player.x * input_speed.x ) * motion_accel
+				motion_velocity.y += ( dir_to_player.y * input_speed.y ) * motion_accel
 				
-			motion_velocity.x += ( dir_to_player.x * input_speed.x ) * motion_accel
-			motion_velocity.y += ( dir_to_player.y * input_speed.y ) * motion_accel
-			
-			motion_velocity.x = clamp(motion_velocity.x, -starting_speed.x, starting_speed.x)
-			motion_velocity.y = clamp(motion_velocity.y, -starting_speed.y, starting_speed.y)
+				motion_velocity.x = clamp(motion_velocity.x, -starting_speed.x, starting_speed.x)
+				motion_velocity.y = clamp(motion_velocity.y, -starting_speed.y, starting_speed.y)
 		elif knocked_back:
 			motion_velocity = knock_back_speed * knock_back_dir
 		elif is_shooting:
@@ -126,6 +129,7 @@ func _on_Hurtbox_area_entered(area):
 		area.queue_free()
 	elif starting_move:
 		starting_move = false
+		$TeleportTimer.start()
 		if $ShootingCoolDown.time_left > 0.5:
 			$ShootingCoolDown.start(0.25)
 
@@ -145,14 +149,31 @@ func _on_ShootingWindDown_timeout():
 
 func _on_ShootingCoolDown_timeout():
 	is_shooting_cd = false
-	starting_move = false
+	if starting_move:
+		starting_move = false
+		$TeleportTimer.start()
 
 func _on_VisibilityNotifier2D_screen_exited():
 	active = false
 	reposition(repos_distance)
 	$AnimationPlayer.play("FadeIn")
+	$TeleportTimer.stop()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "FadeIn":
+	if anim_name == "FadeOut":
+		active = false
+		reposition(repos_distance)
+		$AnimationPlayer.play("FadeIn")
+	elif anim_name == "FadeIn":
 		if GameState.cur_player != null:
 			active = true
+			$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
+			$TeleportTimer.start()
+
+func _on_TeleportTimer_timeout():
+	if is_shooting:
+		$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
+		$TeleportTimer.start()
+	else:
+		$AnimationPlayer.play("FadeOut")
+		
