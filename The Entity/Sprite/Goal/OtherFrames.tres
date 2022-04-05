@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=23 format=2]
+[gd_resource type="SpriteFrames" load_steps=24 format=2]
 
 [ext_resource path="res://Sprite/Goal/Other.png" type="Texture" id=1]
 
@@ -29,6 +29,10 @@ region = Rect2( 0, 120, 24, 24 )
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 24, 120, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 72, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 1 )
@@ -97,6 +101,11 @@ animations = [ {
 "loop": false,
 "name": "Hug",
 "speed": 8.0
+}, {
+"frames": [ SubResource( 22 ) ],
+"loop": true,
+"name": "Worry",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
