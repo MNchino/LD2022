@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=2]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
@@ -7,7 +7,6 @@
 [ext_resource path="res://UI/WinGUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://System/PlayerCamera.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=10]
 [ext_resource path="res://Sprite/Particles/HitParticle.gd" type="Script" id=11]
 
@@ -90,15 +89,6 @@ texture = ExtResource( 2 )
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
 
 [node name="Entity" parent="YSort" instance=ExtResource( 3 )]
-
-[node name="Glowberry" parent="YSort" instance=ExtResource( 9 )]
-position = Vector2( 342, 146 )
-
-[node name="Glowberry2" parent="YSort" instance=ExtResource( 9 )]
-position = Vector2( 357, 260 )
-
-[node name="Glowberry3" parent="YSort" instance=ExtResource( 9 )]
-position = Vector2( 102, 234 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 

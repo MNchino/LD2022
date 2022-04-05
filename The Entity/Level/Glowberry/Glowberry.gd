@@ -4,6 +4,7 @@ var active : bool = false
 func _ready():
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_died", self, "lights_out")
+	get_tree().get_nodes_in_group('sortyboy')[0].add_child(self)
 
 func activate():
 	if active: 

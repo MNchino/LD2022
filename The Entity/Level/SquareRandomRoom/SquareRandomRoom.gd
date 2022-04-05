@@ -6,6 +6,7 @@ var left_blockers = [preload("res://Level/RoomLayouts/LeftBlocker1.tscn"),preloa
 var right_blockers = [preload("res://Level/RoomLayouts/RightBlocker2.tscn"), preload("res://Level/RoomLayouts/RightBlocker1.tscn")]
 var up_blockers = [preload("res://Level/RoomLayouts/UpBlocker1.tscn"),preload("res://Level/RoomLayouts/UpBlocker2.tscn"),preload("res://Level/RoomLayouts/UpBlocker3.tscn"),]
 var down_blockers = [preload("res://Level/RoomLayouts/DownBlocker1.tscn"), preload("res://Level/RoomLayouts/DownBlocker2.tscn")]
+var centers = [preload("res://Level/RoomLayouts/Center1.tscn"),preload("res://Level/RoomLayouts/Center2.tscn"),preload("res://Level/RoomLayouts/Center3.tscn"),preload("res://Level/RoomLayouts/Center4.tscn"),preload("res://Level/RoomLayouts/Center5.tscn")]
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -16,6 +17,7 @@ enum WALLS {
 	DOWN,
 	LEFT
 }
+var center_set = false
 	
 func block_left():
 	spawn_blocker(left_blockers)
@@ -39,36 +41,9 @@ func spawn_blocker(blockers_array):
 	add_child(i)
 	return i
 	
-func turn_tilemap(tilemap : TileMap):
-	
-	#Tilemap is 16 x 16
-	var reverse_table = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
-	var temp_table = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
-	var test_table = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
-	
-	
-	for k in range(16):
-		for i in range(16):
-			test_table[k].push_back(tilemap.get_cell(i, k))
-		print(test_table[k])
-		
-	print('normal table')
-	
-	for k in range(16):
-		for i in range(16):
-			reverse_table[k].push_back(tilemap.get_cell(i,15-k))
-		print(reverse_table[k])
-	print('reverse table')
-	
-	for k in range(16):
-		for i in range(16):
-			temp_table[k].push_back(reverse_table[i][k])
-		print(temp_table[k])
-	print('temp table')
-			
-	for k in range(7):
-		for i in range(7):
-			tilemap.set_cell(i,k,temp_table[k][i])
+func set_center_if_unset():
+	if !center_set:
+		spawn_blocker(centers)
 
 func open(dir : int):
 	match(dir):
@@ -92,7 +67,9 @@ func open(dir : int):
 func set_as_goal_room():
 	var i = goal_template.instance()
 	add_child(i)
+	center_set = true
 	
 func set_as_spawn_room():
 	var i = spawn_template.instance()
 	add_child(i)
+	center_set = true

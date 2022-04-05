@@ -2,7 +2,7 @@ extends Node2D
 
 var room_template = preload("res://Level/SquareRandomRoom/SquareRandomRoom.tscn")
 var used_map_positions = []
-var max_rooms = 2
+var max_rooms = 20
 var map_position = Vector2(0,0)
 var drunkard_position = Vector2(0,0)
 var last_dir = 0
@@ -25,6 +25,7 @@ func _ready():
 		if k == max_rooms - 1:
 			room.set_as_goal_room()
 			return
+		room.set_center_if_unset()
 		var routes_to_take = [0,1,2,3]
 		routes_to_take.shuffle()
 		var dir_index = randi()%4
