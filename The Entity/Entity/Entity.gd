@@ -42,7 +42,7 @@ func _physics_process(_delta):
 	
 	if starting_move:
 		if active:
-			if GameState.cur_player != null:
+			if is_instance_valid(GameState.cur_player):
 				var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
 					
 				motion_velocity.x += ( dir_to_player.x * input_speed.x ) * motion_accel
@@ -177,7 +177,7 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			reposition(repos_distance)
 			$AnimationPlayer.play("FadeIn")
 	elif anim_name == "FadeIn":
-		if GameState.cur_player != null:
+		if is_instance_valid(GameState.cur_player):
 			active = true
 			$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
 			$TeleportTimer.start()

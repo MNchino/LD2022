@@ -13,7 +13,7 @@ func _ready():
 	
 func _physics_process(_delta):
 	if following:
-		if target != null:
+		if is_instance_valid(target):
 			global_position = lerp(global_position, target.global_position, 0.12)
 
 func start_player_follow(_player):

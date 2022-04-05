@@ -8,6 +8,7 @@ var time_taken : float = 0
 var num_dashes : int = 2
 var num_rooms : int = 0
 var travelled_rooms : int = -1
+var camera : Camera2D = null
 
 var freeze_timer : Timer
 var root : Viewport
@@ -40,6 +41,7 @@ func set_entity(entity : Entity):
 	cur_entity = entity
 
 func set_player(player : Player):
+	camera = get_tree().get_current_scene().get_node("PlayerCamera")
 	cur_player = player
 	started = true
 	emit_signal('player_spawned', player)

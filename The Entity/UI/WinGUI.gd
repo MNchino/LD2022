@@ -3,7 +3,8 @@ extends Control
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	GameState.connect("player_won", self, 'show_after_win')
+	#GameState.connect("player_won", self, 'show_after_win')
+	pass
 
 func show_after_win(_player_that_died: Player):
 	visible = true

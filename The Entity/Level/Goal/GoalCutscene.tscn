@@ -657,7 +657,7 @@ __meta__ = {
 modulate = Color( 0.00392157, 0, 0.501961, 0 )
 position = Vector2( 66, -8 )
 animation = "Idle"
-frame = 3
+frame = 4
 playing = true
 flip_h = true
 

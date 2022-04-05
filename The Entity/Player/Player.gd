@@ -101,12 +101,12 @@ func _process(_delta):
 	update_animations()
 	
 	var shoot_node = get_node_or_null(shoot_object_path)
-	$LighterangParticles.emitting = shoot_node != null
+	$LighterangParticles.emitting = is_instance_valid(shoot_node)
 	
-	if shoot_node != null:
+	if is_instance_valid(shoot_node):
 		var shoot_object = shoot_node
 		var lighterang : Node2D = shoot_object.get_node_or_null("Lighterang")
-		if lighterang != null:
+		if is_instance_valid(lighterang):
 			$LighterangParticles.position = to_local(lighterang.global_position)
 		
 func update_sprite_xflip(xdir : int):
@@ -163,7 +163,7 @@ func attack():
 	$Audio/Prep.pitch_scale = rand_range(0.95,1.05)
 	$Audio/Prep.play()
 	
-	if GameState.cur_entity != null:
+	if is_instance_valid(GameState.cur_entity):
 		is_facing_up = GameState.cur_entity.position.y < position.y
 		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
 	

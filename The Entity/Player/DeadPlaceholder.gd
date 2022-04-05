@@ -3,7 +3,7 @@ extends Node2D
 var secondframe : bool = false
 
 func _ready():
-	get_tree().get_current_scene().get_node("PlayerCamera").target = self
+	GameState.camera.target = self
 	$PlayerSprite.play()
 	$Audio/DeadHit.play()
 	GameState.freeze(0.2)

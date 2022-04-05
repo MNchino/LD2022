@@ -11,7 +11,7 @@ var starting_position : Vector2
 func _ready():
 	set_physics_process(false)
 	# warning-ignore:return_value_discarded
-	#GameState.connect("player_spawned", self, "start")
+	GameState.connect("player_won", self, "start")
 	pass
 	
 func start(_player):
@@ -26,7 +26,7 @@ func start(_player):
 	for timer in GameState.cur_player.get_node("Timers").get_children():
 		timer.stop()
 	
-	get_tree().get_current_scene().get_node("PlayerCamera").target = self
+	GameState.camera.target = self
 	
 	starting_position = $PlayerSprite.position
 	$PlayerSprite.visible = true
@@ -37,7 +37,7 @@ func start(_player):
 	
 func _physics_process(delta):
 	if has_started:
-		GameState.cur_entity.active = false
+		#GameState.cur_entity.active = false
 		if !is_in_position:
 			$PlayerSprite.position = $PlayerSprite.position.move_toward(starting_position, 100 * delta)
 			if $PlayerSprite.position == starting_position:
@@ -55,7 +55,9 @@ func move_state():
 	
 	match state:
 		1:
-			$AnimationPlayer.play("1")
+			#$AnimationPlayer.play("1")
+			state = 20
+			move_state()
 		2:
 			$Control/Label.text = "Ena..."
 			$ControlPlayer.play("FadeIn")
@@ -112,19 +114,22 @@ func move_state():
 			$Control/Label.text = "To give me a chance to see you\n\none last time..."
 			$ControlPlayer.play("FadeIn")
 		17:
-			$Timer.wait_time = 2
+			$Timer.wait_time = 3
 			$Timer.start()
 		18:
 			$Control/Label.text = "Please, take care of the kids."
 			$Control/Label.self_modulate = Color("#fff")
 			$ControlPlayer.play("FadeIn")
 		19:
+			$Timer.wait_time = 2
+			$Timer.start()
+		20:
 			$Control/Label.text = "I'll miss you."
 			$Control/Label.self_modulate = Color("#777586")
 			$ControlPlayer.play("FadeIn")
 			auto_next = false
 			$AnimationPlayer.play("4")
-		20:
+		21:
 			var node = $Heartbreak
 			remove_child(node)
 			get_tree().get_current_scene().add_child(node)
