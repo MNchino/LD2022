@@ -50,12 +50,17 @@ func _physics_process(_delta):
 				
 				motion_velocity.x = clamp(motion_velocity.x, -starting_speed.x, starting_speed.x)
 				motion_velocity.y = clamp(motion_velocity.y, -starting_speed.y, starting_speed.y)
+		else:
+			motion_velocity = Vector2.ZERO
+		
 	elif knocked_back:
 		motion_velocity = knock_back_speed * knock_back_dir
 	elif is_shooting:
 		if active:
 			var direction = -position.direction_to(GameState.cur_player.position)
 			motion_velocity = direction * drift_const
+		else:
+			motion_velocity = Vector2.ZERO
 	else:
 		if active:
 			var dir_to_player = (GameState.cur_player.global_position - global_position).normalized()
@@ -65,6 +70,9 @@ func _physics_process(_delta):
 			
 			motion_velocity.x = clamp(motion_velocity.x, -max_velocity.x, max_velocity.x)
 			motion_velocity.y = clamp(motion_velocity.y, -max_velocity.y, max_velocity.y)
+		else:
+			motion_velocity = Vector2.ZERO
+			
 	# warning-ignore:return_value_discarded
 	move_and_slide(motion_velocity)
 		
