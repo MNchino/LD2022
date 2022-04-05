@@ -12,7 +12,7 @@ var max_velocity : Vector2 = Vector2(90,90)
 var drift_const : float = 50
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
-var knock_back_speed : float = 300
+var knock_back_speed : float = 400
 var is_shooting : bool = false
 var is_shooting_cd : bool = true
 var bullet_speed : float = 120 
@@ -23,7 +23,7 @@ var starting_speed : Vector2 = Vector2(30,30)
 var shoot_delay_min : float = 1
 var shoot_delay_max : float = 3
 var spawn_distance : float = 250
-var repos_distance : float = 100
+var repos_distance : float = 150
 
 func _ready():
 	GameState.set_entity(self)

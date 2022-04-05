@@ -3,7 +3,7 @@ extends Bullet
 var homing : bool = true
 var turning_speed = 45
 var distance_before_stop_homing = 100
-var minimum_angle_before_stop_homing = 30
+var minimum_angle_before_stop_homing = 40
 
 func _ready():
 	GameState.connect("player_died", self, "stop_player_follow")

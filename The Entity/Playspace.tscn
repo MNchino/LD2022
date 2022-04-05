@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
-[ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=2]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Level/LevelGeometry/LevelGeometry.tscn" type="PackedScene" id=4]
 [ext_resource path="res://UI/DeathGUI.tscn" type="PackedScene" id=5]
@@ -65,26 +64,11 @@ color_ramp = SubResource( 4 )
 
 [node name="Playspace" type="Node2D"]
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
-color = Color( 0, 0, 0, 1 )
-polygon = PoolVector2Array( 1621, 257, 943, -408, -456, -293, -675, 620, 649, 1047, 1802, 893 )
-__meta__ = {
-"_edit_lock_": true
-}
-
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Light2D" type="Light2D" parent="."]
-visible = false
-position = Vector2( 255, 38 )
-scale = Vector2( 0.643555, 0.643555 )
-texture = ExtResource( 2 )
 
 [node name="LevelGeometry" parent="." instance=ExtResource( 4 )]
 
@@ -113,7 +97,7 @@ visible = false
 mouse_filter = 2
 
 [node name="PlayerCamera" parent="." instance=ExtResource( 8 )]
-position = Vector2( 78, 141 )
+position = Vector2( 256, 256 )
 
 [node name="HitParticle" type="Particles2D" parent="."]
 material = ExtResource( 10 )

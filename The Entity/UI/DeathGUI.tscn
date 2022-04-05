@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/DeathGUI.gd" type="Script" id=1]
+[ext_resource path="res://Sprite/Font/font-dogicapixel.tres" type="DynamicFont" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "RESET"
@@ -41,6 +42,23 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "show_progress"
+} ]
+}
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 3
 
 [node name="DeathGUI" type="Control"]
 anchor_right = 1.0
@@ -51,8 +69,11 @@ script = ExtResource( 1 )
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 90.0
+margin_bottom = 90.0
 
 [node name="Label2" type="Label" parent="Control"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -75,7 +96,7 @@ margin_top = 113.0
 margin_right = 308.0
 margin_bottom = 125.0
 rect_scale = Vector2( 0.5, 0.5 )
-text = "Retry"
+text = "[R]etry"
 align = 1
 valign = 1
 
@@ -84,10 +105,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -102.0
-margin_top = -102.0
-margin_right = 308.0
-margin_bottom = -90.0
+margin_left = -121.0
+margin_top = -99.0
+margin_right = 359.0
+margin_bottom = -87.0
 rect_scale = Vector2( 0.5, 0.5 )
 text = "Do you have the resolve to go on?"
 align = 1
@@ -95,3 +116,31 @@ valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 1 )
+
+[node name="PercentCounter" type="Control" parent="."]
+visible = false
+material = SubResource( 2 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -40.0
+
+[node name="Label" type="Label" parent="PercentCounter"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -112.0
+margin_top = -45.0
+margin_bottom = -2.0
+custom_fonts/font = ExtResource( 2 )
+text = "99"
+align = 2
+valign = 2
+
+[node name="TimeBeforeHideOrShow" type="Timer" parent="PercentCounter"]
+wait_time = 0.2
+
+[connection signal="timeout" from="PercentCounter/TimeBeforeHideOrShow" to="." method="_on_TimeBeforeHideOrShow_timeout"]

@@ -202,6 +202,7 @@ func _on_DashTime_timeout():
 	is_dashing = false
 	is_dashing_cd = true
 	
+	set_collision_mask_bit(9, true) # Bramble handling
 	$DashParticles.emitting = false
 	$Timers/WateryTime.start()
 	$Timers/DashCoolDown.start()

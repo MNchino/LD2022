@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Sprite/Tileset/Tileset.png" type="Texture" id=2]
+[ext_resource path="res://Level/RoomLayouts/BrambleTiles.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=25]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -337,3 +338,5 @@ cell_size = Vector2( 32, 32 )
 collision_layer = 256
 collision_mask = 0
 format = 1
+
+[node name="Bramble" parent="." instance=ExtResource( 3 )]

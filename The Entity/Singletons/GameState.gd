@@ -6,6 +6,8 @@ var cur_hit_particle : Particles2D = null
 var started : bool = false
 var time_taken : float = 0
 var num_dashes : int = 2
+var num_rooms : int = 0
+var travelled_rooms : int = -1
 
 var freeze_timer : Timer
 var root : Viewport
@@ -75,6 +77,8 @@ func reset():
 	time_taken = 0
 	started = false
 	cur_player = null
+	num_rooms = 0
+	travelled_rooms = -1
 	reset_dashes()
 	GInput.enable_game_input()
 

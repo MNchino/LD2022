@@ -1,7 +1,6 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Sprite/Tileset/Tileset.png" type="Texture" id=1]
-[ext_resource path="res://Level/Glowberry/Glowberry.gd" type="Script" id=2]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=4]
 
@@ -340,10 +339,8 @@ collision_layer = 256
 collision_mask = 0
 format = 1
 
-[node name="Glowberry" type="Node2D" parent="." instance=ExtResource( 4 )]
+[node name="Glowberry" parent="." instance=ExtResource( 4 )]
 position = Vector2( 208, 304 )
-script = ExtResource( 2 )
 
-[node name="Glowberry" type="Node2D" parent="Glowberry" instance=ExtResource( 4 )]
+[node name="Glowberry" parent="Glowberry" instance=ExtResource( 4 )]
 position = Vector2( 96, -96 )
-script = ExtResource( 2 )

@@ -1,7 +1,7 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Sprite/Tileset/Tileset.png" type="Texture" id=1]
-[ext_resource path="res://Level/Mud/MudTrigger.gd" type="Script" id=2]
+[ext_resource path="res://Level/RoomLayouts/BrambleTiles.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=3]
 [ext_resource path="res://Level/Mud/MudTrigger.tscn" type="PackedScene" id=4]
 
@@ -324,32 +324,17 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 } ]
 4/z_index = 0
 
-[sub_resource type="GDScript" id=51]
-script/source = "extends Area2D
+[sub_resource type="RectangleShape2D" id=49]
+extents = Vector2( 32, 48 )
 
+[sub_resource type="RectangleShape2D" id=50]
+extents = Vector2( 16, 48 )
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = \"text\"
+[sub_resource type="RectangleShape2D" id=51]
+extents = Vector2( 16, 16 )
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-
-func _on_MudTrigger_body_entered(body):
-	body.slow_down()
-
-
-func _on_MudTrigger_body_exited(body):
-	body.stop_slow_down()
-"
+[sub_resource type="RectangleShape2D" id=52]
+extents = Vector2( 16, 16 )
 
 [node name="Center4" type="Node2D"]
 
@@ -359,7 +344,7 @@ cell_size = Vector2( 32, 32 )
 collision_layer = 2
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 393223, 3, 1, 393224, 3, 1, 458758, 3, 3, 458759, 2, 2, 458760, 3, 2, 458761, 3, 0, 524294, 3, 3, 524295, 3, 3, 524296, 2, 1, 589830, 3, 3, 589831, 3, 2 )
+tile_data = PoolIntArray( 393223, 3, 1, 393224, 3, 1, 458758, 3, 3, 458760, 3, 2, 458761, 3, 0, 524294, 3, 3, 524295, 3, 3, 589830, 3, 3, 589831, 3, 2 )
 
 [node name="Water" type="TileMap" parent="."]
 tile_set = SubResource( 48 )
@@ -368,27 +353,34 @@ collision_layer = 256
 collision_mask = 0
 format = 1
 
-[node name="MudTrigger" type="Area2D" parent="." instance=ExtResource( 4 )]
-collision_layer = 0
-script = ExtResource( 2 )
+[node name="Bramble" parent="." instance=ExtResource( 2 )]
+tile_data = PoolIntArray( 458759, 2, 1, 524296, 2, 2 )
 
-[node name="MudTrigger2" type="Area2D" parent="." instance=ExtResource( 4 )]
-collision_layer = 0
-script = ExtResource( 2 )
+[node name="Area2D" parent="." instance=ExtResource( 4 )]
 
-[node name="MudTrigger3" type="Area2D" parent="." instance=ExtResource( 4 )]
-collision_layer = 0
-script = SubResource( 51 )
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2( 224, 272 )
+shape = SubResource( 49 )
 
-[node name="MudTrigger4" type="Area2D" parent="." instance=ExtResource( 4 )]
-collision_layer = 0
-script = SubResource( 51 )
+[node name="Area2D2" parent="." instance=ExtResource( 4 )]
 
-[connection signal="body_entered" from="MudTrigger" to="MudTrigger" method="_on_MudTrigger_body_entered"]
-[connection signal="body_exited" from="MudTrigger" to="MudTrigger" method="_on_MudTrigger_body_exited"]
-[connection signal="body_entered" from="MudTrigger2" to="MudTrigger2" method="_on_MudTrigger_body_entered"]
-[connection signal="body_exited" from="MudTrigger2" to="MudTrigger2" method="_on_MudTrigger_body_exited"]
-[connection signal="body_entered" from="MudTrigger3" to="MudTrigger3" method="_on_MudTrigger_body_entered"]
-[connection signal="body_exited" from="MudTrigger3" to="MudTrigger3" method="_on_MudTrigger_body_exited"]
-[connection signal="body_entered" from="MudTrigger4" to="MudTrigger4" method="_on_MudTrigger_body_entered"]
-[connection signal="body_exited" from="MudTrigger4" to="MudTrigger4" method="_on_MudTrigger_body_exited"]
+[node name="CollisionShape2D" parent="Area2D2" index="0"]
+position = Vector2( 272, 240 )
+shape = SubResource( 50 )
+
+[node name="Area2D3" parent="." instance=ExtResource( 4 )]
+
+[node name="CollisionShape2D" parent="Area2D3" index="0"]
+position = Vector2( 240, 208 )
+shape = SubResource( 51 )
+
+[node name="Area2D4" parent="." instance=ExtResource( 4 )]
+
+[node name="CollisionShape2D" parent="Area2D4" index="0"]
+position = Vector2( 304, 240 )
+shape = SubResource( 52 )
+
+[editable path="Area2D"]
+[editable path="Area2D2"]
+[editable path="Area2D3"]
+[editable path="Area2D4"]

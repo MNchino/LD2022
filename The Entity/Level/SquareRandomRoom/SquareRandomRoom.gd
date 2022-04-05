@@ -3,14 +3,38 @@ extends Node2D
 var goal_template = preload("res://Level/RoomLayouts/GoalCenter.tscn")
 var spawn_template = preload("res://Level/RoomLayouts/SpawnCenter.tscn")
 var left_blockers = [preload("res://Level/RoomLayouts/LeftBlocker1.tscn"),preload("res://Level/RoomLayouts/LeftBlocker2.tscn"),preload("res://Level/RoomLayouts/LeftBlocker3.tscn"),preload("res://Level/RoomLayouts/LeftBlocker4.tscn"),preload("res://Level/RoomLayouts/LeftBlocker5.tscn")]
-var right_blockers = [preload("res://Level/RoomLayouts/RightBlocker2.tscn"), preload("res://Level/RoomLayouts/RightBlocker1.tscn")]
+var right_blockers = [
+	preload("res://Level/RoomLayouts/RightBlocker2.tscn"), 
+	preload("res://Level/RoomLayouts/RightBlocker1.tscn"),
+	preload("res://Level/RoomLayouts/RightBlocker3.tscn"),
+	preload("res://Level/RoomLayouts/RightBlocker4.tscn"),
+	preload("res://Level/RoomLayouts/RightBlocker5.tscn")
+]
 var up_blockers = [preload("res://Level/RoomLayouts/UpBlocker1.tscn"),preload("res://Level/RoomLayouts/UpBlocker2.tscn"),preload("res://Level/RoomLayouts/UpBlocker3.tscn"),]
-var down_blockers = [preload("res://Level/RoomLayouts/DownBlocker1.tscn"), preload("res://Level/RoomLayouts/DownBlocker2.tscn")]
-var centers = [preload("res://Level/RoomLayouts/Center1.tscn"),preload("res://Level/RoomLayouts/Center2.tscn"),preload("res://Level/RoomLayouts/Center3.tscn"),preload("res://Level/RoomLayouts/Center4.tscn"),preload("res://Level/RoomLayouts/Center5.tscn")]
+var down_blockers = [
+	preload("res://Level/RoomLayouts/DownBlocker1.tscn"), 
+	preload("res://Level/RoomLayouts/DownBlocker2.tscn"),
+	preload("res://Level/RoomLayouts/BottomBlocker3.tscn"),
+	preload("res://Level/RoomLayouts/BottomBlocker4.tscn"),
+	preload("res://Level/RoomLayouts/BottomBlocker5.tscn")
+]
+var centers = [
+	preload("res://Level/RoomLayouts/Center1.tscn"),
+	preload("res://Level/RoomLayouts/Center2.tscn"),
+	preload("res://Level/RoomLayouts/Center3.tscn"),
+	preload("res://Level/RoomLayouts/Center4.tscn"),
+	preload("res://Level/RoomLayouts/Center5.tscn"),
+	preload("res://Level/RoomLayouts/Center6.tscn"),
+	preload("res://Level/RoomLayouts/Center7.tscn"),
+	preload("res://Level/RoomLayouts/Center8.tscn"),
+	preload("res://Level/RoomLayouts/Center9.tscn"),
+	preload("res://Level/RoomLayouts/Center10.tscn")
+]
 var left = null
 var right = null
 var up = null
 var down = null
+var is_travelled = false
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -72,3 +96,10 @@ func set_as_spawn_room():
 	var i = spawn_template.instance()
 	add_child(i)
 	center_set = true
+
+
+func _on_Area2D_body_entered(body):
+	if !is_travelled:
+		GameState.travelled_rooms += 1
+		is_travelled = true
+		print("entered", GameState.travelled_rooms, "of", GameState.num_rooms)
