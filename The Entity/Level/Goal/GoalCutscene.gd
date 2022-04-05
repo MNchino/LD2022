@@ -55,9 +55,7 @@ func move_state():
 	
 	match state:
 		1:
-			#$AnimationPlayer.play("1")
-			state = 20
-			move_state()
+			$AnimationPlayer.play("1")
 		2:
 			$Control/Label.text = "Ena..."
 			$ControlPlayer.play("FadeIn")
@@ -115,7 +113,7 @@ func move_state():
 			$ControlPlayer.play("FadeIn")
 		17:
 			$Timer.wait_time = 3
-			$Timer.start()
+			$Timer.start() 
 		18:
 			$Control/Label.text = "Please, take care of the kids."
 			$Control/Label.self_modulate = Color("#fff")
@@ -134,6 +132,11 @@ func move_state():
 			remove_child(node)
 			get_tree().get_current_scene().add_child(node)
 			queue_free()
+			
+			GameState.cur_player.active = true
+			GameState.cur_player.visible = true
+			GameState.cur_player.invincible = false
+			
 			GameState.cur_player.update_sprite_xflip(-1)
 			GameState.cur_player.global_position = $PlayerSprite.global_position + Vector2(0,-10)
 			GameState.cur_player.insta_kill()
