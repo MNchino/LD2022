@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tent.png-46b0a675a8254437357e41ee6ca3edf2.stex"
+path="res://.import/Fireplace.png-25fe19d7b95a58124031ccda53c6c0e0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprite/End/Tent.png"
-dest_files=[ "res://.import/Tent.png-46b0a675a8254437357e41ee6ca3edf2.stex" ]
+source_file="res://Sprite/Goal/Fireplace.png"
+dest_files=[ "res://.import/Fireplace.png-25fe19d7b95a58124031ccda53c6c0e0.stex" ]
 
 [params]
 
