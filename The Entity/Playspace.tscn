@@ -78,7 +78,7 @@ __meta__ = {
 [node name="Entity" parent="YSort" instance=ExtResource( 3 )]
 
 [node name="GoalCutscene" parent="YSort" instance=ExtResource( 9 )]
-position = Vector2( 245, 164 )
+position = Vector2( 150, 220 )
 
 [node name="UI" type="CanvasLayer" parent="."]
 

@@ -97,8 +97,7 @@ func set_as_spawn_room():
 	add_child(i)
 	center_set = true
 
-
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered(_body):
 	if !is_travelled:
 		GameState.travelled_rooms += 1
 		is_travelled = true

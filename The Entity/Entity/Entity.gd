@@ -108,7 +108,8 @@ func stop_player_follow(_player : Player):
 	queue_free()
 	
 func reposition(distance : float):
-	global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
+	if (GameState.cur_player.is_inside_tree()):
+		global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:
@@ -161,9 +162,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "FadeOut":
-		active = false
-		reposition(repos_distance)
-		$AnimationPlayer.play("FadeIn")
+		if active:
+			active = false
+			reposition(repos_distance)
+			$AnimationPlayer.play("FadeIn")
 	elif anim_name == "FadeIn":
 		if GameState.cur_player != null:
 			active = true
@@ -171,9 +173,12 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 			$TeleportTimer.start()
 
 func _on_TeleportTimer_timeout():
-	if is_shooting:
+	if active:
+		if is_shooting:
+			$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
+			$TeleportTimer.start()
+		else:
+			$AnimationPlayer.play("FadeOut")
+	else:
 		$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
 		$TeleportTimer.start()
-	else:
-		$AnimationPlayer.play("FadeOut")
-		

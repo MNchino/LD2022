@@ -4,7 +4,7 @@ func stop_timer():
 	$Timer.stop()
 
 func start_sound():
-	if !$Timer.is_stopped():
+	if $Timer.is_stopped():
 		step_sound()
 		$Timer.start()
 	

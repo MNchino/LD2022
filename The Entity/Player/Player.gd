@@ -30,6 +30,7 @@ var is_facing_up : bool = false
 var slowed_max_velocity = 150
 var shoot_object_path : NodePath = ""
 var is_drowned : bool = false
+var active : bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,6 +44,8 @@ func _ready():
 	motion_velocity = Vector2.ZERO
 
 func _physics_process(delta):
+	if !active:
+		return
 	if is_knocking_back:
 		# warning-ignore:return_value_discarded
 		move_and_slide(knock_back_dir*knock_back_speed)
@@ -93,6 +96,8 @@ func _physics_process(delta):
 		move_and_slide(motion_velocity)
 	
 func _process(_delta):
+	if !active:
+		return
 	update_animations()
 	
 	var shoot_node = get_node_or_null(shoot_object_path)
@@ -124,6 +129,8 @@ func update_animations():
 		$AnimatedSprite.animation = "WalkUp" if is_facing_up else "WalkDown"
 
 func shoot():
+	if !active:
+		return
 	if is_shooting_cd || is_shooting || is_attacking:
 		return
 	
@@ -141,6 +148,8 @@ func shoot():
 	update_sprite_xflip(-1 if target_position.x < position.x else 1)
 	
 func attack():
+	if !active:
+		return
 	if is_attacking_cd || is_attacking || is_shooting:
 		return
 	
@@ -159,6 +168,8 @@ func attack():
 		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
 	
 func knock_back():
+	if !active:
+		return
 	if is_knocking_back:
 		return
 	
@@ -170,6 +181,8 @@ func knock_back():
 	$Timers/KnockBackTime.start()
 
 func dash():
+	if !active:
+		return
 	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
 		if motion_velocity.length() < 1:
 			return
