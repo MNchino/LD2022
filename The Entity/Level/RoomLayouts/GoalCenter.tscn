@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Goal/Goal.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 24.0
+
+[node name="GoalCenter" type="Node2D"]
+
+[node name="Goal" parent="." instance=ExtResource( 2 )]
+
+[node name="CollisionShape2D" parent="Goal" index="0"]
+position = Vector2( 256, 256 )
+shape = SubResource( 1 )
+
+[node name="Glowberry" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 224 )
+
+[node name="Glowberry2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 288, 224 )
+
+[node name="Glowberry3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 288 )
+
+[node name="Glowberry4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 256, 296 )
+
+[node name="Glowberry5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 288, 288 )
+
+[node name="Glowberry6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 256, 216 )
+
+[node name="Glowberry7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 216, 256 )
+
+[node name="Glowberry8" parent="." instance=ExtResource( 1 )]
+position = Vector2( 296, 256 )
+
+[editable path="Goal"]

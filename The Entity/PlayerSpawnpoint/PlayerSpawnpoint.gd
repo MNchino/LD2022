@@ -8,6 +8,6 @@ func _ready():
 
 func spawn():
 	var p = player_template.instance();
-	get_parent().add_child(p);
+	get_tree().get_nodes_in_group("sortyboy")[0].add_child(p);
 	p.global_position = global_position
 	hide()

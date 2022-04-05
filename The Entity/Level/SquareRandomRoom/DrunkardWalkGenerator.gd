@@ -7,7 +7,7 @@ var map_position = Vector2(0,0)
 var drunkard_position = Vector2(0,0)
 var last_dir = 0
 var tile_length = 32
-var room_length = 11*tile_length # CHANGE THIS IF U USE LARGER SQUARE
+var room_length = 16*tile_length # CHANGE THIS IF U USE LARGER SQUARE
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,11 +18,14 @@ func _ready():
 		add_child(room)
 		if k != 0:
 			room.open((last_dir + 2)%4)
+		else:
+			room.set_as_spawn_room()
 		room.position = drunkard_position
 		used_map_positions.push_back(map_position)
 		if k == max_rooms - 1:
 			room.set_as_goal_room()
 			return
+		room.set_center_if_unset()
 		var routes_to_take = [0,1,2,3]
 		routes_to_take.shuffle()
 		var dir_index = randi()%4
