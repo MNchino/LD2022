@@ -21,6 +21,8 @@ func activate():
 	$Particles2D.emitting = true
 	$HitParticle.restart()
 	$HitParticle.emitting = true
+	$Audio/Reveal.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Reveal.play()
 	$AnimationPlayer.play("LightUp")
 	$Light2D.visible = true
 	$AnimatedSprite.animation = "On"
@@ -36,6 +38,8 @@ func _on_ParryHurtbox_area_entered(_area):
 	else:
 		activate()
 	
+	$Audio/Hit.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Hit.play()
 	GameState.reset_dashes()
 
 func lights_out(_player : Player):

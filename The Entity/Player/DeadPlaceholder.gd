@@ -1,7 +1,10 @@
 extends Node2D
 
+var secondframe : bool = false
+
 func _ready():
 	$PlayerSprite.play()
+	$Audio/DeadHit.play()
 	GameState.freeze(0.2)
 	
 func _process(_delta):
@@ -9,6 +12,9 @@ func _process(_delta):
 		$PlayerSprite.position.x = rand_range(-1,1)
 	else:
 		$PlayerSprite.position.x = 0
+		if !secondframe:
+			secondframe = true
+			$Audio/DeadBump.play()
 
 func _on_FinishedDying_timeout():
 	GameState.start_death_gui()

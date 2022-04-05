@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.gd" type="Script" id=2]
@@ -6,6 +6,11 @@
 [ext_resource path="res://Sprite/Particles/LighterangParticles.tres" type="Material" id=4]
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=5]
 [ext_resource path="res://Sprite/Particles/DashParticles.tres" type="Material" id=6]
+[ext_resource path="res://Sound/PlayerAttackSwipe.wav" type="AudioStream" id=7]
+[ext_resource path="res://Sound/PlayerDash.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sound/PlayerPrep.wav" type="AudioStream" id=9]
+[ext_resource path="res://Sound/PlayerThrow.wav" type="AudioStream" id=10]
+[ext_resource path="res://Sound/PlayerStep.wav" type="AudioStream" id=11]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.0
@@ -32,6 +37,8 @@ position = Vector2( 0, 10 )
 animation = "AttackDown"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 4 )
+scale = Vector2( 0.4, 0.4 )
 shape = SubResource( 1 )
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -40,6 +47,8 @@ collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 modulate = Color( 0, 0.0862745, 1, 1 )
+position = Vector2( 0, 4 )
+scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 2 )
 
 [node name="Timers" type="Node" parent="."]
@@ -76,18 +85,42 @@ one_shot = true
 one_shot = true
 
 [node name="KnockBackTime" type="Timer" parent="Timers"]
-wait_time = 0.05
+wait_time = 0.1
 one_shot = true
 
 [node name="WateryTime" type="Timer" parent="Timers"]
 wait_time = 0.25
 one_shot = true
 
+[node name="StepTimer" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
+[node name="Audio" type="Node" parent="."]
+pause_mode = 2
+
+[node name="Attack" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 7 )
+
+[node name="Dash" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 8 )
+
+[node name="Shoot" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 10 )
+
+[node name="Prep" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 9 )
+
+[node name="Step" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 11 )
+volume_db = -10.0
+
 [node name="WaterDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WaterDetector"]
+position = Vector2( 0, 4 )
 shape = SubResource( 3 )
 
 [node name="LighterangParticles" type="Particles2D" parent="."]
@@ -113,6 +146,8 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BrambleDetector"]
 modulate = Color( 0.431373, 0, 0.482353, 1 )
+position = Vector2( 0, 4 )
+scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 4 )
 
 [connection signal="tree_exiting" from="." to="." method="_on_Player_tree_exiting"]
