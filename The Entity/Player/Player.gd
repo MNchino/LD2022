@@ -33,7 +33,6 @@ var is_drowned : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GameState.set_player(self)
 	GInput.connect("attack_pressed", self, "attack")
 	GInput.connect("shoot_pressed", self, "shoot")
 	GInput.connect("dash_pressed", self, "dash")

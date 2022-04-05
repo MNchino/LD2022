@@ -22,7 +22,8 @@ var starting_move : bool = true
 var starting_speed : Vector2 = Vector2(30,30)
 var shoot_delay_min : float = 1
 var shoot_delay_max : float = 3
-var is_catching_up : bool = true
+var spawn_distance : float = 250
+var repos_distance : float = 100
 
 func _ready():
 	GameState.set_entity(self)
@@ -95,12 +96,14 @@ func fire_bullet(template, angle_to_travel, speed):
 	
 func start_player_follow(_player : Player):
 	active = true
-	var distance = global_position.distance_to(GameState.cur_player.global_position)
-	global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
+	reposition(spawn_distance)
 
 func stop_player_follow(_player : Player):
 	active = false
 	queue_free()
+	
+func reposition(distance : float):
+	global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:
@@ -142,12 +145,12 @@ func _on_ShootingCoolDown_timeout():
 	is_shooting_cd = false
 	starting_move = false
 
-
-func _on_VisibilityNotifier2D_screen_entered():
-	is_catching_up = false
-	pass
-
-
 func _on_VisibilityNotifier2D_screen_exited():
-	is_catching_up = true
-	pass
+	active = false
+	reposition(repos_distance)
+	$AnimationPlayer.play("FadeIn")
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "FadeIn":
+		if GameState.cur_player != null:
+			active = true

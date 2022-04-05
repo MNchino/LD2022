@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Entity/Entity.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Entity/EntitySprite.tscn" type="PackedScene" id=2]
@@ -33,6 +33,36 @@ damping_random = 0.5
 scale = 3.0
 scale_random = 0.8
 color_ramp = SubResource( 6 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "FadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Entity" type="KinematicBody2D"]
 collision_layer = 4
@@ -101,11 +131,16 @@ stream = ExtResource( 4 )
 stream = ExtResource( 5 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -5, -5, 10, 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeIn = SubResource( 7 )
+anims/RESET = SubResource( 8 )
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="KnockbackTime" to="." method="_on_KnockbackTime_timeout"]
 [connection signal="timeout" from="ShootingWindUp" to="." method="_on_ShootingWindUp_timeout"]
 [connection signal="timeout" from="ShootingWindDown" to="." method="_on_ShootingWindDown_timeout"]
 [connection signal="timeout" from="ShootingCoolDown" to="." method="_on_ShootingCoolDown_timeout"]
-[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
