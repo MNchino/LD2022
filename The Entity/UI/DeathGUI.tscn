@@ -53,7 +53,8 @@ modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 90.0
-margin_bottom = 90.0
+margin_right = 640.0
+margin_bottom = 450.0
 
 [node name="Label2" type="Label" parent="Control"]
 anchor_left = 0.5

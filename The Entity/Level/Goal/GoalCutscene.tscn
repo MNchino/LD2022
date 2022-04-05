@@ -1,9 +1,182 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Sprite/Goal/OtherFrames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Sprite/Goal/FireplaceFrames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://Sprite/Goal/Tent.png" type="Texture" id=3]
 [ext_resource path="res://Sprite/Particles/LightPart.png" type="Texture" id=4]
+[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=5]
+[ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Sprite/Entity/EntitySprite.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Level/Goal/AudioStep.gd" type="Script" id=8]
+[ext_resource path="res://Sound/PlayerStep.wav" type="AudioStream" id=9]
+
+[sub_resource type="Animation" id=2]
+resource_name = "1"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "WalkDown", "WalkDown" ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlayerSprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 83, -5 ), Vector2( 49, -4 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlayerSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("AudioStep")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_sound"
+}, {
+"args": [  ],
+"method": "stop_timer"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("PlayerSprite/Light2D:energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.3 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Other:animation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "default", "Stand" ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/path = NodePath("PlayerSprite:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("PlayerSprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "default" ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("PlayerSprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 125, -4 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("PlayerSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("PlayerSprite/Light2D:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Other:animation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "default" ]
+}
 
 [node name="GoalCutscene" type="Node2D"]
 __meta__ = {
@@ -11,6 +184,12 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "1"
+anims/1 = SubResource( 2 )
+anims/RESET = SubResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 4 )
@@ -20,8 +199,10 @@ __meta__ = {
 }
 
 [node name="Other" type="AnimatedSprite" parent="."]
+material = ExtResource( 5 )
 position = Vector2( 22, -16 )
 frames = ExtResource( 1 )
+playing = true
 
 [node name="Light2D2" type="Light2D" parent="Other"]
 texture = ExtResource( 4 )
@@ -40,3 +221,39 @@ __meta__ = {
 [node name="Tent" type="Sprite" parent="."]
 position = Vector2( -31, -16 )
 texture = ExtResource( 3 )
+
+[node name="PlayerSprite" parent="." instance=ExtResource( 6 )]
+position = Vector2( 125, -4 )
+flip_h = true
+
+[node name="DashIndicator" parent="PlayerSprite" index="0"]
+visible = false
+flip_h = true
+
+[node name="Light2D" type="Light2D" parent="PlayerSprite"]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
+
+[node name="EntitySprite" parent="." instance=ExtResource( 7 )]
+modulate = Color( 0.00392157, 0, 0.501961, 0 )
+position = Vector2( 95, -37 )
+flip_h = true
+
+[node name="AudioStep" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -10.0
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="AudioStep"]
+wait_time = 0.3
+one_shot = true
+
+[node name="Control" type="Control" parent="."]
+margin_left = -76.0
+margin_top = -117.0
+margin_right = 76.0
+margin_bottom = -77.0
+
+[connection signal="timeout" from="AudioStep/Timer" to="AudioStep" method="_on_Timer_timeout"]
+
+[editable path="PlayerSprite"]
