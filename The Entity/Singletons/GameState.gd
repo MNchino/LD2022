@@ -11,7 +11,7 @@ var travelled_rooms : int = -1 setget set_travelled_rooms
 var camera : Camera2D = null
 var finished : bool = false
 var drowned : bool = false
-var phases = [0,2,6,9]
+var phases = [0,3,6,9]
 var cur_phase = -1
 
 var freeze_timer : Timer
