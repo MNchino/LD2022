@@ -151,6 +151,8 @@ func shoot():
 	$Audio/Prep.play()
 	
 	var target_position = get_global_mouse_position()
+	if target_position == Vector2(0,0):
+		target_position = Vector2(1,0)
 	update_sprite_xflip(-1 if target_position.x < global_position.x else 1)
 	
 func attack():
