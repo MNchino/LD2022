@@ -137,6 +137,7 @@ func _input(_event):
 				get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("xcy_mode") && GameState.finished:
 		GameState.reset()
+		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn")
 
 func show_progress():
