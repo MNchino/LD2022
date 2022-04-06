@@ -67,7 +67,6 @@ texture = ExtResource( 1 )
 [node name="AnimatedSprite" parent="Character" instance=ExtResource( 2 )]
 position = Vector2( 0, 10 )
 animation = "WalkUp"
-frame = 1
 playing = true
 
 [node name="DashIndicator" parent="Character/AnimatedSprite" index="0"]

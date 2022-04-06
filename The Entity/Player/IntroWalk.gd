@@ -19,9 +19,10 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 	get_tree().get_nodes_in_group("sortyboy")[0].add_child(p)
 	p.global_position = global_position
 	p.is_facing_up = true
-	GameState.num_dashes = 0
-	GameState.use_dash()
+	if !GameState.intro_started:
+		GameState.num_dashes = 0
+		GameState.use_dash()
+		GameState.intro_started = true
 	GameState.set_player(p)
-	GameState.intro_started = true
 	
 	queue_free()
