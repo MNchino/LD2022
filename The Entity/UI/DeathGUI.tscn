@@ -98,6 +98,7 @@ func show_after_death():
 	$AnimationPlayer.play(\"RESET\")
 	
 	if GameState.intro_started:
+		$Control/Percent.visible = false
 		if GameState.intro_done:
 			$Control/Title.text = \"The Entity comes to take you away.\"
 			$Control/Retry.text = \"[R]aise.\"
@@ -201,8 +202,12 @@ anchor_bottom = 1.0
 script = SubResource( 4 )
 
 [node name="Control" type="Control" parent="."]
+visible = false
+modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 90.0
+margin_bottom = 90.0
 
 [node name="Retry" type="Label" parent="Control"]
 modulate = Color( 1, 1, 1, 0.352941 )

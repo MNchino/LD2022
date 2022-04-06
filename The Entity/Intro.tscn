@@ -736,7 +736,7 @@ margin_top = -179.0
 margin_right = 961.0
 margin_bottom = 541.0
 rect_scale = Vector2( 0.5, 0.5 )
-text = "As for those cannot continue on with life any longer"
+text = "As for those who cannot continue on with life any longer"
 align = 1
 valign = 1
 
@@ -787,6 +787,7 @@ one_shot = true
 autostart = true
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
+visible = false
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
 __meta__ = {
