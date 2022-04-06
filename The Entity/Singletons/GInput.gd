@@ -54,6 +54,14 @@ func _input(event : InputEvent):
 	elif event.is_action_pressed("game_attack"):
 		emit_signal("attack_pressed")
 		
+# Prevent glitches on clicking out
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		reset_inputs()
+		get_tree().paused = true
+	elif what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+		get_tree().paused = false
+		
 func disable_game_input(_player : Player):
 	game_input_enabled = false
 	reset_inputs()

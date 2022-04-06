@@ -16,8 +16,7 @@ var knock_back_speed : float = 400
 var is_shooting : bool = false
 var is_shooting_cd : bool = true
 var bullet_speed : float = 120 
-var homing_bullet_speed : float = 100
-var homing_angle : float = 120
+var homing_bullet_speed : float = 60
 var starting_move : bool = true
 var starting_speed : Vector2 = Vector2(30,30)
 var shoot_delay_min : float = 1
@@ -26,6 +25,13 @@ var repos_delay_min : float = 5
 var repos_delay_max : float = 8
 var spawn_distance : float = 250
 var repos_distance : float = 150
+var homing_bullets_to_spawn : int = 2
+var tight_homing_bullets_to_spawn : int = 0
+var wave_bullets_to_spawn : int = 1
+var alternating_wave_homing : bool = false
+var alternate_to_home_next : bool = false
+var alternating_wave_bullets_to_spawn = 0
+var alternating_homing_bullets_to_spawn = 0
 
 func _ready():
 	GameState.set_entity(self)
@@ -35,6 +41,7 @@ func _ready():
 	GameState.connect("player_died", self, "stop_player_follow")
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_won", self, "stop_player_follow")
+	GameState.connect("phase_changed", self, "react_to_phase_change")
 	$EntitySprite.play("Idle")
 	
 func _physics_process(_delta):
@@ -95,11 +102,35 @@ func fire_shot():
 		return
 	var target_position = GameState.cur_player.global_position
 	var angle_to_travel = (target_position - global_position).normalized()
-	var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +homing_angle))
-	var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -homing_angle))
-	fire_bullet(bullet_template,angle_to_travel,bullet_speed)
-	fire_bullet(homing_bullet_template,bullet_dir_1,homing_bullet_speed)
-	fire_bullet(homing_bullet_template,bullet_dir_2,homing_bullet_speed)
+	if alternating_wave_homing:
+		if alternate_to_home_next:
+			homing_bullets_to_spawn = alternating_homing_bullets_to_spawn
+			wave_bullets_to_spawn = 0	
+		else:
+			homing_bullets_to_spawn = 0
+			wave_bullets_to_spawn = alternating_wave_bullets_to_spawn
+		alternate_to_home_next = !alternate_to_home_next
+	for k in range(homing_bullets_to_spawn):
+		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/homing_bullets_to_spawn)))
+		fire_bullet(homing_bullet_template,bullet_dir,homing_bullet_speed)
+	if tight_homing_bullets_to_spawn == 2:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +15))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -15))
+		fire_bullet(homing_bullet_template,bullet_dir_1,homing_bullet_speed)
+		fire_bullet(homing_bullet_template,bullet_dir_2,homing_bullet_speed)
+	if wave_bullets_to_spawn == 1:
+		fire_bullet(bullet_template,angle_to_travel,bullet_speed)
+	elif wave_bullets_to_spawn == 2:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +30))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -30))
+		fire_bullet(bullet_template,bullet_dir_1,bullet_speed)
+		fire_bullet(bullet_template,bullet_dir_2,bullet_speed)
+	elif wave_bullets_to_spawn == 3:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +30))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -30))
+		fire_bullet(bullet_template,bullet_dir_1,bullet_speed)
+		fire_bullet(bullet_template,bullet_dir_2,bullet_speed)
+		fire_bullet(bullet_template,angle_to_travel,bullet_speed)
 	
 func fire_bullet(template, angle_to_travel, speed):
 	var i = template.instance()
@@ -108,6 +139,7 @@ func fire_bullet(template, angle_to_travel, speed):
 	i.global_position = global_position 
 	i.dir = angle_to_travel
 	i.speed = speed
+	
 	
 func start_player_follow(_player : Player):
 	active = true
@@ -192,3 +224,26 @@ func _on_TeleportTimer_timeout():
 	else:
 		$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
 		$TeleportTimer.start()
+		
+func react_to_phase_change(new_phase):
+	match(new_phase):
+		0:
+			wave_bullets_to_spawn = 1
+			homing_bullets_to_spawn = 0
+		1:
+			alternating_wave_bullets_to_spawn = 1
+			alternating_homing_bullets_to_spawn = 2
+			alternating_wave_homing = true
+			wave_bullets_to_spawn = 0
+			homing_bullets_to_spawn = 0
+		2:
+			alternating_wave_homing = false
+			wave_bullets_to_spawn = 1
+			homing_bullets_to_spawn = 2
+		3:
+			homing_bullets_to_spawn = 4
+			wave_bullets_to_spawn = 3
+
+func start_fever():
+	repos_delay_max = repos_delay_min
+	shoot_delay_max = shoot_delay_min

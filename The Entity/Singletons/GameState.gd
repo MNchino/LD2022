@@ -7,12 +7,14 @@ var started : bool = false
 var time_taken : float = 0
 var num_dashes : int = 2
 var num_rooms : int = 0
-var travelled_rooms : int = -1
+var travelled_rooms : int = -1 setget set_travelled_rooms
 var camera : Camera2D = null
 var finished : bool = false
 var drowned : bool = false
 var intro_started : bool = false
 var intro_done : bool = false
+var phases = [0,3,6,9]
+var cur_phase = -1
 
 var freeze_timer : Timer
 var root : Viewport
@@ -24,6 +26,7 @@ signal player_died_gui()
 signal dashes_changed(new_num)
 #warning-ignore:unused_signal
 signal parried(direction)
+signal phase_changed(new_phase)
 
 func _ready():
 	reset()
@@ -89,6 +92,7 @@ func reset():
 	cur_player = null
 	num_rooms = 0
 	travelled_rooms = -1
+	cur_phase = -1
 	reset_dashes()
 	GInput.enable_game_input()
 
@@ -104,3 +108,15 @@ func hit_particle(pos : Vector2):
 	cur_hit_particle.restart()
 	cur_hit_particle.position = pos
 	cur_hit_particle.emitting = true
+
+func set_travelled_rooms(new_num : int):
+	print("trabled",new_num)
+	travelled_rooms = new_num
+	var phase = -1
+	for min_before_phase in phases:
+		if travelled_rooms >= min_before_phase:
+			phase += 1
+	if cur_phase < phase:
+		cur_phase = phase
+		emit_signal("phase_changed", cur_phase)
+		print("harder",cur_phase + 1)
