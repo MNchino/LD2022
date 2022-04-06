@@ -8,7 +8,7 @@ signal starting_anim_done()
 func _input(_event):
 	if Input.is_action_just_pressed("game_restart"):
 		if $AnimPlayer.is_playing():
-			$AnimPlayer.playback_speed = 3
+			$AnimPlayer.playback_speed = 8
 		elif !$Timer.is_stopped():
 			$Timer.stop()
 			move_state()
@@ -27,6 +27,10 @@ func move_state():
 		3:
 			$AnimPlayer.play("FadeOut")
 		4:
+			if Input.is_key_pressed(KEY_SHIFT):
+				GameState.reset()
+				# warning-ignore:return_value_discarded
+				get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn") 
 			$Intro1.hide()
 			$Intro2.hide()
 			$Label1.show()

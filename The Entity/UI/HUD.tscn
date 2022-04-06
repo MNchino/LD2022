@@ -3,21 +3,24 @@
 [ext_resource path="res://Sprite/Font/font-dogicapixel16.tres" type="DynamicFont" id=1]
 
 [node name="HUD" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="DashCounter" type="Control" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Label" type="Label" parent="DashCounter"]
-margin_left = -114.0
-margin_top = -23.0
-margin_right = -8.0
-margin_bottom = -11.0
+modulate = Color( 1, 1, 1, 0.501961 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -53.0
+margin_top = 8.0
+margin_right = 53.0
+margin_bottom = 20.0
+rect_scale = Vector2( 0.25, 0.25 )
+rect_pivot_offset = Vector2( 53, 0 )
+custom_colors/font_color = Color( 1, 0, 0.929412, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Xcy Mode"
 align = 2

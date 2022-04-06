@@ -166,7 +166,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -183,22 +183,22 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ "Walk", "Worry" ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Other:position")
+tracks/6/path = NodePath("Doritos:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 22, -16 ), Vector2( 31, -16 ) ]
+"values": [ Vector2( 0, -24 ), Vector2( 32, -23 ) ]
 }
 
 [sub_resource type="Animation" id=19]
@@ -555,6 +555,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [ "Idle" ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("Doritos:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -24 ) ]
+}
 
 [sub_resource type="Animation" id=22]
 resource_name = "FadeIn"
@@ -659,7 +671,7 @@ __meta__ = {
 modulate = Color( 0.00392157, 0, 0.501961, 0 )
 position = Vector2( 66, -8 )
 animation = "Idle"
-frame = 1
+frame = 3
 playing = true
 flip_h = true
 
@@ -669,24 +681,8 @@ stream = ExtResource( 6 )
 [node name="Charge" type="AudioStreamPlayer2D" parent="EntitySprite"]
 stream = ExtResource( 7 )
 
-[node name="PlayerSprite" parent="." instance=ExtResource( 10 )]
-visible = false
-position = Vector2( 83, -5 )
-animation = "WalkDown"
-frame = 1
-playing = true
-flip_h = true
-
-[node name="DashIndicator" parent="PlayerSprite" index="0"]
-visible = false
-flip_h = true
-
-[node name="Light2D" type="Light2D" parent="PlayerSprite"]
-position = Vector2( 0, -10 )
-scale = Vector2( 0.2, 0.2 )
-texture = ExtResource( 9 )
-
 [node name="Other" type="AnimatedSprite" parent="."]
+visible = false
 material = ExtResource( 1 )
 position = Vector2( 22, -16 )
 frames = ExtResource( 12 )
@@ -704,9 +700,18 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Xcyiterr-adventure" type="Sprite" parent="."]
+position = Vector2( -47, -20 )
+texture = ExtResource( 15 )
+
+[node name="Tent" type="Sprite" parent="."]
+position = Vector2( -31, -16 )
+texture = ExtResource( 4 )
+
 [node name="Doritos" type="Sprite" parent="."]
-position = Vector2( 24, -24 )
+position = Vector2( 0, -24 )
 texture = ExtResource( 14 )
+flip_h = true
 
 [node name="Fireplace" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -5 )
@@ -716,13 +721,21 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Xcyiterr-adventure" type="Sprite" parent="."]
-position = Vector2( -47, -20 )
-texture = ExtResource( 15 )
+[node name="PlayerSprite" parent="." instance=ExtResource( 10 )]
+visible = false
+position = Vector2( 83, -5 )
+animation = "WalkDown"
+playing = true
+flip_h = true
 
-[node name="Tent" type="Sprite" parent="."]
-position = Vector2( -31, -16 )
-texture = ExtResource( 4 )
+[node name="DashIndicator" parent="PlayerSprite" index="0"]
+visible = false
+flip_h = true
+
+[node name="Light2D" type="Light2D" parent="PlayerSprite"]
+position = Vector2( 0, -10 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 9 )
 
 [node name="AudioStep" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
@@ -741,17 +754,18 @@ anims/RESET = SubResource( 24 )
 [node name="Control" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 0
-margin_left = -97.0
+margin_left = -150.0
 margin_top = -110.0
-margin_right = 98.0
+margin_right = 150.0
 margin_bottom = -70.0
+rect_pivot_offset = Vector2( 150, 0 )
 
 [node name="Label" type="Label" parent="Control"]
 material = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 193.0
-margin_bottom = 38.0
+margin_right = 300.0
+margin_bottom = 40.0
 rect_scale = Vector2( 0.5, 0.5 )
 text = "I don't have time."
 align = 1
