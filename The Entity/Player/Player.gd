@@ -48,6 +48,8 @@ func _ready():
 	GameState.connect("parried", self, '_on_GameState_parried')
 	# warning-ignore:return_value_discarded
 	GameState.connect("phase_changed", self, '_on_GameState_phase_changed')
+	# warning-ignore:return_value_discarded
+	GameState.connect("player_won", self, '_on_GameState_player_won')
 	$AnimatedSprite.animation = "WalkDown"
 	motion_velocity = Vector2.ZERO
 
@@ -340,3 +342,6 @@ func _on_GameState_phase_changed(phase):
 	if phase == 3:
 		if !$Audio/Heartbeat.playing:
 			$Audio/Heartbeat.play()
+
+func _on_GameState_player_won(_player):
+	$Audio/Heartbeat.stop()

@@ -93,12 +93,14 @@ func show_after_death():
 	$AnimationPlayer.play("RESET")
 	
 	if GameState.intro_started:
+		$Control/Percent.visible = false
 		if GameState.intro_done:
+			$Control/Title.modulate = Color("#ff00ed")
 			$Control/Title.text = "The Entity comes to take you away."
-			$Control/Retry.text = "[R]aise."
+			$Control/Retry.text = "[R]ise up.\n\nFind her. Tell her one last time."
 		else:
 			$Control/Title.visible = false
-			$Control/Retry.text = "[R]ise from the water..."
+			$Control/Retry.text = "[R]each the shore.."
 	elif GameState.finished:
 		$Control/Percent.self_modulate = Color("#ff00ed")
 		$Control/Percent.text = "%d" % GameState.time_taken
@@ -117,6 +119,8 @@ func _input(_event):
 			if GameState.intro_started:
 				GameState.reset()
 				if GameState.intro_done:
+					GameState.intro_started = false
+					GameState.intro_done = false
 					# warning-ignore:return_value_discarded
 					get_tree().change_scene("res://Playspace.tscn")
 				else:
