@@ -1,9 +1,9 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
+[ext_resource path="res://UI/DeathGUI2.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entity/Entity.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Level/LevelGeometry/LevelGeometry.tscn" type="PackedScene" id=4]
-[ext_resource path="res://UI/DeathGUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://UI/WinGUI.tscn" type="PackedScene" id=6]
 [ext_resource path="res://UI/HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://System/PlayerCamera.tscn" type="PackedScene" id=8]
@@ -40,12 +40,12 @@ tracks/1/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.0780488, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0.0634146, 0.0634146, 0.0634146, 1 )
 
 [sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 1 )
+gradient = SubResource( 6 )
 
 [sub_resource type="ParticlesMaterial" id=3]
 lifetime_randomness = 1.0
@@ -83,12 +83,11 @@ modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
+[node name="DeathGUI" parent="UI" instance=ExtResource( 2 )]
 
 [node name="WinGUI" parent="UI" instance=ExtResource( 6 )]
 
 [node name="HUD" parent="UI" instance=ExtResource( 7 )]
-visible = false
 mouse_filter = 2
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]

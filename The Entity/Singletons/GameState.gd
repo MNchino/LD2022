@@ -93,6 +93,7 @@ func reset():
 	num_rooms = 0
 	travelled_rooms = -1
 	cur_phase = -1
+	finished = false
 	reset_dashes()
 	GInput.enable_game_input()
 
@@ -110,7 +111,6 @@ func hit_particle(pos : Vector2):
 	cur_hit_particle.emitting = true
 
 func set_travelled_rooms(new_num : int):
-	print("trabled",new_num)
 	travelled_rooms = new_num
 	var phase = -1
 	for min_before_phase in phases:
@@ -119,4 +119,3 @@ func set_travelled_rooms(new_num : int):
 	if cur_phase < phase:
 		cur_phase = phase
 		emit_signal("phase_changed", cur_phase)
-		print("harder",cur_phase + 1)

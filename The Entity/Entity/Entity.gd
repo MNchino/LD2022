@@ -132,6 +132,11 @@ func fire_shot():
 		fire_bullet(bullet_template,bullet_dir_1,bullet_speed)
 		fire_bullet(bullet_template,bullet_dir_2,bullet_speed)
 		fire_bullet(bullet_template,angle_to_travel,bullet_speed)
+	else:
+		if wave_bullets_to_spawn != 0:
+			for k in range(wave_bullets_to_spawn):
+				var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/wave_bullets_to_spawn)))
+				fire_bullet(bullet_template,bullet_dir,homing_bullet_speed)
 	
 func fire_bullet(template, angle_to_travel, speed):
 	var i = template.instance()

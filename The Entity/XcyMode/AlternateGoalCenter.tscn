@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Level/Goal/Goal.tscn" type="PackedScene" id=2]
+[ext_resource path="res://XcyMode/AlternateGoal.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 96 )
+
+[node name="GoalCenter" type="Node2D"]
+
+[node name="Goal" parent="." instance=ExtResource( 2 )]
+position = Vector2( 241, 0 )
+
+[node name="CollisionShape2D" parent="Goal" index="0"]
+position = Vector2( 255, 256 )
+shape = SubResource( 1 )
+
+[node name="GoalCutscene2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 256, 256 )
+
+[editable path="Goal"]
