@@ -15,12 +15,13 @@ func _on_StepTimer_timeout():
 func _on_AnimationPlayer_animation_finished(_anim_name):
 	$Step/StepTimer.stop()
 	
-	var p : Player = player_template.instance()
+	var p = player_template.instance()
 	get_tree().get_nodes_in_group("sortyboy")[0].add_child(p)
 	p.global_position = global_position
 	p.is_facing_up = true
 	GameState.num_dashes = 0
 	GameState.use_dash()
 	GameState.set_player(p)
+	GameState.intro_started = true
 	
 	queue_free()

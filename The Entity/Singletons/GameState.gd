@@ -11,6 +11,8 @@ var travelled_rooms : int = -1
 var camera : Camera2D = null
 var finished : bool = false
 var drowned : bool = false
+var intro_started : bool = false
+var intro_done : bool = false
 
 var freeze_timer : Timer
 var root : Viewport
