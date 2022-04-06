@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=1]
+[ext_resource path="res://Sprite/Player/PlayerSprite.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Level/Goal/GoalCutscene.tscn" type="PackedScene" id=3]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GoalCutscene" parent="." instance=ExtResource( 3 )]
+position = Vector2( 320, 232 )
+scale = Vector2( 2, 2 )
+
+[node name="Light2D" parent="GoalCutscene" index="1"]
+energy = 1.25
+
+[node name="EntitySprite" parent="GoalCutscene" index="2"]
+frame = 4
+
+[node name="Other" parent="GoalCutscene" index="4"]
+visible = false
+
+[node name="PlayerSprite2" parent="GoalCutscene" instance=ExtResource( 2 )]
+material = null
+position = Vector2( 28, -4 )
+animation = "WalkUp"
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="."]
+material = ExtResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 206.0
+margin_top = 108.0
+margin_right = 650.0
+margin_bottom = 120.0
+rect_scale = Vector2( 0.5, 0.5 )
+rect_pivot_offset = Vector2( 1, 1 )
+text = "Death is not as simple in this world."
+align = 1
+valign = 1
+
+[editable path="GoalCutscene"]
+[editable path="GoalCutscene/PlayerSprite"]

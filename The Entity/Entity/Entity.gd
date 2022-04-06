@@ -198,10 +198,13 @@ func _on_ShootingWindDown_timeout():
 	is_shooting_cd = true
 
 func _on_ShootingCoolDown_timeout():
-	is_shooting_cd = false
-	if starting_move:
-		starting_move = false
-		$TeleportTimer.start()
+	if active:
+		is_shooting_cd = false
+		if starting_move:
+			starting_move = false
+			$TeleportTimer.start()
+	else:
+		$ShootingCoolDown.start(.1)
 
 func _on_VisibilityNotifier2D_screen_exited():
 	active = false
