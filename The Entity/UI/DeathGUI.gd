@@ -94,6 +94,7 @@ func show_after_death():
 	$AnimationPlayer.play("RESET")
 	
 	if GameState.finished:
+		$Control/Percent.self_modulate = Color("#ff00ed")
 		$Control/Percent.text = "%d" % GameState.time_taken
 		$Control/Title.visible = false
 		$Control/Retry.text = "[R]est in peace."

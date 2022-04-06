@@ -44,7 +44,6 @@ tracks/2/keys = {
 }
 
 [node name="DeathGUI" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -87,7 +86,8 @@ align = 1
 valign = 1
 
 [node name="Percent" type="Label" parent="Control"]
-modulate = Color( 0, 0.462745, 1, 0.0980392 )
+modulate = Color( 1, 1, 1, 0.117647 )
+self_modulate = Color( 0, 0.462745, 1, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -480.0
