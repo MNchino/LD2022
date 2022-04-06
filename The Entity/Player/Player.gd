@@ -46,6 +46,8 @@ func _ready():
 	GameState.connect("dashes_changed", self, '_on_GameState_dashes_changed')
 	# warning-ignore:return_value_discarded
 	GameState.connect("parried", self, '_on_GameState_parried')
+	# warning-ignore:return_value_discarded
+	GameState.connect("phase_changed", self, '_on_GameState_phase_changed')
 	$AnimatedSprite.animation = "WalkDown"
 	motion_velocity = Vector2.ZERO
 
@@ -333,3 +335,8 @@ func _on_BrambleDetector_body_entered(_body):
 func play_step():
 	$Audio/Step.pitch_scale = rand_range(0.8, 1.2)
 	$Audio/Step.play()
+	
+func _on_GameState_phase_changed(phase):
+	if phase == 3:
+		if !$Audio/Heartbeat.playing:
+			$Audio/Heartbeat.play()

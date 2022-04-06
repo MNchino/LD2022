@@ -9,3 +9,4 @@ func _on_IntroLabel_body_entered(_body):
 	entity.active = true
 	disconnect("body_entered", self, "_on_IntroLabel_body_entered")
 	$AnimationPlayer.play("FadeIn")
+	GameState.intro_done = true

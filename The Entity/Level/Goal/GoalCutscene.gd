@@ -12,7 +12,6 @@ func _ready():
 	set_physics_process(false)
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_won", self, "start")
-	pass
 	
 func start(_player):
 	set_physics_process(true)

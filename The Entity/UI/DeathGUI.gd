@@ -92,7 +92,14 @@ func show_after_death():
 	visible = true
 	$AnimationPlayer.play("RESET")
 	
-	if GameState.finished:
+	if GameState.intro_started:
+		if GameState.intro_done:
+			$Control/Title.text = "The Entity comes to take you away."
+			$Control/Retry.text = "[R]aise."
+		else:
+			$Control/Title.visible = false
+			$Control/Retry.text = "[R]ise from the water..."
+	elif GameState.finished:
 		$Control/Percent.self_modulate = Color("#ff00ed")
 		$Control/Percent.text = "%d" % GameState.time_taken
 		$Control/Title.visible = false
@@ -107,7 +114,15 @@ func show_after_death():
 func _input(_event):
 	if Input.is_action_just_pressed("game_restart"):
 		if visible:
-			if GameState.finished:
+			if GameState.intro_started:
+				GameState.reset()
+				if GameState.intro_done:
+					# warning-ignore:return_value_discarded
+					get_tree().change_scene("res://Playspace.tscn")
+				else:
+					# warning-ignore:return_value_discarded
+					get_tree().reload_current_scene()
+			elif GameState.finished:
 				if $PassTimer.is_stopped():
 					$PassTimer.start()
 					visible = false
