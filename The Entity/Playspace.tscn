@@ -40,12 +40,12 @@ tracks/1/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Gradient" id=1]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.0780488, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0.0634146, 0.0634146, 0.0634146, 1 )
 
 [sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 1 )
+gradient = SubResource( 6 )
 
 [sub_resource type="ParticlesMaterial" id=3]
 lifetime_randomness = 1.0
@@ -84,12 +84,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
-visible = false
 
 [node name="WinGUI" parent="UI" instance=ExtResource( 6 )]
 
 [node name="HUD" parent="UI" instance=ExtResource( 7 )]
-visible = false
 mouse_filter = 2
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
