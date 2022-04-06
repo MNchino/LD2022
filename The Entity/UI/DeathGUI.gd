@@ -90,7 +90,7 @@ func _ready():
 
 func show_after_death():
 	visible = true
-	$AnimationPlayer.play("RESET")
+	$AnimationPlayer.play("Show")
 	
 	if GameState.intro_started:
 		$Control/Percent.visible = false
