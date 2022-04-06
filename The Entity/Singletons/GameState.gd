@@ -27,6 +27,7 @@ signal parried(direction)
 signal phase_changed(new_phase)
 
 func _ready():
+	reset()
 	init_freezetimer()
 	
 func init_freezetimer():
@@ -46,7 +47,6 @@ func set_entity(entity : Entity):
 	cur_entity = entity
 
 func set_player(player : Player):
-	randomize()
 	camera = get_tree().get_current_scene().get_node("PlayerCamera")
 	cur_player = player
 	started = true
@@ -83,6 +83,8 @@ func _process(delta):
 		time_taken += delta
 
 func reset():
+	randomize()
+	drowned = false
 	time_taken = 0
 	started = false
 	cur_player = null

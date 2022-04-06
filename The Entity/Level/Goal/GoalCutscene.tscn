@@ -657,7 +657,7 @@ __meta__ = {
 modulate = Color( 0.00392157, 0, 0.501961, 0 )
 position = Vector2( 66, -8 )
 animation = "Idle"
-frame = 3
+frame = 4
 playing = true
 flip_h = true
 
@@ -705,6 +705,7 @@ __meta__ = {
 [node name="Fireplace" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -5 )
 frames = ExtResource( 2 )
+frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true

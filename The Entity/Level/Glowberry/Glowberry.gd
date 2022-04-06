@@ -38,7 +38,7 @@ func _on_ParryHurtbox_area_entered(_area):
 	else:
 		activate()
 	
-	$Audio/Hit.pitch_scale = rand_range(0.95,1.05)
+	$Audio/Hit.pitch_scale = rand_range(0.9,1.1)
 	$Audio/Hit.play()
 	GameState.reset_dashes()
 

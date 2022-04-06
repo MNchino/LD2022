@@ -168,6 +168,7 @@ func attack():
 	
 	$Audio/Prep.pitch_scale = rand_range(0.95,1.05)
 	$Audio/Prep.play()
+	invincible = true
 	
 	if is_instance_valid(GameState.cur_entity):
 		is_facing_up = GameState.cur_entity.position.y < position.y
@@ -258,6 +259,7 @@ func _on_ShootCoolDown_timeout():
 	is_shooting_cd = false
 
 func _on_AttackPrep_timeout():
+	invincible = false
 	var i = attack_template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
