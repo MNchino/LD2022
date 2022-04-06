@@ -74,7 +74,6 @@ playing = true
 visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "enter"
 anims/RESET = SubResource( 1 )
 anims/enter = SubResource( 2 )
 
@@ -85,7 +84,6 @@ volume_db = -10.0
 [node name="StepTimer" type="Timer" parent="Step"]
 wait_time = 0.3
 one_shot = true
-autostart = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="timeout" from="Step/StepTimer" to="." method="_on_StepTimer_timeout"]

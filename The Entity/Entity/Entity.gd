@@ -156,8 +156,9 @@ func stop_player_follow(_player : Player):
 	queue_free()
 	
 func reposition(distance : float):
-	if (is_instance_valid(GameState.cur_player)):
-		global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
+	if is_instance_valid(GameState.cur_player):
+		if GameState.cur_player.is_inside_tree():
+			global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:
