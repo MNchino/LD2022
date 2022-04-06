@@ -93,6 +93,7 @@ func reset():
 	num_rooms = 0
 	travelled_rooms = -1
 	cur_phase = -1
+	finished = false
 	reset_dashes()
 	GInput.enable_game_input()
 
