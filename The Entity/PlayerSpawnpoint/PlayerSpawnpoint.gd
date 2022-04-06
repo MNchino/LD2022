@@ -12,3 +12,4 @@ func spawn():
 	p.global_position = global_position
 	GameState.set_player(p)
 	hide()
+ 

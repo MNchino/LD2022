@@ -47,7 +47,6 @@ collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 modulate = Color( 0, 0.0862745, 1, 1 )
-position = Vector2( 0, 4 )
 scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 2 )
 
@@ -118,6 +117,10 @@ volume_db = -10.0
 [node name="WaterDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 256
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WaterDetector"]
 position = Vector2( 0, 4 )
@@ -143,6 +146,10 @@ process_material = ExtResource( 6 )
 [node name="BrambleDetector" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 514
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BrambleDetector"]
 modulate = Color( 0.431373, 0, 0.482353, 1 )

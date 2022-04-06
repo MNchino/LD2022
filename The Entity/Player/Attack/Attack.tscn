@@ -167,7 +167,7 @@ anims/RESET = SubResource( 4 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2( 0.8, 0.8 )
-polygon = PoolVector2Array( 34.1667, 1.66667, -11, -46, -36, 0, -11, 48 )
+polygon = PoolVector2Array( 34.1667, 1.66667, -11, -46, -45, 0, -11, 48 )
 
 [node name="ParrySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

@@ -122,7 +122,7 @@ stream = ExtResource( 7 )
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 8 )
-max_distance = 500.0
+volume_db = -10.0
 
 [connection signal="area_entered" from="LightHurtbox" to="." method="_on_LightHurtbox_area_entered"]
 [connection signal="area_entered" from="ParryHurtbox" to="." method="_on_ParryHurtbox_area_entered"]

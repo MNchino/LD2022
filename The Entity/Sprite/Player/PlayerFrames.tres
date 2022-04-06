@@ -14,9 +14,37 @@ region = Rect2( 48, 24, 24, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 72, 24, 24, 24 )
 
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 72, 0, 24, 24 )
+
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
 region = Rect2( 24, 0, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 1 )
+region = Rect2( 24, 24, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 96, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 24, 96, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 96, 24, 24 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 72, 96, 24, 24 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 1 )
@@ -34,31 +62,7 @@ region = Rect2( 48, 48, 24, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 72, 48, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 1 )
-region = Rect2( 48, 0, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 1 )
-region = Rect2( 72, 0, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 24, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 1 )
-region = Rect2( 48, 120, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 1 )
-region = Rect2( 72, 120, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 1 )
-region = Rect2( 24, 24, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 72, 24, 24 )
 
@@ -74,21 +78,17 @@ region = Rect2( 48, 72, 24, 24 )
 atlas = ExtResource( 1 )
 region = Rect2( 72, 72, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 96, 24, 24 )
+region = Rect2( 48, 120, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 1 )
-region = Rect2( 24, 96, 24, 24 )
+region = Rect2( 72, 120, 24, 24 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 1 )
-region = Rect2( 48, 96, 24, 24 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
-region = Rect2( 72, 96, 24, 24 )
+region = Rect2( 0, 24, 24, 24 )
 
 [resource]
 animations = [ {
@@ -102,43 +102,43 @@ animations = [ {
 "name": "Dead",
 "speed": 2.0
 }, {
-"frames": [ SubResource( 1 ), SubResource( 6 ) ],
-"loop": true,
-"name": "WalkDown",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
-"loop": false,
-"name": "Throw",
-"speed": 20.0
-}, {
 "frames": [ SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "WalkUp",
 "speed": 8.0
 }, {
-"frames": [ SubResource( 17 ) ],
-"loop": false,
-"name": "DashDown",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 21 ), SubResource( 22 ) ],
-"loop": false,
-"name": "Drown",
-"speed": 2.0
+"frames": [ SubResource( 1 ), SubResource( 6 ) ],
+"loop": true,
+"name": "WalkDown",
+"speed": 8.0
 }, {
 "frames": [ SubResource( 18 ) ],
 "loop": false,
 "name": "DashUp",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 23 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": false,
+"name": "AttackUp",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": false,
+"name": "Throw",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 24 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": false,
 "name": "AttackDown",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"frames": [ SubResource( 21 ), SubResource( 22 ) ],
 "loop": false,
-"name": "AttackUp",
-"speed": 20.0
+"name": "Drown",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 17 ) ],
+"loop": false,
+"name": "DashDown",
+"speed": 5.0
 } ]
