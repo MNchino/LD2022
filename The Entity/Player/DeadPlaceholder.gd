@@ -1,12 +1,15 @@
 extends Node2D
 
 var secondframe : bool = false
+var xcy_frames = preload("res://Sprite/Player/XcyFrames.tres")
 
 func _ready():
 	GameState.camera.target = self
 	$PlayerSprite.play()
 	$Audio/DeadHit.play()
 	GameState.freeze(0.2)
+	if get_tree().get_current_scene().name == "XcyPlayspace":
+		$PlayerSprite.frames = xcy_frames
 	
 func _process(_delta):
 	if $PlayerSprite.frame == 0:

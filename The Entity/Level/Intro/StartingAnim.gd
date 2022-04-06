@@ -30,7 +30,7 @@ func move_state():
 			if Input.is_key_pressed(KEY_SHIFT):
 				GameState.reset()
 				# warning-ignore:return_value_discarded
-				get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn") 
+				get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn")
 			$Intro1.hide()
 			$Intro2.hide()
 			$Label1.show()

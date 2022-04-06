@@ -13,11 +13,11 @@ scale = Vector2( 2, 2 )
 [node name="Light2D" parent="GoalCutscene" index="1"]
 energy = 1.25
 
+[node name="EntitySprite" parent="GoalCutscene" index="2"]
+frame = 1
+
 [node name="Other" parent="GoalCutscene" index="4"]
 visible = false
-
-[node name="Fireplace" parent="GoalCutscene" index="5"]
-frame = 1
 
 [node name="PlayerSprite2" parent="GoalCutscene" instance=ExtResource( 2 )]
 material = null

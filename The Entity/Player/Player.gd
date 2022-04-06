@@ -4,6 +4,7 @@ class_name Player
 var shoot_template = preload('res://Player/Lighterang/LighterangThrower.tscn')
 var attack_template = preload("res://Player/Attack/Attack.tscn")
 var dead_template = preload("res://Player/DeadPlaceholder.tscn")
+var xcy_frames = preload("res://Sprite/Player/XcyFrames.tres")
 
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
@@ -52,6 +53,10 @@ func _ready():
 	GameState.connect("player_won", self, '_on_GameState_player_won')
 	$AnimatedSprite.animation = "WalkDown"
 	motion_velocity = Vector2.ZERO
+	
+	if get_tree().get_current_scene().name == "XcyPlayspace":
+		$AnimatedSprite.frames = xcy_frames
+	print(get_tree().get_current_scene().name)
 
 func _physics_process(delta):
 	if !active:
