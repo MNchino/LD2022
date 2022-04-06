@@ -3,10 +3,12 @@ extends Node2D
 #var spawnpoint = preload("res://PlayerSpawnpoint/PlayerSpawnpoint.tscn")
 var player_template = preload("res://Player/Player.tscn")
 
-func _ready():
+func start():
 	var camera = get_tree().get_current_scene().get_node("PlayerCamera")
 	camera.target = self
 	camera.global_position = global_position
+	$Step/StepTimer.start()
+	$AnimationPlayer.play("enter")
 
 func _on_StepTimer_timeout():
 	$Step.play()

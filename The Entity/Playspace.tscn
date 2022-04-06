@@ -65,7 +65,6 @@ color_ramp = SubResource( 4 )
 [node name="Playspace" type="Node2D"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -84,7 +83,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
-visible = false
 
 [node name="WinGUI" parent="UI" instance=ExtResource( 6 )]
 

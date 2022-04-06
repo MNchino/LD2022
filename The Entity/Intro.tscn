@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=10]
 [ext_resource path="res://Sprite/Particles/HitParticle.gd" type="Script" id=11]
 [ext_resource path="res://Level/Intro/Intro.gd" type="Script" id=12]
+[ext_resource path="res://Sprite/intro1.png" type="Texture" id=13]
+[ext_resource path="res://Sprite/intro2.png" type="Texture" id=14]
+[ext_resource path="res://Level/Intro/StartingAnim.gd" type="Script" id=15]
 
 [sub_resource type="Animation" id=24]
 resource_name = "LightUp"
@@ -302,6 +305,51 @@ tracks/1/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
+[sub_resource type="Animation" id=26]
+resource_name = "FadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath("StartingAnim:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.00392157, 0, 0.501961, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "FadeOut"
+tracks/0/type = "value"
+tracks/0/path = NodePath("StartingAnim:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.00392157, 0, 0.501961, 0 ) ]
+}
+
+[sub_resource type="Animation" id=28]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("StartingAnim:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.00392157, 0, 0.501961, 0 ) ]
+}
+
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.0780488, 1 )
 colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 0.0634146, 0.0634146, 0.0634146, 1 )
@@ -326,15 +374,20 @@ color_ramp = SubResource( 4 )
 
 [node name="Intro" type="Node2D"]
 script = ExtResource( 12 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="LevelGeometry" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Floor" type="TileMap" parent="LevelGeometry"]
 tile_set = ExtResource( 2 )
@@ -632,7 +685,6 @@ position = Vector2( 413, 247 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="FadeIn" type="AnimationPlayer" parent="UI"]
-autoplay = "RESET"
 anims/RESET = SubResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
@@ -640,12 +692,106 @@ modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="StartingAnim" type="AnimationPlayer" parent="UI"]
+[node name="StartingAnim" type="Node2D" parent="UI"]
+modulate = Color( 0.00392157, 0, 0.501961, 0 )
+position = Vector2( 319, 179 )
+script = ExtResource( 15 )
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="UI/StartingAnim"]
+root_node = NodePath("../..")
+anims/FadeIn = SubResource( 26 )
+anims/FadeOut = SubResource( 27 )
+anims/RESET = SubResource( 28 )
+
+[node name="Intro1" type="Sprite" parent="UI/StartingAnim"]
+self_modulate = Color( 0.823529, 0.803922, 1, 0.709804 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 13 )
+offset = Vector2( 4, 0 )
+
+[node name="Intro2" type="Sprite" parent="UI/StartingAnim"]
+position = Vector2( 0, 160 )
+texture = ExtResource( 14 )
+offset = Vector2( -3, 0 )
+
+[node name="Label1" type="Label" parent="UI/StartingAnim"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -319.0
+margin_top = -179.0
+margin_right = 961.0
+margin_bottom = 541.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "Death is not as simple in this world."
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="UI/StartingAnim"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -319.0
+margin_top = -179.0
+margin_right = 961.0
+margin_bottom = 541.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "As for those cannot continue on with life any longer"
+align = 1
+valign = 1
+
+[node name="Label3" type="Label" parent="UI/StartingAnim"]
+visible = false
+self_modulate = Color( 1, 0, 0.929412, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -319.0
+margin_top = -179.0
+margin_right = 961.0
+margin_bottom = 541.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "The Entity comes."
+align = 1
+valign = 1
+
+[node name="Label4" type="Label" parent="UI/StartingAnim"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -319.0
+margin_top = -179.0
+margin_right = 961.0
+margin_bottom = 541.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "A sign that it's time to go."
+align = 1
+valign = 1
+
+[node name="OK" type="Label" parent="UI/StartingAnim"]
+visible = false
+modulate = Color( 1, 1, 1, 0.352941 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -9.0
+margin_top = 102.0
+margin_right = 39.0
+margin_bottom = 144.0
+rect_scale = Vector2( 0.5, 0.5 )
+text = "[R]>"
+align = 1
+valign = 1
+
+[node name="Timer" type="Timer" parent="UI/StartingAnim"]
+wait_time = 0.5
+one_shot = true
+autostart = true
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
-visible = false
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="IntroWalk" parent="YSort" instance=ExtResource( 3 )]
 
@@ -663,6 +809,9 @@ explosiveness = 1.0
 local_coords = false
 process_material = SubResource( 3 )
 script = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
@@ -678,6 +827,12 @@ rect_scale = Vector2( 0.5, 0.5 )
 custom_colors/font_color = Color( 0.133333, 0.12549, 0.203922, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 0 )
 text = "?v=Y6SHAf01lnA"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="animation_finished" from="UI/StartingAnim/AnimPlayer" to="UI/StartingAnim" method="_on_AnimPlayer_animation_finished"]
+[connection signal="timeout" from="UI/StartingAnim/Timer" to="UI/StartingAnim" method="_on_Timer_timeout"]
 
 [editable path="LevelGeometry/Glowberry2"]
 [editable path="LevelGeometry/Glowberry8"]
