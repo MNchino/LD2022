@@ -325,7 +325,8 @@ func _on_WateryTime_timeout():
 		is_drowned = true
 
 func _on_BrambleDetector_body_entered(_body):
-	knock_back()
+	if !is_dashing:
+		knock_back()
 
 func play_step():
 	$Audio/Step.pitch_scale = rand_range(0.8, 1.2)

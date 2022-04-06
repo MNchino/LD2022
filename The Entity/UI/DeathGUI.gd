@@ -119,7 +119,7 @@ func _input(_event):
 
 func show_progress():
 	#$PercentCounter/TimeBeforeHideOrShow.start()
-	#print("num trabled", GameState.travelled_rooms, " ", GameState.num_rooms)
+	print("num trabled: ", GameState.travelled_rooms, " ", GameState.num_rooms)
 	var messing_around = rand_range(-0.025, 0.025)
 	var frac = 1 - float(GameState.travelled_rooms)/GameState.num_rooms + messing_around
 	$Control/Percent.text = str(round(clamp(frac,0,1)*100.0))

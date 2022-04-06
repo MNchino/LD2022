@@ -15,7 +15,7 @@ func _physics_process(_delta):
 		move_and_slide(direction_once_parried*parried_speed)
 	else:
 		# warning-ignore:return_value_discarded
-		move_and_slide(dir*speed)
+		move_and_slide(dir*speed )
 
 func _process(_delta):
 	if parried:

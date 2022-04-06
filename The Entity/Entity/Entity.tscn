@@ -144,7 +144,7 @@ explosiveness = 1.0
 local_coords = false
 process_material = SubResource( 5 )
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audio" type="Node2D" parent="."]
 
 [node name="ParryKnockback" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 4 )
