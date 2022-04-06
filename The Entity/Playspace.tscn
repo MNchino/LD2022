@@ -65,6 +65,7 @@ color_ramp = SubResource( 4 )
 [node name="Playspace" type="Node2D"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -78,7 +79,7 @@ autoplay = "RESET"
 anims/RESET = SubResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
-modulate = Color( 0, 0, 0, 0.25 )
+modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 

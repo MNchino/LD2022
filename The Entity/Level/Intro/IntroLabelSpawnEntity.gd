@@ -17,7 +17,8 @@ func _on_IntroLabel_body_entered(_body):
 	entity.get_node("AnimationPlayer").play("FadeIn")
 	
 	var cd : Timer = entity.get_node("ShootingCoolDown")
-	cd.wait_time = 3
-	cd.start()
+	if cd.is_inside_tree():
+		cd.wait_time = 3
+		cd.start()
 	$AnimationPlayer.play("FadeIn")
 	GameState.intro_done = true
