@@ -56,7 +56,6 @@ func _ready():
 	
 	if get_tree().get_current_scene().name == "XcyPlayspace":
 		$AnimatedSprite.frames = xcy_frames
-	print(get_tree().get_current_scene().name)
 
 func _physics_process(delta):
 	if !active:
