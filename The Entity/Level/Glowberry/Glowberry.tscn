@@ -115,7 +115,7 @@ one_shot = true
 process_material = ExtResource( 5 )
 texture = ExtResource( 4 )
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audio" type="Node2D" parent="."]
 
 [node name="Reveal" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource( 7 )
