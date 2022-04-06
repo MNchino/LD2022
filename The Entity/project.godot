@@ -47,6 +47,10 @@ _global_script_class_icons={
 config/name="To Say Goodbye"
 config/description="If only I have the courage and will to go on and tell them..."
 run/main_scene="res://Intro.tscn"
+boot_splash/image="res://Sprite/Particles/BlackPixel.png"
+boot_splash/fullsize=false
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 
