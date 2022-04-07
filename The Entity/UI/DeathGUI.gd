@@ -55,6 +55,10 @@ var death_messages = [
 	"If you never stop trying, you will get there eventually.\n\n- Antechamber, 2013",
 	"Small steps can take you great distances.\n\n- Antechamber, 2013",
 	"Falling down teaches us how to get up and try again.\n\n- Antechamber, 2013",
+	
+	"In the face of peril, you must [P]ress on.",
+	"Every moment is [P]recious, down to the very last.",
+	"In the end, we must [P]repare for what lies ahead.",
 ]
 
 var drown_messages = [

@@ -88,6 +88,7 @@ anchor_bottom = 1.0
 [node name="WinGUI" parent="UI" instance=ExtResource( 6 )]
 
 [node name="HUD" parent="UI" instance=ExtResource( 7 )]
+visible = false
 mouse_filter = 2
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
