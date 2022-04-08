@@ -3,6 +3,8 @@ class_name Entity
 
 var bullet_template = preload("res://Entity/Bullet/Bullet.tscn")
 var homing_bullet_template = preload("res://Entity/Bullet/HomingBullet.tscn")
+var curving_bullet_template = preload("res://Entity/Bullet/CurvingBullet.tscn")
+var circle_bullet_template = preload("res://Entity/Bullet/TriangleBulletPath.tscn")
 
 var active : bool = false
 var motion_velocity : Vector2  = Vector2(0,0)
@@ -32,6 +34,10 @@ var alternating_wave_homing : bool = false
 var alternate_to_home_next : bool = false
 var alternating_wave_bullets_to_spawn = 0
 var alternating_homing_bullets_to_spawn = 0
+var curving_bullets_to_spawn = [0,0,0,0]
+var time_between_curving_bullet_spawns = 0.1
+var circle_bullets_to_spawn = 0
+var circle_bullet_speed = 80
 
 func _ready():
 	GameState.set_entity(self)
@@ -111,6 +117,14 @@ func fire_shot():
 			homing_bullets_to_spawn = 0
 			wave_bullets_to_spawn = alternating_wave_bullets_to_spawn
 		alternate_to_home_next = !alternate_to_home_next
+	var used_angle = randi()%360
+	for k in range(circle_bullets_to_spawn):
+		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/circle_bullets_to_spawn)))
+		fire_bullet(circle_bullet_template,bullet_dir,circle_bullet_speed,0,used_angle,0,0.2)
+	for m in range(curving_bullets_to_spawn.size()):
+		for k in range(curving_bullets_to_spawn[m]):
+			var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/curving_bullets_to_spawn[m])))
+			fire_bullet(curving_bullet_template,bullet_dir,homing_bullet_speed, time_between_curving_bullet_spawns*m, used_angle)
 	for k in range(homing_bullets_to_spawn):
 		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/homing_bullets_to_spawn)))
 		fire_bullet(homing_bullet_template,bullet_dir,homing_bullet_speed)
@@ -138,13 +152,17 @@ func fire_shot():
 				var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/wave_bullets_to_spawn)))
 				fire_bullet(bullet_template,bullet_dir,homing_bullet_speed)
 	
-func fire_bullet(template, angle_to_travel, speed):
+func fire_bullet(template, angle_to_travel, speed, time_before_spawn = 0, base_angle = 0, min_h = 0, max_h = 1):
+	if time_before_spawn:
+		yield(get_tree().create_timer(time_before_spawn), "timeout")
 	var i = template.instance()
 	add_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.dir = angle_to_travel
 	i.speed = speed
+	if base_angle != 0:
+		i.set_base_angle(base_angle, min_h, max_h)
 	
 	
 func start_player_follow(_player : Player):

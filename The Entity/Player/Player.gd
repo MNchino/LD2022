@@ -33,6 +33,13 @@ var shoot_object_path : NodePath = ""
 var is_drowned : bool = false
 var active : bool = true
 
+
+func is_xcy_mode():
+	return get_tree().get_current_scene().name == "XcyPlayspace"
+	
+func is_snow_mode():
+	return GameState.is_snow_mode
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -54,8 +61,12 @@ func _ready():
 	$AnimatedSprite.animation = "WalkDown"
 	motion_velocity = Vector2.ZERO
 	
-	if get_tree().get_current_scene().name == "XcyPlayspace":
+	if is_xcy_mode():
 		$AnimatedSprite.frames = xcy_frames
+		
+	if is_snow_mode():
+		$AnimatedSprite/DashIndicator.frame = 0
+		$Timers/DashCoolDown.wait_time = .25
 
 func _physics_process(delta):
 	if !active:
@@ -202,7 +213,7 @@ func knock_back():
 func dash():
 	if !active:
 		return
-	if !is_dashing && !is_dashing_cd && GameState.can_use_dash():
+	if !is_dashing && !is_dashing_cd && (GameState.can_use_dash() || is_snow_mode()):
 		if motion_velocity.length() < 1:
 			return
 			
@@ -268,10 +279,30 @@ func _on_ShootCoolDown_timeout():
 
 func _on_AttackPrep_timeout():
 	invincible = false
-	var i = attack_template.instance()
-	add_child(i)
-	i.set_as_toplevel(true)
-	i.global_position = global_position
+	
+	var k = attack_template.instance()
+	add_child(k)
+	k.set_as_toplevel(true)
+	k.global_position = global_position
+	
+	if is_snow_mode():
+		var i = attack_template.instance()
+		add_child(i)
+		i.set_as_toplevel(true)
+		i.global_position = global_position
+		i.rotation_degrees = k.rotation_degrees + 90
+		
+		i = attack_template.instance()
+		add_child(i)
+		i.set_as_toplevel(true)
+		i.global_position = global_position
+		i.rotation_degrees = k.rotation_degrees + 180
+		
+		i = attack_template.instance()
+		add_child(i)
+		i.set_as_toplevel(true)
+		i.global_position = global_position
+		i.rotation_degrees = k.rotation_degrees + 270
 	
 	$Audio/Attack.pitch_scale = rand_range(0.95,1.05)
 	$Audio/Attack.play()
@@ -306,7 +337,8 @@ func _on_Player_tree_exiting():
 	i.global_position = global_position
 
 func _on_GameState_dashes_changed(count:int):
-	$AnimatedSprite/DashIndicator.frame = count
+	if !is_snow_mode():
+		$AnimatedSprite/DashIndicator.frame = count
 	
 func _on_GameState_parried(direction:float):
 	knock_back_dir = -Vector2.RIGHT.rotated(direction)

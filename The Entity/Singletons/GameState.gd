@@ -15,6 +15,7 @@ var intro_started : bool = false
 var intro_done : bool = false
 var phases = [0,3,6,9]
 var cur_phase = -1
+var is_snow_mode = false
 
 var freeze_timer : Timer
 var root : Viewport
@@ -94,6 +95,7 @@ func reset():
 	travelled_rooms = -1
 	cur_phase = -1
 	finished = false
+	is_snow_mode = false
 	reset_dashes()
 	GInput.enable_game_input()
 
@@ -119,3 +121,43 @@ func set_travelled_rooms(new_num : int):
 	if cur_phase < phase:
 		cur_phase = phase
 		emit_signal("phase_changed", cur_phase)
+		
+func hsv_to_rgb(h, s, v, a = 1):
+	#based on code at
+	#http://stackoverflow.com/questions/51203917/math-behind-hsv-to-rgb-conversion-of-colors
+	var r
+	var g
+	var b
+
+	var i = floor(h * 6)
+	var f = h * 6 - i
+	var p = v * (1 - s)
+	var q = v * (1 - f * s)
+	var t = v * (1 - (1 - f) * s)
+
+	match (int(i) % 6):
+		0:
+			r = v
+			g = t
+			b = p
+		1:
+			r = q
+			g = v
+			b = p
+		2:
+			r = p
+			g = v
+			b = t
+		3:
+			r = p
+			g = q
+			b = v
+		4:
+			r = t
+			g = p
+			b = v
+		5:
+			r = v
+			g = p
+			b = q
+	return Color(r, g, b, a)

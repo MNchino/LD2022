@@ -173,6 +173,7 @@ xcy_mode={
 2d_physics/layer_8="LighterangHitbox"
 2d_physics/layer_9="Water"
 2d_physics/layer_10="Bramble"
+2d_physics/layer_11="Bullet"
 
 [physics]
 

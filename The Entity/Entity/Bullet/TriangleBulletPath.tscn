@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Entity/Bullet/CircleBulletPath.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -40, -40, 0, 0, 0, 0, -40, 40, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, -40, -40, 0, 0, 0, 0, -40, -40 )
+}
+
+[node name="TriangleBulletPath" instance=ExtResource( 1 )]
+curve = SubResource( 1 )
+
+[node name="VisibilityNotifier2D" parent="." index="0"]
+visible = false

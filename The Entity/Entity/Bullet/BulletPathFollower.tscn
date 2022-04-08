@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Entity/Bullet/CurvingBullet.tscn" type="PackedScene" id=1]
+
+[node name="BulletPathFollower" type="PathFollow2D" groups=["bullet_follower"]]
+
+[node name="Bullet" parent="." groups=["path_following_bullet"] instance=ExtResource( 1 )]
+turn_strength = 0.0
