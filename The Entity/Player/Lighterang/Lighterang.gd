@@ -9,7 +9,8 @@ var rotation_speed = 270*7 # degrees per second
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	if GameState.is_snow_mode:
+		scale = Vector2(1.5,1.5)
 
 func _process(delta):
 	$Sprite.rotation_degrees += rotation_speed*delta

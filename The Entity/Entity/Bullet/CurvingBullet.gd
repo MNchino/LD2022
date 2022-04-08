@@ -1,4 +1,5 @@
 extends Node2D
+class_name EfficientBullet
 
 export(float) var speed : float  = 0
 export(Vector2) var dir : Vector2  = Vector2(0,0)

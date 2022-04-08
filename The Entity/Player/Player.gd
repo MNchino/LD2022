@@ -67,6 +67,9 @@ func _ready():
 	if is_snow_mode():
 		$AnimatedSprite/DashIndicator.frame = 0
 		$Timers/DashCoolDown.wait_time = .25
+		max_velocity = 150
+		input_speed = 15
+		$Timers/ShootCoolDown.wait_time = .25
 
 func _physics_process(delta):
 	if !active:
@@ -162,7 +165,6 @@ func shoot():
 	$AnimatedSprite.playing = false
 	$AnimatedSprite.frame = 0
 	$Timers/ShootPrep.start()
-	
 	is_shooting_cd = true
 	is_shooting = true
 	

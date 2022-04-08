@@ -15,19 +15,19 @@ func _on_DestructionTimer_timeout():
 	queue_free()
 
 func _on_Attack_area_entered(area : Area2D):
-	if area.get_parent() is Bullet || area.get_parent().name == "Entity":
-		if firsthit:
-			return
-		
-		if area.get_parent() is Bullet:
-			$ParrySound.pitch_scale = rand_range(0.95,1.05)
-			$ParrySound.play()
-		
-		firsthit = true
-		GameState.freeze(freeze_time)
-		GameState.emit_signal("parried", rotation)
-		#var pos = to_local(area.global_position)
-		#GameState.hit_particle(global_position.linear_interpolate(pos, .5))
-		GameState.hit_particle(area.global_position)
-		GameState.hit_particle(global_position)
-		$Sprite.visible = false
+#	if area.get_parent() is Bullet || area.get_parent().name == "Entity":
+	if firsthit:
+		return
+	
+	if area.get_parent() is Bullet ||  area.get_parent() is EfficientBullet:
+		$ParrySound.pitch_scale = rand_range(0.95,1.05)
+		$ParrySound.play()
+	
+	firsthit = true
+	GameState.freeze(freeze_time)
+	GameState.emit_signal("parried", rotation)
+	#var pos = to_local(area.global_position)
+	#GameState.hit_particle(global_position.linear_interpolate(pos, .5))
+	GameState.hit_particle(area.global_position)
+	GameState.hit_particle(global_position)
+	$Sprite.visible = false
