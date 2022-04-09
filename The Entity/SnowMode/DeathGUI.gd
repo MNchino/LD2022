@@ -14,3 +14,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+func show_after_death():
+	.show_after_death()
+	if !GameState.intro_started:
+		if GameState.drowned:
+			GameState.times_drowned_in_a_row += 1
+		else:
+			GameState.times_drowned_in_a_row = 0
+	
