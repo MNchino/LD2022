@@ -34,6 +34,8 @@ var death_messages = [
 	
 	"Whatever you do, do not look back.",
 	"The path is only ahead.",
+	"The road is only \"straight\".",
+	"Ahead. Only forwards, and you'll get there.",
 	"Wherever the road takes you, it's definitely to correct one.",
 	"If you ever see glowberries glowing, you're heading the wrong way.",
 	
