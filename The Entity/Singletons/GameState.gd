@@ -31,6 +31,8 @@ signal phase_changed(new_phase)
 func _ready():
 	reset()
 	init_freezetimer()
+	OS.set_window_size(Vector2(1280,720))
+	OS.center_window()
 	
 func init_freezetimer():
 	freeze_timer = Timer.new()
