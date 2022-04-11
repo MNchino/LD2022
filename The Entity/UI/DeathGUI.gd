@@ -32,6 +32,13 @@ var death_messages = [
 	"It may be long, but your patience will be rewarded.",
 	"Be cautious, and you'll get there.",
 	
+	"Whatever you do, do not look back.",
+	"The path is only ahead.",
+	"The road is only \"straight\".",
+	"Ahead. Only forwards, and you'll get there.",
+	"Wherever the road takes you, it's definitely to correct one.",
+	"If you ever see glowberries glowing, you're heading the wrong way.",
+	
 	"When the entity gives you lemons,\n\nyou may want to stay away.",
 	"Watch out for nooks.\n\nYou don't want to be there.",
 	"Take note of what they do,\n\nand use them for next time.",
@@ -94,7 +101,7 @@ func _ready():
 
 func show_after_death():
 	visible = true
-	$AnimationPlayer.play("Show")
+	$AnimationPlayer.play("RESET" if get_tree().get_current_scene().name == "Intro" else "Show")
 	
 	if GameState.intro_started:
 		$Control/Percent.visible = false

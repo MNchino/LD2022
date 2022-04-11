@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=2]
@@ -15,6 +15,8 @@
 [ext_resource path="res://Sprite/intro1.png" type="Texture" id=13]
 [ext_resource path="res://Sprite/intro2.png" type="Texture" id=14]
 [ext_resource path="res://Level/Intro/StartingAnim.gd" type="Script" id=15]
+[ext_resource path="res://UI/DeathGUI.gd" type="Script" id=16]
+[ext_resource path="res://Level/Intro/IntroLabelDashRefresh.gd" type="Script" id=17]
 
 [sub_resource type="Animation" id=24]
 resource_name = "LightUp"
@@ -421,6 +423,16 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -1638374, 2, 1, -1638373, 2, 0, -1638372, 2, 2, -1638371, 2, 2, -1638370, 2, 2, -1638369, 2, 2, -1638368, 2, 2, -1638367, 2, 0, -1638366, 2, 2, -1638365, 2, 1, -1572839, 2, 0, -1572838, 2, 2, -1572837, 2, 2, -1572836, 2, 1, -1572835, 2, 2, -1572834, 2, 0, -1572833, 2, 0, -1572832, 2, 0, -1572831, 2, 0, -1572830, 2, 0, -1572829, 2, 2, -1572828, 2, 0, -1507304, 2, 2, -1507303, 2, 2, -1507302, 2, 0, -1507294, 2, 2, -1507293, 2, 1, -1310691, 2, 2, -1310690, 2, 1, -1310689, 2, 0, -1245155, 2, 1, -1245154, 2, 1, -1245153, 2, 2, -1245152, 2, 0, -1179648, 2, 2, -1179617, 2, 1, -1179616, 2, 0, -917499, 2, 2, -786437, 2, 1, -262141, 2, 1, 851971, 2, 1, 983036, 2, 0, 1048573, 2, 2, 1179650, 2, 2, 1376253, 2, 0, 1441788, 2, 0, 1507323, 2, 1, 1572859, 2, 1, 1507330, 2, 0, 1769468, 2, 2, 1703939, 2, 2, 1835008, 2, 2, 1900547, 2, 1, 2097149, 2, 1 )
 
+[node name="Brambleborder" type="TileMap" parent="LevelGeometry"]
+visible = false
+position = Vector2( 16, 0 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 512
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( -1638374, 2, 1, -1638373, 2, 0, -1638372, 2, 2, -1638371, 2, 2, -1638370, 2, 2, -1638369, 2, 2, -1638368, 2, 2, -1638367, 2, 0, -1638366, 2, 2, -1572839, 2, 0, -1572838, 2, 2, -1572837, 2, 2, -1572836, 2, 1, -1572835, 2, 2, -1572834, 2, 0, -1572833, 2, 0, -1572832, 2, 0, -1572831, 2, 0, -1572830, 2, 0, -1572829, 2, 2, -1507304, 2, 2, -1507303, 2, 2, -1507294, 2, 2, -1507293, 2, 1, -1310692, 2, 0, -1310691, 2, 2, -1310690, 2, 1, -1245156, 2, 0, -1245155, 2, 1, -1245154, 2, 1, -1245153, 2, 2, -1245152, 2, 0, -1179617, 2, 1, -1179616, 2, 0 )
+
 [node name="Glowberry" parent="LevelGeometry" instance=ExtResource( 4 )]
 position = Vector2( 78, 682 )
 
@@ -487,7 +499,6 @@ position = Vector2( 0, -41 )
 shape = SubResource( 6 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 material = ExtResource( 7 )
 margin_left = -63.0
@@ -513,7 +524,6 @@ position = Vector2( -0.5, -79.5 )
 shape = SubResource( 9 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel2" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -538,7 +548,6 @@ position = Vector2( 0, -85 )
 shape = SubResource( 9 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel3" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -563,7 +572,6 @@ position = Vector2( 465, 126 )
 shape = SubResource( 9 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel4" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -582,13 +590,13 @@ anims/RESET = SubResource( 13 )
 [node name="IntroLabel5" parent="LevelGeometry" instance=ExtResource( 6 )]
 material = ExtResource( 7 )
 position = Vector2( 415, -236 )
+script = ExtResource( 17 )
 
 [node name="CollisionShape2D" parent="LevelGeometry/IntroLabel5" index="0"]
 position = Vector2( 505, 66 )
 shape = SubResource( 14 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel5" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -615,7 +623,6 @@ position = Vector2( 395, 171 )
 shape = SubResource( 14 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel6" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -623,9 +630,9 @@ margin_left = 280.0
 margin_top = 73.0
 margin_right = 706.0
 margin_bottom = 215.0
-text = "But only if the
+text = "But only if the light gifts you
 
-light gifts you from your touch."
+from the touch of your blade."
 
 [node name="AnimationPlayer" parent="LevelGeometry/IntroLabel6" index="2"]
 anims/FadeIn = SubResource( 17 )
@@ -640,7 +647,6 @@ position = Vector2( 412.5, 65.5 )
 shape = SubResource( 19 )
 
 [node name="Label" parent="LevelGeometry/IntroLabel7" index="1"]
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -665,7 +671,6 @@ shape = SubResource( 19 )
 
 [node name="Label" parent="LevelGeometry/EntitySpawn" index="1"]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.352941 )
 light_mask = 0
 material = ExtResource( 7 )
@@ -787,7 +792,7 @@ one_shot = true
 autostart = true
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 5 )]
-visible = false
+script = ExtResource( 16 )
 
 [node name="YSort" type="YSort" parent="." groups=["sortyboy"]]
 __meta__ = {
