@@ -3,6 +3,7 @@ extends Node2D
 var skip = false
 
 func _ready():
+	GameState.load_game()
 	# warning-ignore:return_value_discarded
 	# GameState.connect("player_spawned", self, "_start")
 	if skip || GameState.intro_started:

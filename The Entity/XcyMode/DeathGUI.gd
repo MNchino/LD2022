@@ -73,4 +73,27 @@ func show_after_death():
 			GameState.times_drowned_in_a_row += 1
 		else:
 			GameState.times_drowned_in_a_row = 0
-	
+			
+func do_ending_state():
+	if GameState.recieved_item:
+		input_disabled = true
+		$GeneralDialogUI2.dialog_lines = [
+			"...",
+			"  ...Oh?",
+			"[ITEM_APPEAR]",
+			'oh no.',
+			"[ITEM_SPIN]",
+			"what have u done."
+		]
+		$GeneralDialogUI2.start()
+		$GeneralDialogUI2.connect("dialog_ended", self, "go_to_snow_mode")
+		$GeneralDialogUI2.use_white = true
+	else:
+		.do_ending_state()
+
+func go_to_snow_mode():
+	GameState.unlocked_snow = true
+	GameState.save_game()
+	GameState.reset()
+	# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://SnowMode/SnowMode.tscn")

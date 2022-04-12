@@ -139,14 +139,13 @@ func _input(_event):
 					# warning-ignore:return_value_discarded
 					get_tree().reload_current_scene()
 			elif GameState.finished:
-				if $PassTimer.is_stopped():
-					$PassTimer.start()
-					visible = false
-					GameState.camera.target.get_node("PlayerSprite").visible = false
+				do_ending_state()
 			else:
 				restart_game()
 	if Input.is_action_just_pressed("xcy_mode") && GameState.finished:
 		GameState.reset()
+		GameState.unlocked_xcy = true
+		GameState.save_game()
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn")
 		
@@ -159,6 +158,12 @@ func show_progress():
 	var messing_around = rand_range(-0.025, 0.025)
 	var frac = 1 - float(GameState.travelled_rooms)/GameState.num_rooms + messing_around
 	$Control/Percent.text = str(round(clamp(frac,0,1)*100.0))
+	
+func do_ending_state():
+	if $PassTimer.is_stopped():
+		$PassTimer.start()
+		visible = false
+		GameState.camera.target.get_node("PlayerSprite").visible = false
 
 func _on_PassTimer_timeout():
 	get_tree().quit()

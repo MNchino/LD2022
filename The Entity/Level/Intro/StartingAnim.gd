@@ -5,6 +5,15 @@ var input_ok : bool = false
 
 signal starting_anim_done()
 
+func _init():
+	GameState.connect("save_data_loaded", self, "_on_save_loaded")
+		
+func _on_save_loaded():
+	if GameState.unlocked_snow:
+		$SnowModeLabel.visible = true
+	if GameState.unlocked_xcy:
+		$XcyModeLabel.visible = true
+
 func _input(_event):
 	if Input.is_action_just_pressed("game_restart"):
 		if $AnimPlayer.is_playing():
@@ -27,12 +36,18 @@ func move_state():
 		3:
 			$AnimPlayer.play("FadeOut")
 		4:
-			if Input.is_key_pressed(KEY_SHIFT):
+			if Input.is_action_pressed("xcy_mode_skip") && GameState.unlocked_xcy:
 				GameState.reset()
 				# warning-ignore:return_value_discarded
 				get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn")
+			elif Input.is_action_pressed("snow_mode_skip") && GameState.unlocked_snow:
+				GameState.reset()
+				# warning-ignore:return_value_discarded
+				get_tree().change_scene("res://SnowMode/SnowMode.tscn")
 			$Intro1.hide()
 			$Intro2.hide()
+			$SnowModeLabel.hide()
+			$XcyModeLabel.hide()
 			$Label1.show()
 			input_ok = true
 			$AnimPlayer.play("FadeIn")

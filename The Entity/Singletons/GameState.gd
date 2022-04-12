@@ -19,7 +19,12 @@ var is_snow_mode = false
 var times_drowned_in_a_row = 0 setget set_times_drowned_in_a_row
 var times_drowned_in_a_row_required = 1
 var recieved_item = false
-
+var unlocked_snow = false
+var unlocked_xcy = false
+var max_int = 9223372036854775807
+var alo_high_score = max_int
+var xcy_high_score = max_int
+var snow_high_score = max_int
 var freeze_timer : Timer
 var root : Viewport
 
@@ -32,6 +37,7 @@ signal dashes_changed(new_num)
 signal parried(direction)
 signal phase_changed(new_phase)
 signal unlocked_item()
+signal save_data_loaded()
 
 func _ready():
 	reset()
@@ -63,6 +69,7 @@ func set_player(player : Player):
 	
 func unset_player(player : Player):
 	cur_player = player
+	save_game()
 	emit_signal('player_died', player)
 	
 func set_hit_particle(hitpart : Particles2D):
@@ -132,6 +139,8 @@ func set_times_drowned_in_a_row(new_num : int):
 	times_drowned_in_a_row = new_num
 	if times_drowned_in_a_row >= times_drowned_in_a_row_required && !recieved_item:
 		recieved_item = true
+		GameState.recieved_item = true
+		GameState.save_game()
 		emit_signal("unlocked_item")
 		
 func hsv_to_rgb(h, s, v, a = 1):
@@ -173,3 +182,40 @@ func hsv_to_rgb(h, s, v, a = 1):
 			g = p
 			b = q
 	return Color(r, g, b, a)
+	
+func load_game():
+	var save_game = File.new()
+	if !save_game.file_exists("user://save_game.save"):
+		emit_signal("save_data_loaded")
+		return # Error! We don't have a save to load.
+
+	# Load the file line by line and process that dictionary to restore the object it represents
+	var error = save_game.open("user://save_game.save", File.READ)
+	if error == OK:
+		while not save_game.eof_reached():
+			var current_line = parse_json(save_game.get_line())
+			print(current_line)
+			recieved_item = bool(current_line["recieved_item"])
+			unlocked_xcy = bool(current_line["unlocked_xcy"])
+			unlocked_snow = bool(current_line["unlocked_snow"])
+			alo_high_score = int(current_line["alo_high_score"])
+			xcy_high_score = int(current_line["xcy_high_score"])
+			snow_high_score = int(current_line["snow_high_score"])
+		save_game.close()
+		emit_signal("save_data_loaded")
+
+func save_game():
+	var save_game = File.new()
+	var error = save_game.open("user://save_game.save", File.WRITE)
+	if error == OK:
+		var save_data = {
+			"recieved_item" : recieved_item,
+			"unlocked_xcy" : unlocked_xcy,
+			"unlocked_snow" : unlocked_snow,
+			"alo_high_score" : alo_high_score,
+			"xcy_high_score" : xcy_high_score,
+			"snow_high_score" : snow_high_score
+		}
+		save_game.store_string(to_json(save_data)) #NOTE - CAN USE STORE LINE, BUT LAST STORE MUST BE STORE STRING
+		print("Saving to " + save_game.get_path_absolute())
+		save_game.close()
