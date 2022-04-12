@@ -14,8 +14,10 @@ var drowned : bool = false
 var intro_started : bool = false
 var intro_done : bool = false
 var phases = [0,3,6,9]
+var phases_xcy = [0,2,5,8]
 var cur_phase = -1
 var is_snow_mode = false
+var is_xcy_mode = false
 var times_drowned_in_a_row = 0 setget set_times_drowned_in_a_row
 var times_drowned_in_a_row_required = 1
 var recieved_item = false
@@ -25,6 +27,8 @@ var max_int = 9223372036854775807
 var alo_high_score = max_int
 var xcy_high_score = max_int
 var snow_high_score = max_int
+var entity_max_health = 300
+var entity_health = entity_max_health
 var freeze_timer : Timer
 var root : Viewport
 
@@ -109,6 +113,8 @@ func reset():
 	cur_phase = -1
 	finished = false
 	is_snow_mode = false
+	is_xcy_mode = false
+	entity_health = entity_max_health
 	reset_dashes()
 	GInput.enable_game_input()
 
@@ -128,7 +134,10 @@ func hit_particle(pos : Vector2):
 func set_travelled_rooms(new_num : int):
 	travelled_rooms = new_num
 	var phase = -1
-	for min_before_phase in phases:
+	var used_phases = phases
+	if is_xcy_mode:
+		used_phases = phases_xcy
+	for min_before_phase in used_phases:
 		if travelled_rooms >= min_before_phase:
 			phase += 1
 	if cur_phase < phase:

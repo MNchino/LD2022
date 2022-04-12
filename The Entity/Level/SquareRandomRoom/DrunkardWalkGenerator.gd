@@ -1,7 +1,7 @@
 extends Node2D
 
 var room_template = preload("res://Level/SquareRandomRoom/SquareRandomRoom.tscn")
-var max_rooms = 2
+var max_rooms = 10
 var map_position = Vector2(0,0)
 var tile_length = 32
 var room_length = 16*tile_length # CHANGE THIS IF U USE LARGER SQUARE

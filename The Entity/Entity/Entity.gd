@@ -27,6 +27,7 @@ var repos_delay_min : float = 5
 var repos_delay_max : float = 8
 var spawn_distance : float = 250
 var repos_distance : float = 150
+var knock_back_damage : float = 2
 var homing_bullets_to_spawn : int = 2
 var tight_homing_bullets_to_spawn : int = 0
 var wave_bullets_to_spawn : int = 1
@@ -185,6 +186,8 @@ func knock_back(away_from_position : Vector2):
 		$KnockbackTime.start()
 		$HitParticle.restart()
 		$HitParticle.emitting = true
+	if GameState.is_snow_mode:
+		GameState.entity_health -= knock_back_damage
 
 func _on_KnockbackTime_timeout():
 	knocked_back = false

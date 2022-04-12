@@ -1,10 +1,10 @@
 extends "res://Entity/Entity.gd"
 
 func _init():
-	shoot_delay_min = .25
-	shoot_delay_max = .5
-	repos_delay_min = 1
-	repos_delay_max = 2
+	shoot_delay_min = .5
+	shoot_delay_max = .75
+	repos_delay_min = 2
+	repos_delay_max = 4
 
 func react_to_phase_change(new_phase):
 	match(new_phase):

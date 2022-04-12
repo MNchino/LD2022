@@ -35,7 +35,7 @@ var active : bool = true
 
 
 func is_xcy_mode():
-	return get_tree().get_current_scene().name == "XcyPlayspace"
+	return GameState.is_xcy_mode
 	
 func is_snow_mode():
 	return GameState.is_snow_mode
