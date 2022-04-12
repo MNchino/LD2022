@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/DeathGUI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://UI/GeneralDialogUI.tscn" type="PackedScene" id=2]
+[ext_resource path="res://XcyMode/DeathGUI.gd" type="Script" id=3]
+
+[node name="DeathGUI" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="GeneralDialogUI" parent="." index="3" instance=ExtResource( 2 )]

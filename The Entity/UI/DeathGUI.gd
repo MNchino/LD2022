@@ -2,6 +2,7 @@ extends Control
 
 var blink_range = Vector2(.05, .3)
 var blink_range_hide = Vector2(.1, 2.2)
+var input_disabled = false
 
 var death_messages = [
 	"Do you have the resolve to go on?",
@@ -101,7 +102,7 @@ func _ready():
 
 func show_after_death():
 	visible = true
-	$AnimationPlayer.play("RESET" if get_tree().get_current_scene().name == "Intro" else "Show")
+	$AnimationPlayer.play("FadeIn")
 	
 	if GameState.intro_started:
 		$Control/Percent.visible = false
@@ -126,7 +127,7 @@ func show_after_death():
 
 func _input(_event):
 	if Input.is_action_just_pressed("game_restart"):
-		if visible:
+		if visible && !input_disabled:
 			if GameState.intro_started:
 				GameState.reset()
 				if GameState.intro_done:
@@ -143,13 +144,16 @@ func _input(_event):
 					visible = false
 					GameState.camera.target.get_node("PlayerSprite").visible = false
 			else:
-				GameState.reset()
-				# warning-ignore:return_value_discarded
-				get_tree().reload_current_scene()
+				restart_game()
 	if Input.is_action_just_pressed("xcy_mode") && GameState.finished:
 		GameState.reset()
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://XcyMode/XcyPlayspace2.tscn")
+		
+func restart_game():
+	GameState.reset()
+	# warning-ignore:return_value_discarded
+	get_tree().reload_current_scene()
 
 func show_progress():
 	var messing_around = rand_range(-0.025, 0.025)

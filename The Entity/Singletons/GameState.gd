@@ -16,8 +16,8 @@ var intro_done : bool = false
 var phases = [0,3,6,9]
 var cur_phase = -1
 var is_snow_mode = false
-var times_drowned_in_a_row = 0
-var times_drowned_in_a_row_required = 5
+var times_drowned_in_a_row = 0 setget set_times_drowned_in_a_row
+var times_drowned_in_a_row_required = 1
 var recieved_item = false
 
 var freeze_timer : Timer
@@ -130,7 +130,7 @@ func set_travelled_rooms(new_num : int):
 		
 func set_times_drowned_in_a_row(new_num : int):
 	times_drowned_in_a_row = new_num
-	if times_drowned_in_a_row_required >= times_drowned_in_a_row_required && !recieved_item:
+	if times_drowned_in_a_row >= times_drowned_in_a_row_required && !recieved_item:
 		recieved_item = true
 		emit_signal("unlocked_item")
 		

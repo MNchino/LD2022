@@ -12,7 +12,7 @@ func _ready():
 		$LevelGeometry/Glowberry8.get_node("ParryHurtbox").monitorable = true
 		$LevelGeometry/Glowberry8.get_node("ParryHurtbox").monitoring = true
 		$YSort/IntroWalk.start()
-		$UI/FadeIn.play("RESET")
+		$UI/FadeIn.play("FadeIn")
 		$UI/StartingAnim.queue_free()
 	else:
 		# warning-ignore:return_value_discarded
@@ -22,7 +22,7 @@ func _start():
 	$UI/StartingAnim.disconnect("starting_anim_done", self, "_start")
 	$UI/StartingAnim.queue_free()
 	$YSort/IntroWalk.start()
-	$UI/FadeIn.play("RESET")
+	$UI/FadeIn.play("FadeIn")
 
 func _input(_event):
 	if Input.is_action_just_pressed("game_restart"):

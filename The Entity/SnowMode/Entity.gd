@@ -9,8 +9,8 @@ func _init():
 func react_to_phase_change(new_phase):
 	match(new_phase):
 		0:
-			curving_bullets_to_spawn = [4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4]
-#			circle_bullets_to_spawn = 6
+			curving_bullets_to_spawn = [32,32,32,32,32,32,32,32,32]
+			circle_bullets_to_spawn = 6
 			homing_bullets_to_spawn = 0
 			wave_bullets_to_spawn = 0
 		1:

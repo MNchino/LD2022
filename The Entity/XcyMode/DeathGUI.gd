@@ -1,5 +1,7 @@
 extends "res://UI/DeathGUI.gd"
 
+var item_unlock_sequence_enabled = false
+
 func _ready():
 	death_messages = [
 		"this is a real bruh moment",
@@ -27,7 +29,48 @@ func _ready():
 		"ngl i didn't put any effort into making this mode",
 		"at least the entity will never give you up, never let you down.",
 		"Error 69: nice.",
-		"This is why you don't leave chino unsupervised"
+		"This is why you don't leave chino unsupervised",
+		
+		"betcha can't drown 3 times in a row",
+		"whatever you do, don't drown a lot. water is expensive",
+		"9 out of 10 doctors reccomend drowning 3 times a day"
 	]
 
 	drown_messages = death_messages
+	
+	GameState.connect('unlocked_item', self, 'start_item_unlock_sequence')
+	$GeneralDialogUI.connect("dialog_ended", self, "resume_after_item_unlock")
+
+func start_item_unlock_sequence():
+	item_unlock_sequence_enabled = true
+	
+func restart_game():
+	if item_unlock_sequence_enabled:
+		play_item_unlock_sequence()
+	else:
+		.restart_game()
+		
+func play_item_unlock_sequence():
+	input_disabled = true
+	$GeneralDialogUI.dialog_lines = [
+		"So you've chosen death.",
+		"You're really getting tired of this, aren't you?",
+		"You know what, I give up.",
+		"Have this.",
+		"[ITEM_DROP]", 
+		"You better get to the end now, ok???",
+		"I'm counting on you."
+	]
+	$GeneralDialogUI.start()
+	
+func resume_after_item_unlock():
+	.restart_game()
+	
+func show_after_death():
+	.show_after_death()
+	if !GameState.intro_started:
+		if GameState.drowned:
+			GameState.times_drowned_in_a_row += 1
+		else:
+			GameState.times_drowned_in_a_row = 0
+	
