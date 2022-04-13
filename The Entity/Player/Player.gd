@@ -199,13 +199,13 @@ func attack():
 		is_facing_up = maus.y < global_position.y
 		update_sprite_xflip(-1 if maus.x < global_position.x else 1)
 	
-func knock_back():
+func knock_back(knock_dir = Vector2(0,0)):
 	if !active:
 		return
-	if is_knocking_back:
+	if is_knocking_back || is_dashing_cd:
 		return
 	
-	knock_back_dir = -motion_velocity.normalized()
+	knock_back_dir = -motion_velocity.normalized() if !knock_dir else knock_dir
 	motion_velocity = Vector2(0,0)
 	is_knocking_back = true
 	$Audio/Prep.play()
