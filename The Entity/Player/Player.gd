@@ -219,8 +219,15 @@ func attack():
 		update_sprite_xflip(-1 if maus.x < global_position.x else 1)
 		
 func knock_back_from_collider(collision : KinematicCollision2D):
-	if !is_dashing:
-		knock_back(Vector2(0,0), collision.normal)
+	if is_dashing:
+		return
+	
+	if collision.collider.is_class('Node'):
+		var collider : Node = collision.collider
+		if collider.is_in_group('water'):
+			return
+			
+	knock_back(Vector2(0,0), collision.normal)
 	
 func knock_back(knock_dir = Vector2(0,0), normal = Vector2(0,0)):
 	if !active:
@@ -234,9 +241,6 @@ func knock_back(knock_dir = Vector2(0,0), normal = Vector2(0,0)):
 		var d = motion_velocity.normalized()
 		var n = normal
 		knock_back_dir = d.bounce(n).normalized()
-		print("motion", d)
-		print("normal", n)
-		print("knockback", knock_back_dir)
 	else:
 		knock_back_dir = -motion_velocity.normalized()
 	motion_velocity = Vector2(0,0)

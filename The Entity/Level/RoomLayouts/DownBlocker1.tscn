@@ -332,7 +332,7 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( 720902, 1, 0, 720903, 1, 0, 786438, 1, 0, 786439, 1, 0, 851972, 1, 0, 851973, 1, 0, 851974, 1, 0, 851975, 1, 0, 917508, 1, 0, 917509, 1, 0, 917510, 1, 0, 917511, 1, 0, 917512, 1, 0, 917515, 1, 0, 983045, 1, 0, 983046, 1, 0, 983047, 1, 0, 983048, 1, 0, 983049, 1, 0, 983050, 1, 0 )
 
-[node name="Water" type="TileMap" parent="."]
+[node name="Water" type="TileMap" parent="." groups=["water"]]
 tile_set = SubResource( 48 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 256

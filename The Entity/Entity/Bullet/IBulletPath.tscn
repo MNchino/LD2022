@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Entity/Bullet/CircleBulletPath.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 32, 40, 0, 0, 0, 0, 32, 24, 0, 0, 0, 0, 8, 24, 0, 0, 0, 0, 8, -24, 0, 0, 0, 0, 32, -24, 0, 0, 0, 0, 32, -40, 0, 0, 0, 0, 0, -40, 0, 0, 0, 0, -32, -40, 0, 0, 0, 0, -32, -24, 0, 0, 0, 0, -8, -24, 0, 0, 0, 0, -8, 24, 0, 0, 0, 0, -32, 24, 0, 0, 0, 0, -32, 40, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 32, 40 )
+}
+
+[node name="CircleBulletPath" instance=ExtResource( 1 )]
+curve = SubResource( 1 )

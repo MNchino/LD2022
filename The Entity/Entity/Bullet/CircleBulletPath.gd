@@ -11,6 +11,7 @@ var growing = true
 var base_point_positions = []
 var target_point_positions = []
 var time = 0
+var entered = false
 
 func _ready():
 	var new_curve = Curve2D.new()
@@ -52,4 +53,8 @@ func set_base_angle(base_angle, min_h = 0, max_h = 1):
 			k.get_node('Bullet').set_base_angle(base_angle, min_h, max_h)
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	if entered:
+		queue_free()
+
+func _on_VisibilityNotifier2D_screen_entered():
+	entered = true

@@ -4,8 +4,13 @@ class_name Entity
 var bullet_template = preload("res://Entity/Bullet/Bullet.tscn")
 var homing_bullet_template = preload("res://Entity/Bullet/HomingBullet.tscn")
 var curving_bullet_template = preload("res://Entity/Bullet/CurvingBullet.tscn")
-var circle_bullet_template = preload("res://Entity/Bullet/TriangleBulletPath.tscn")
+var circle_bullet_template = preload("res://Entity/Bullet/CircleBulletPath.tscn")
+var triangle_bullet_template = preload("res://Entity/Bullet/TriangleBulletPath.tscn")
+var star_bullet_template = preload("res://Entity/Bullet/StarBulletPath.tscn")
 var bullet_container_template = preload("res://Entity/Bullet/BulletContainer.tscn")
+var chino_bullet_templates = [preload("res://Entity/Bullet/OBulletPath.tscn"), preload("res://Entity/Bullet/NBulletPath.tscn"), preload("res://Entity/Bullet/IBulletPath.tscn"), preload("res://Entity/Bullet/HBulletPath.tscn"), preload("res://Entity/Bullet/CbulletPath.tscn")]
+
+signal shooting_pattern_ended()
 
 var active : bool = false
 var motion_velocity : Vector2  = Vector2(0,0)
@@ -15,7 +20,9 @@ var max_velocity : Vector2 = Vector2(90,90)
 var drift_const : float = 50
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
-var knock_back_speed : float = 400
+var knocK_back_speed_normal : float = 400
+var knock_back_speed_under_attack : float = 100
+var knock_back_speed : float = knocK_back_speed_normal
 var is_shooting : bool = false
 var is_shooting_cd : bool = true
 var bullet_speed : float = 120 
@@ -39,8 +46,11 @@ var alternating_homing_bullets_to_spawn = 0
 var curving_bullets_to_spawn = [0,0,0,0]
 var time_between_curving_bullet_spawns = 0.1
 var circle_bullets_to_spawn = 0
-var circle_bullet_speed = 80
+var shape_bullet_speed = 80
+var letter_bullet_speed = 240
 var bullet_container = null
+var current_bullet_pattern = "chino"
+var awaiting_teleport_in = false
 
 func _ready():
 	GameState.set_entity(self)
@@ -109,57 +119,16 @@ func start_shoot():
 	
 func fire_shot():
 	if !active:
+		$ShootingWindDown.start()
 		return
-	var target_position = GameState.cur_player.global_position
-	var angle_to_travel = (target_position - global_position).normalized()
-	if alternating_wave_homing:
-		if alternate_to_home_next:
-			homing_bullets_to_spawn = alternating_homing_bullets_to_spawn
-			wave_bullets_to_spawn = 0	
-		else:
-			homing_bullets_to_spawn = 0
-			wave_bullets_to_spawn = alternating_wave_bullets_to_spawn
-		alternate_to_home_next = !alternate_to_home_next
-	var used_angle = randi()%360
-	for k in range(circle_bullets_to_spawn):
-		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/circle_bullets_to_spawn)))
-		fire_bullet(circle_bullet_template,bullet_dir,circle_bullet_speed,0,used_angle,0,0.2)
-	for m in range(curving_bullets_to_spawn.size()):
-		for k in range(curving_bullets_to_spawn[m]):
-			var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/curving_bullets_to_spawn[m])))
-			fire_bullet(curving_bullet_template,bullet_dir,homing_bullet_speed, time_between_curving_bullet_spawns*m, used_angle)
-	for k in range(homing_bullets_to_spawn):
-		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/homing_bullets_to_spawn)))
-		fire_bullet(homing_bullet_template,bullet_dir,homing_bullet_speed)
-	if tight_homing_bullets_to_spawn == 2:
-		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +15))
-		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -15))
-		fire_bullet(homing_bullet_template,bullet_dir_1,homing_bullet_speed)
-		fire_bullet(homing_bullet_template,bullet_dir_2,homing_bullet_speed)
-	if wave_bullets_to_spawn == 1:
-		fire_bullet(bullet_template,angle_to_travel,bullet_speed)
-	elif wave_bullets_to_spawn == 2:
-		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +30))
-		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -30))
-		fire_bullet(bullet_template,bullet_dir_1,bullet_speed)
-		fire_bullet(bullet_template,bullet_dir_2,bullet_speed)
-	elif wave_bullets_to_spawn == 3:
-		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) +30))
-		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) -30))
-		fire_bullet(bullet_template,bullet_dir_1,bullet_speed)
-		fire_bullet(bullet_template,bullet_dir_2,bullet_speed)
-		fire_bullet(bullet_template,angle_to_travel,bullet_speed)
 	else:
-		if wave_bullets_to_spawn != 0:
-			for k in range(wave_bullets_to_spawn):
-				var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/wave_bullets_to_spawn)))
-				fire_bullet(bullet_template,bullet_dir,homing_bullet_speed)
+		fire_bullet_pattern(current_bullet_pattern)
 	
 func fire_bullet(template, angle_to_travel, speed, time_before_spawn = 0, base_angle = 0, min_h = 0, max_h = 1):
 	if time_before_spawn:
 		yield(get_tree().create_timer(time_before_spawn), "timeout")
-	if !active:
-		return
+	if !can_fire():
+		pass
 	var i = template.instance()
 	add_bullet_child(i)
 	i.set_as_toplevel(true)
@@ -182,6 +151,7 @@ func start_player_follow(_player : Player):
 
 func stop_player_follow(_player : Player):
 	active = false
+	awaiting_teleport_in = false
 	queue_free()
 	
 func reposition(distance : float):
@@ -191,6 +161,13 @@ func reposition(distance : float):
 
 func knock_back(away_from_position : Vector2):
 	if !knocked_back:
+		#determine speed
+		if GameState.is_snow_mode:
+			if is_shooting:
+				knock_back_speed = knock_back_speed_under_attack
+			else:
+				knock_back_speed = knocK_back_speed_normal
+		
 		knocked_back = true
 		knock_back_dir = (global_position - away_from_position).normalized()
 		$KnockbackTime.start()
@@ -216,9 +193,6 @@ func _on_Hurtbox_area_entered(area):
 
 func _on_ShootingWindUp_timeout():
 	$EntitySprite.play("AttackShoot")
-	$Audio/WaveAttack.pitch_scale = rand_range(0.95,1.05)
-	$Audio/WaveAttack.play()
-	$ShootingWindDown.start()
 	fire_shot()
 	
 func _on_ShootingWindDown_timeout():
@@ -227,6 +201,9 @@ func _on_ShootingWindDown_timeout():
 	$ShootingCoolDown.start()
 	is_shooting = false
 	is_shooting_cd = true
+	if GameState.is_snow_mode && awaiting_teleport_in:
+		awaiting_teleport_in = false
+		teleport_in()
 
 func _on_ShootingCoolDown_timeout():
 	if active:
@@ -239,6 +216,15 @@ func _on_ShootingCoolDown_timeout():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	active = false
+	#Snow mode requires a lot of bullets to fire, and has long bullet patterns
+	#Therefore, we wait until the pattern is finished before teleporting
+	if GameState.is_snow_mode && is_shooting:
+		awaiting_teleport_in = true
+	else:
+		teleport_in()
+	
+## Assert entity is already off screen	
+func teleport_in():
 	reposition(repos_distance)
 	$AnimationPlayer.play("FadeIn")
 	$TeleportTimer.stop()
@@ -266,6 +252,157 @@ func _on_TeleportTimer_timeout():
 		$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
 		$TeleportTimer.start()
 		
+func fire_bullet_pattern(_pattern_name):
+	var target_position = GameState.cur_player.global_position
+	var angle_to_travel = (target_position - global_position).normalized()
+	var used_angle = randi()%360
+	match(_pattern_name):
+		"default":
+			#Only one shot sound plays
+			$Audio/WaveAttack.pitch_scale = rand_range(0.95,1.05)
+			$Audio/WaveAttack.play()
+			$ShootingWindDown.start()
+			
+			if alternating_wave_homing:
+				if alternate_to_home_next:
+					homing_bullets_to_spawn = alternating_homing_bullets_to_spawn
+					wave_bullets_to_spawn = 0	
+				else:
+					homing_bullets_to_spawn = 0
+					wave_bullets_to_spawn = alternating_wave_bullets_to_spawn
+				alternate_to_home_next = !alternate_to_home_next
+			fire_shaped_bullets('circle', circle_bullets_to_spawn, angle_to_travel, shape_bullet_speed, 0, used_angle)
+			for m in range(curving_bullets_to_spawn.size()):
+				fire_curving_bullets(curving_bullets_to_spawn[m], angle_to_travel, homing_bullet_speed, time_between_curving_bullet_spawns*m, used_angle)
+			fire_homing_bullets(homing_bullets_to_spawn,angle_to_travel,homing_bullet_speed)
+			fire_tight_homing_bullets(tight_homing_bullets_to_spawn,angle_to_travel,homing_bullet_speed)
+			fire_wave_bullets(wave_bullets_to_spawn, angle_to_travel, bullet_speed)
+		"shapes":
+			var total_duration = .7
+			play_fire_sound()
+			fire_shaped_bullets('circle', 8, angle_to_travel, shape_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(total_duration), "timeout")
+			$Audio/WaveAttack.pitch_scale = rand_range(0.95,1.05)
+			$Audio/WaveAttack.play()
+			emit_signal("shooting_pattern_ended")
+			fire_shaped_bullets('triangle', 6, angle_to_travel, shape_bullet_speed, 0, used_angle)
+		"chino":
+			var time = 0.3
+			play_fire_sound()
+			fire_shaped_bullets('o', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('n', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('i', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('h', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('c', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			$ShootingWindDown.start()
+			
+func wait(time: float):
+	yield(get_tree().create_timer(time), "timeout")
+			
+func play_fire_sound():
+	if can_fire():
+		$Audio/WaveAttack.pitch_scale = rand_range(0.95,1.05)
+		$Audio/WaveAttack.play()
+	
+func can_fire():
+	if !active:
+		if !GameState.is_snow_mode:
+			return false
+		else:
+			#We can continue firing as long as we are awaiting teleport
+			if !awaiting_teleport_in:
+				return false
+			else:
+				return true
+	return true
+			
+func fire_shaped_bullets(shape: String, num : int, angle : Vector2, speed : float, delay : float, angle_seed : int):
+	var template_to_spawn
+	var min_h
+	var max_h
+	match(shape):
+		'circle':
+			template_to_spawn = circle_bullet_template
+			min_h = 0.2
+			max_h = 0.4
+		'triangle':
+			template_to_spawn = triangle_bullet_template
+			min_h = 0.0
+			max_h = 0.2
+		'star':
+			template_to_spawn = star_bullet_template
+			min_h = 0.4
+			max_h = 0.6
+		'o':
+			template_to_spawn = chino_bullet_templates[0]
+			min_h = .9
+			max_h = 1
+		'n':
+			template_to_spawn = chino_bullet_templates[1]
+			min_h = .8
+			max_h = .9
+		'i':
+			template_to_spawn = chino_bullet_templates[2]
+			min_h = .7
+			max_h = .8
+		'h':
+			template_to_spawn = chino_bullet_templates[3]
+			min_h = .6
+			max_h = .7
+		'c':
+			template_to_spawn = chino_bullet_templates[4]
+			min_h = .5
+			max_h = .6
+	for k in range(num):
+		var angle_to_use = angle.angle() if num == 1 else deg2rad(rad2deg(angle.angle()) + 360.0*(float(k + 0.5)/num))
+		var bullet_dir = Vector2(1,0).rotated(angle_to_use)
+		fire_bullet(template_to_spawn,bullet_dir,speed,delay,angle_seed,min_h,max_h)
+			
+func fire_curving_bullets(num : int, angle : Vector2, speed : float, delay : float, angle_seed : int):
+	for k in range(num):
+		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) + 360.0*(float(k + 0.5)/num)))
+		fire_bullet(curving_bullet_template,bullet_dir,speed, delay, angle_seed)
+			
+func fire_homing_bullets(num : int, angle : Vector2, speed : float):
+	for k in range(num):
+		var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) + 360.0*(float(k + 0.5)/num)))
+		fire_bullet(homing_bullet_template,bullet_dir,speed)
+
+func fire_tight_homing_bullets(num : int, angle : Vector2, speed : float):
+	if num == 2:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) +15))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) -15))
+		fire_bullet(homing_bullet_template,bullet_dir_1,speed)
+		fire_bullet(homing_bullet_template,bullet_dir_2,speed)
+				
+func fire_wave_bullets(num : int, angle : Vector2, speed : float):
+	if num == 1:
+		fire_bullet(bullet_template,angle,speed)
+	elif num == 2:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) +30))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) -30))
+		fire_bullet(bullet_template,bullet_dir_1,speed)
+		fire_bullet(bullet_template,bullet_dir_2,speed)
+	elif num == 3:
+		var bullet_dir_1 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) +30))
+		var bullet_dir_2 = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) -30))
+		fire_bullet(bullet_template,bullet_dir_1,speed)
+		fire_bullet(bullet_template,bullet_dir_2,speed)
+		fire_bullet(bullet_template,angle,speed)
+	else:
+		if num != 0:
+			for k in range(num):
+				var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle.angle()) + 360.0*(float(k + 0.5)/num)))
+				fire_bullet(bullet_template,bullet_dir,speed)
+		
 func react_to_phase_change(new_phase):
 	match(new_phase):
 		0:
@@ -288,3 +425,7 @@ func react_to_phase_change(new_phase):
 func start_fever():
 	repos_delay_max = repos_delay_min
 	shoot_delay_max = shoot_delay_min
+
+
+func _on_Entity_shooting_pattern_ended():
+	$ShootingWindDown.start()

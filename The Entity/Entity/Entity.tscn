@@ -164,6 +164,7 @@ anims/FadeIn = SubResource( 7 )
 anims/FadeOut = SubResource( 9 )
 anims/RESET = SubResource( 8 )
 
+[connection signal="shooting_pattern_ended" from="." to="." method="_on_Entity_shooting_pattern_ended"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="KnockbackTime" to="." method="_on_KnockbackTime_timeout"]
 [connection signal="timeout" from="ShootingWindUp" to="." method="_on_ShootingWindUp_timeout"]

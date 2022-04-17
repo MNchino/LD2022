@@ -325,7 +325,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [node name="LeftBlocker5" type="Node2D"]
 
-[node name="Water" type="TileMap" parent="."]
+[node name="Water" type="TileMap" parent="." groups=["water"]]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 256
