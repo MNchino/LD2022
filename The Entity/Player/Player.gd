@@ -3,8 +3,10 @@ class_name Player
 
 var shoot_template = preload('res://Player/Lighterang/LighterangThrower.tscn')
 var attack_template = preload("res://Player/Attack/Attack.tscn")
+var snow_attack_template = preload("res://SnowMode/SnowAttack.tscn")
 var dead_template = preload("res://Player/DeadPlaceholder.tscn")
 var xcy_frames = preload("res://Sprite/Player/XcyFrames.tres")
+var auto_shooter_template = preload("res://SnowMode/AutoShooter.tscn")
 
 var motion_velocity : Vector2  = Vector2(0,0)
 var motion_accel : float = .4
@@ -32,6 +34,7 @@ var slowed_max_velocity = 150
 var shoot_object_path : NodePath = ""
 var is_drowned : bool = false
 var active : bool = true
+var autoshooter = null
 
 
 func is_xcy_mode():
@@ -67,9 +70,11 @@ func _ready():
 	if is_snow_mode():
 		$AnimatedSprite/DashIndicator.frame = 0
 		$Timers/DashCoolDown.wait_time = .25
+		$Timers/AttackCoolDown.wait_time = .5
 		max_velocity = 150
 		input_speed = 15
-		$Timers/ShootCoolDown.wait_time = .25
+		$Timers/ShootCoolDown.wait_time = 1
+		configure_autoshoot()
 
 func _physics_process(delta):
 	if !active:
@@ -122,6 +127,9 @@ func _physics_process(delta):
 	else:
 		# warning-ignore:return_value_discarded
 		move_and_slide(motion_velocity)
+		var collision = get_last_slide_collision( )
+		if collision:
+			knock_back_from_collider(collision)
 	
 func _process(_delta):
 	if !active:
@@ -173,6 +181,17 @@ func shoot():
 	
 	var target_position = get_global_mouse_position()
 	update_sprite_xflip(-1 if target_position.x < global_position.x else 1)
+
+func configure_autoshoot():
+	if !autoshooter:
+		var i = auto_shooter_template.instance()
+		add_child(i)
+		i.global_position = global_position
+		autoshooter = i
+		autoshooter.configure(GameState.player_shooting_amount, GameState.player_shooting_speed)
+		autoshooter.activate()
+	else:
+		autoshooter.configure(GameState.player_shooting_amount, GameState.player_shooting_speed)
 	
 func attack():
 	if !active:
@@ -198,14 +217,28 @@ func attack():
 		var maus = get_global_mouse_position()
 		is_facing_up = maus.y < global_position.y
 		update_sprite_xflip(-1 if maus.x < global_position.x else 1)
+		
+func knock_back_from_collider(collision : KinematicCollision2D):
+	if !is_dashing:
+		knock_back(Vector2(0,0), collision.normal)
 	
-func knock_back(knock_dir = Vector2(0,0)):
+func knock_back(knock_dir = Vector2(0,0), normal = Vector2(0,0)):
 	if !active:
 		return
 	if is_knocking_back || is_dashing_cd:
 		return
 	
-	knock_back_dir = -motion_velocity.normalized() if !knock_dir else knock_dir
+	if knock_dir:
+		knock_back_dir = knock_dir
+	elif normal:
+		var d = motion_velocity.normalized()
+		var n = normal
+		knock_back_dir = d.bounce(n).normalized()
+		print("motion", d)
+		print("normal", n)
+		print("knockback", knock_back_dir)
+	else:
+		knock_back_dir = -motion_velocity.normalized()
 	motion_velocity = Vector2(0,0)
 	is_knocking_back = true
 	$Audio/Prep.play()
@@ -282,29 +315,10 @@ func _on_ShootCoolDown_timeout():
 func _on_AttackPrep_timeout():
 	invincible = false
 	
-	var k = attack_template.instance()
+	var k = attack_template.instance() if !is_snow_mode() else snow_attack_template.instance()
 	add_child(k)
 	k.set_as_toplevel(true)
 	k.global_position = global_position
-	
-	if is_snow_mode():
-		var i = attack_template.instance()
-		add_child(i)
-		i.set_as_toplevel(true)
-		i.global_position = global_position
-		i.rotation_degrees = k.rotation_degrees + 90
-		
-		i = attack_template.instance()
-		add_child(i)
-		i.set_as_toplevel(true)
-		i.global_position = global_position
-		i.rotation_degrees = k.rotation_degrees + 180
-		
-		i = attack_template.instance()
-		add_child(i)
-		i.set_as_toplevel(true)
-		i.global_position = global_position
-		i.rotation_degrees = k.rotation_degrees + 270
 	
 	$Audio/Attack.pitch_scale = rand_range(0.95,1.05)
 	$Audio/Attack.play()
@@ -344,6 +358,8 @@ func _on_GameState_dashes_changed(count:int):
 	
 func _on_GameState_parried(direction:float):
 	knock_back_dir = -Vector2.RIGHT.rotated(direction)
+	if is_snow_mode():
+		knock_back_dir = Vector2(0,0)
 	is_knocking_back = true
 	var orig_wait_time = $Timers/KnockBackTime.wait_time
 	$Timers/KnockBackTime.wait_time = attack_knock_back_time
@@ -367,10 +383,6 @@ func _on_WateryTime_timeout():
 	if is_in_water:
 		insta_kill()
 		is_drowned = true
-
-func _on_BrambleDetector_body_entered(_body):
-	if !is_dashing:
-		knock_back()
 
 func play_step():
 	$Audio/Step.pitch_scale = rand_range(0.8, 1.2)

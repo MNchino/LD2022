@@ -11,8 +11,21 @@ var tiles_to_visit = []
 var dirs_to_use = []
 var last_dir = 0
 
+var room_container = null
+var room_container_template = preload("res://Level/SquareRandomRoom/RoomContainer.tscn")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	spawn_rooms()
+	
+func add_room(room):
+	if !room_container:
+		var cont = room_container_template.instance()
+		add_child(cont)
+		room_container = cont
+	room_container.add_child(room)
+	
+func spawn_rooms():
 	randomize()
 	var has_correct_path = false
 	
@@ -53,9 +66,11 @@ func _ready():
 	
 	map_position = Vector2(0,0)
 	last_dir = 0
+	GameState.rooms = []
 	for k in range(max_rooms):
 		var room = room_template.instance()
-		add_child(room)
+		GameState.rooms.push_back(room)
+		add_room(room)
 		if k != 0:
 			room.open((last_dir + 2)%4)
 		else:

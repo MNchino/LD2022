@@ -6,6 +6,8 @@ extends "res://UI/DeathGUI.gd"
 # var b = "text"
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func restart_game():
+	GameState.soft_reset()
+	GameState.respawn_in_next_room()
+	$AnimationPlayer.play('RESET')
+	visible = false

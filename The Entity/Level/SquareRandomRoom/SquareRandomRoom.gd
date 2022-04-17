@@ -35,6 +35,7 @@ var right = null
 var up = null
 var down = null
 var is_travelled = false
+var spawnpoint = null
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -66,15 +67,17 @@ func block_down():
 func block_up():
 	up = spawn_blocker(up_blockers)
 	
-func spawn_blocker(blockers_array):
+func spawn_blocker(blockers_array, is_center = false):
 	var blocker_to_use = blockers_array[randi()%blockers_array.size()]
 	var i = blocker_to_use.instance()
+	if is_center:
+		spawnpoint = i.get_node('PlayerRespawnpoint')
 	add_child(i)
 	return i
 	
 func set_center_if_unset():
 	if !center_set:
-		spawn_blocker(centers)
+		spawn_blocker(centers, true)
 
 func open(dir : int):
 	match(dir):
@@ -90,11 +93,13 @@ func open(dir : int):
 func set_as_goal_room():
 	var i = goal_template.instance()
 	add_child(i)
+	spawnpoint = i.get_node('PlayerRespawnpoint')
 	center_set = true
 	
 func set_as_spawn_room():
 	var i = spawn_template.instance()
 	add_child(i)
+	spawnpoint = i.get_node('PlayerRespawnpoint')
 	center_set = true
 
 func _on_Area2D_body_entered(_body):

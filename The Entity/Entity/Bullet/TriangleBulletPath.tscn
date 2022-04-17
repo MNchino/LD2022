@@ -9,6 +9,3 @@ _data = {
 
 [node name="TriangleBulletPath" instance=ExtResource( 1 )]
 curve = SubResource( 1 )
-
-[node name="VisibilityNotifier2D" parent="." index="0"]
-visible = false

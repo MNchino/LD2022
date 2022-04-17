@@ -1,5 +1,6 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
+[ext_resource path="res://PlayerSpawnpoint/PlayerRespawnpoint.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://Sprite/Tileset/Tileset.png" type="Texture" id=3]
 [ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=4]
@@ -342,3 +343,6 @@ cell_size = Vector2( 32, 32 )
 collision_layer = 2
 collision_mask = 0
 format = 1
+
+[node name="PlayerRespawnpoint" parent="." instance=ExtResource( 1 )]
+position = Vector2( 240, 208 )

@@ -11,6 +11,7 @@ var amount_to_turn = 3
 var amount_to_turn_remaining = amount_to_turn
 var parried_speed = 160
 var hue_range = Vector2(0.0,1.0)
+var visibility_notif = true
 	
 func _physics_process(_delta):
 	if parried:
@@ -36,26 +37,31 @@ func set_base_angle(base_angle, min_h = 0, max_h = 0):
 
 
 func _on_Hitbox_area_entered(area):
-	if parried:
-		return
-		
-	if area.is_in_group('attack'):
-		var temp_pos = global_position;
-		set_as_toplevel(true)
-		global_position = temp_pos
-		parried = true
-		parried_speed = 2*speed if 2*speed > 0 else parried_speed
-		parried_location = global_position;
-		if is_in_group('path_following_bullet'):
-			direction_once_parried = (get_parent().get_parent().get_parent().global_position - parried_location).normalized()
-		else:
-			direction_once_parried = (get_parent().global_position - parried_location).normalized()
-		$Hitbox.set_collision_mask_bit(3, false)
-		$Hitbox.set_collision_mask_bit(4, false)
-		$Hitbox.set_collision_layer_bit(10, true)
+	pass
+#	if parried:
+#		return
+#
+#	if area.is_in_group('attack'):
+#		var temp_pos = global_position;
+#		set_as_toplevel(true)
+#		global_position = temp_pos
+#		parried = true
+#		parried_speed = 2*speed if 2*speed > 0 else parried_speed
+#		parried_location = global_position;
+#		if is_in_group('path_following_bullet'):
+#			direction_once_parried = (get_parent().get_parent().get_parent().global_position - parried_location).normalized()
+#		else:
+#			direction_once_parried = (get_parent().global_position - parried_location).normalized()
+#		$Hitbox.set_collision_mask_bit(3, false)
+#		$Hitbox.set_collision_mask_bit(4, false)
+#		$Hitbox.set_collision_layer_bit(10, true)
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	if visibility_notif:
+		queue_free()
 
 func _on_Hitbox_tree_exiting():
 	queue_free()
+
+func disable_visibility_delete():
+	visibility_notif = false

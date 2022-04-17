@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=1]
 
-[node name="Bramble" type="TileMap"]
+[node name="Bramble" type="TileMap" groups=["bramble"]]
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 512

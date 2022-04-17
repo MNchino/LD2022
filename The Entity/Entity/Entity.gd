@@ -5,6 +5,7 @@ var bullet_template = preload("res://Entity/Bullet/Bullet.tscn")
 var homing_bullet_template = preload("res://Entity/Bullet/HomingBullet.tscn")
 var curving_bullet_template = preload("res://Entity/Bullet/CurvingBullet.tscn")
 var circle_bullet_template = preload("res://Entity/Bullet/TriangleBulletPath.tscn")
+var bullet_container_template = preload("res://Entity/Bullet/BulletContainer.tscn")
 
 var active : bool = false
 var motion_velocity : Vector2  = Vector2(0,0)
@@ -27,7 +28,7 @@ var repos_delay_min : float = 5
 var repos_delay_max : float = 8
 var spawn_distance : float = 250
 var repos_distance : float = 150
-var knock_back_damage : float = 2
+var knock_back_damage : float = 0
 var homing_bullets_to_spawn : int = 2
 var tight_homing_bullets_to_spawn : int = 0
 var wave_bullets_to_spawn : int = 1
@@ -39,6 +40,7 @@ var curving_bullets_to_spawn = [0,0,0,0]
 var time_between_curving_bullet_spawns = 0.1
 var circle_bullets_to_spawn = 0
 var circle_bullet_speed = 80
+var bullet_container = null
 
 func _ready():
 	GameState.set_entity(self)
@@ -156,8 +158,10 @@ func fire_shot():
 func fire_bullet(template, angle_to_travel, speed, time_before_spawn = 0, base_angle = 0, min_h = 0, max_h = 1):
 	if time_before_spawn:
 		yield(get_tree().create_timer(time_before_spawn), "timeout")
+	if !active:
+		return
 	var i = template.instance()
-	add_child(i)
+	add_bullet_child(i)
 	i.set_as_toplevel(true)
 	i.global_position = global_position 
 	i.dir = angle_to_travel
@@ -165,6 +169,12 @@ func fire_bullet(template, angle_to_travel, speed, time_before_spawn = 0, base_a
 	if base_angle != 0:
 		i.set_base_angle(base_angle, min_h, max_h)
 	
+func add_bullet_child(bullet):
+	if !bullet_container:
+		var cont = bullet_container_template.instance()
+		add_child(cont)
+		bullet_container = cont
+	bullet_container.add_child(bullet)
 	
 func start_player_follow(_player : Player):
 	active = true

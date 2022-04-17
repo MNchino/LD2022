@@ -1,0 +1,341 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://PlayerSpawnpoint/PlayerRespawnpoint.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Level/Glowberry/Glowberry.tscn" type="PackedScene" id=2]
+[ext_resource path="res://SnowMode/Teleporter.tscn" type="PackedScene" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "LightUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.267943, 0.241484 ),
+"update": 0,
+"values": [ 0.01, 0.3 ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light2D:texture_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.01 ]
+}
+
+[node name="GoalCenter" type="Node2D"]
+
+[node name="PlayerRespawnpoint" parent="." instance=ExtResource( 1 )]
+position = Vector2( 280, 200 )
+
+[node name="GlowberryNotHittable" parent="." instance=ExtResource( 2 )]
+position = Vector2( 256, 320 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="GlowberryNotHittable6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 192, 256 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable6/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable6/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable6" index="4"]
+anims/LightUp = SubResource( 1 )
+anims/RESET = SubResource( 2 )
+
+[node name="GlowberryNotHittable7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 256, 192 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable7/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable7/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable7" index="4"]
+anims/LightUp = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
+[node name="GlowberryNotHittable8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 320, 256 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable8/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable8/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable8" index="4"]
+anims/LightUp = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+
+[node name="GlowberryNotHittable5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 304, 304 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable5/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable5/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable5" index="4"]
+anims/LightUp = SubResource( 7 )
+anims/RESET = SubResource( 8 )
+
+[node name="GlowberryNotHittable3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 208 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable3/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable3/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable3" index="4"]
+anims/LightUp = SubResource( 9 )
+anims/RESET = SubResource( 10 )
+
+[node name="GlowberryNotHittable4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 304, 208 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable4/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable4/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable4" index="4"]
+anims/LightUp = SubResource( 11 )
+anims/RESET = SubResource( 12 )
+
+[node name="GlowberryNotHittable2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 208, 304 )
+is_hittable = false
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable2/LightHurtbox" index="0"]
+disabled = true
+
+[node name="CollisionShape2D" parent="GlowberryNotHittable2/ParryHurtbox" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="GlowberryNotHittable2" index="4"]
+anims/LightUp = SubResource( 13 )
+anims/RESET = SubResource( 14 )
+
+[node name="Teleporter" parent="." instance=ExtResource( 3 )]
+light_mask = 0
+position = Vector2( 256, 256 )
+
+[editable path="GlowberryNotHittable"]
+[editable path="GlowberryNotHittable6"]
+[editable path="GlowberryNotHittable7"]
+[editable path="GlowberryNotHittable8"]
+[editable path="GlowberryNotHittable5"]
+[editable path="GlowberryNotHittable3"]
+[editable path="GlowberryNotHittable4"]
+[editable path="GlowberryNotHittable2"]

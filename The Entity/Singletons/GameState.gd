@@ -31,6 +31,14 @@ var entity_max_health = 300
 var entity_health = entity_max_health
 var freeze_timer : Timer
 var root : Viewport
+var rooms = []
+var cur_chaser = null
+var health_to_gain_on_soft_reset = 30
+var shooting_amount_level = [1,1,2,3,4,5]
+var shooting_speed_level = [1,1,1,.5,.5,.3]
+var num_teleports = 0
+var player_shooting_speed : float = shooting_speed_level[num_teleports]
+var player_shooting_amount : float = shooting_amount_level[num_teleports]
 
 signal player_spawned(player)
 signal player_died(player)
@@ -42,6 +50,7 @@ signal parried(direction)
 signal phase_changed(new_phase)
 signal unlocked_item()
 signal save_data_loaded()
+signal player_teleported_to_start()
 
 func _ready():
 	reset()
@@ -70,6 +79,24 @@ func set_player(player : Player):
 	cur_player = player
 	started = true
 	emit_signal('player_spawned', player)
+	
+func teleport_back_to_beginning():
+	if is_instance_valid(cur_chaser):
+		cur_chaser.restart()
+	set_travelled_rooms(-1)
+	for room in rooms:
+		room.is_travelled = false
+		
+	#Configure player auto shooting
+	num_teleports += 1
+	player_shooting_speed = shooting_speed_level[min(shooting_speed_level.size() - 1, num_teleports)]
+	player_shooting_amount = shooting_amount_level[min(shooting_amount_level.size() - 1, num_teleports)]
+		
+	var room_to_spawn : Node2D = rooms[0]
+	var spawnpoint = room_to_spawn.spawnpoint
+	spawnpoint.spawn_no_death(cur_player)
+	
+	emit_signal('player_teleported_to_start')
 	
 func unset_player(player : Player):
 	cur_player = player
@@ -117,6 +144,16 @@ func reset():
 	entity_health = entity_max_health
 	reset_dashes()
 	GInput.enable_game_input()
+	
+func soft_reset():
+	reset_dashes()
+	GInput.enable_game_input()
+	started = false
+	drowned = false
+	cur_player = null
+	for berri in get_tree().get_nodes_in_group('glowboi'):
+		berri.show_to_player()
+	entity_health =  min(entity_health +health_to_gain_on_soft_reset, entity_max_health)
 
 func freeze(time : float = 1.0):
 	freeze_timer.wait_time = time
@@ -203,7 +240,6 @@ func load_game():
 	if error == OK:
 		while not save_game.eof_reached():
 			var current_line = parse_json(save_game.get_line())
-			print(current_line)
 			recieved_item = bool(current_line["recieved_item"])
 			unlocked_xcy = bool(current_line["unlocked_xcy"])
 			unlocked_snow = bool(current_line["unlocked_snow"])
@@ -212,6 +248,15 @@ func load_game():
 			snow_high_score = int(current_line["snow_high_score"])
 		save_game.close()
 		emit_signal("save_data_loaded")
+		
+func respawn_in_next_room():
+	var room_to_spawn_index = travelled_rooms
+	if travelled_rooms < num_rooms - 1:
+		room_to_spawn_index += 1
+		
+	var room_to_spawn : Node2D = rooms[room_to_spawn_index]
+	var spawnpoint = room_to_spawn.spawnpoint
+	spawnpoint.spawn()
 
 func save_game():
 	var save_game = File.new()
@@ -226,5 +271,4 @@ func save_game():
 			"snow_high_score" : snow_high_score
 		}
 		save_game.store_string(to_json(save_data)) #NOTE - CAN USE STORE LINE, BUT LAST STORE MUST BE STORE STRING
-		print("Saving to " + save_game.get_path_absolute())
 		save_game.close()
