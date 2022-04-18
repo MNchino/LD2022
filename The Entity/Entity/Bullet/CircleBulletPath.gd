@@ -11,7 +11,8 @@ var growing = true
 var base_point_positions = []
 var target_point_positions = []
 var time = 0
-var entered = false
+var should_delete = false
+var can_delete = false
 
 func _ready():
 	var new_curve = Curve2D.new()
@@ -47,14 +48,21 @@ func _physics_process(_delta):
 			ki += 1
 	rotation_degrees = rad2deg(dir.angle())
 	
+	if can_delete && should_delete:
+		queue_free()
+	
 func set_base_angle(base_angle, min_h = 0, max_h = 1):
 	for k in get_children():
 		if k.is_in_group('bullet_follower'):
 			k.get_node('Bullet').set_base_angle(base_angle, min_h, max_h)
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if entered:
+	should_delete = true
+	if can_delete:
 		queue_free()
 
 func _on_VisibilityNotifier2D_screen_entered():
-	entered = true
+	should_delete = false
+
+func _on_TimeBeforeInitialDelete_timeout():
+	can_delete = true
