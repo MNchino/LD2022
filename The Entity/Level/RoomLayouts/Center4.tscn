@@ -382,7 +382,7 @@ position = Vector2( 304, 240 )
 shape = SubResource( 52 )
 
 [node name="PlayerRespawnpoint" parent="." instance=ExtResource( 5 )]
-position = Vector2( 208, 208 )
+position = Vector2( 200, 200 )
 
 [editable path="Area2D"]
 [editable path="Area2D2"]

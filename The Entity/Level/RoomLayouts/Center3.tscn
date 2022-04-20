@@ -327,7 +327,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [node name="Center3" type="Node2D"]
 
 [node name="PlayerRespawnpoint" parent="." instance=ExtResource( 4 )]
-position = Vector2( 304, 272 )
+position = Vector2( 312, 280 )
 
 [node name="Obstacles" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )

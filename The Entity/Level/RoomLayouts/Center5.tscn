@@ -354,4 +354,4 @@ position = Vector2( 304, 304 )
 position = Vector2( 208, 304 )
 
 [node name="PlayerRespawnpoint" parent="." instance=ExtResource( 2 )]
-position = Vector2( 256, 336 )
+position = Vector2( 256, 344 )

@@ -345,4 +345,4 @@ tile_data = PoolIntArray( 327685, 4, 1, 327686, 4, 2, 393221, 4, 65537, 393222, 
 position = Vector2( 176, 240 )
 
 [node name="PlayerRespawnpoint" parent="." instance=ExtResource( 1 )]
-position = Vector2( 240, 272 )
+position = Vector2( 224, 288 )
