@@ -1,7 +1,7 @@
 tool
 class_name ShapePolygon2D  extends Polygon2D
 
-#
+
 func _get_configuration_warning() -> String:
 	if shape == null:
 		return "Shape resource is null"
