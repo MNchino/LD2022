@@ -39,6 +39,7 @@ var shooting_speed_level = [1,1,1,.5,.5,.3]
 var num_teleports = 0
 var player_shooting_speed : float = shooting_speed_level[num_teleports]
 var player_shooting_amount : float = shooting_amount_level[num_teleports]
+var is_player_in_final_room : bool = false
 
 signal player_spawned(player)
 signal player_died(player)
@@ -51,6 +52,8 @@ signal phase_changed(new_phase)
 signal unlocked_item()
 signal save_data_loaded()
 signal player_teleported_to_start()
+signal player_reached_last_room()
+
 
 func _ready():
 	reset()
@@ -81,6 +84,7 @@ func set_player(player : Player):
 	emit_signal('player_spawned', player)
 	
 func teleport_back_to_beginning():
+	is_player_in_final_room = false
 	if is_instance_valid(cur_chaser):
 		cur_chaser.restart()
 	set_travelled_rooms(-1)
@@ -174,12 +178,19 @@ func set_travelled_rooms(new_num : int):
 	var used_phases = phases
 	if is_xcy_mode:
 		used_phases = phases_xcy
-	for min_before_phase in used_phases:
-		if travelled_rooms >= min_before_phase:
-			phase += 1
-	if cur_phase < phase:
-		cur_phase = phase
-		emit_signal("phase_changed", cur_phase)
+	if is_snow_mode:
+		#Disable enemy in last room, so player can't camp
+		if travelled_rooms >= num_rooms - 1:
+			is_player_in_final_room = true
+			print("we should despawn entity")
+			emit_signal("player_reached_last_room")
+	else:
+		for min_before_phase in used_phases:
+			if travelled_rooms >= min_before_phase:
+				phase += 1
+		if cur_phase < phase:
+			cur_phase = phase
+			emit_signal("phase_changed", cur_phase)
 		
 func set_times_drowned_in_a_row(new_num : int):
 	times_drowned_in_a_row = new_num

@@ -171,5 +171,6 @@ anims/RESET = SubResource( 8 )
 [connection signal="timeout" from="ShootingWindDown" to="." method="_on_ShootingWindDown_timeout"]
 [connection signal="timeout" from="ShootingCoolDown" to="." method="_on_ShootingCoolDown_timeout"]
 [connection signal="timeout" from="TeleportTimer" to="." method="_on_TeleportTimer_timeout"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

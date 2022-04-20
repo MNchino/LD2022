@@ -333,7 +333,7 @@ collision_layer = 2
 collision_mask = 0
 format = 1
 
-[node name="Water" type="TileMap" parent="."]
+[node name="Water" type="TileMap" parent="." groups=["water"]]
 tile_set = SubResource( 48 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 256

@@ -329,7 +329,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [node name="Glowberry" parent="." instance=ExtResource( 4 )]
 position = Vector2( 304, 176 )
 
-[node name="Water" type="TileMap" parent="."]
+[node name="Water" type="TileMap" parent="." groups=["water"]]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 256

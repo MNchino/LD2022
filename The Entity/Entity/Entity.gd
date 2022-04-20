@@ -21,7 +21,7 @@ var drift_const : float = 50
 var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
 var knocK_back_speed_normal : float = 400
-var knock_back_speed_under_attack : float = 100
+var knock_back_speed_under_attack : float = 400
 var knock_back_speed_autobullet : float = 0
 var knock_back_speed : float = knocK_back_speed_normal
 var is_shooting : bool = false
@@ -53,9 +53,15 @@ var letter_bullet_speed = 240
 var bullet_container = null
 var current_bullet_pattern = "chino"
 var awaiting_teleport_in = false
+var hiding = false
 
 func _ready():
 	GameState.set_entity(self)
+	
+	if GameState.is_snow_mode && GameState.is_player_in_final_room:
+		visible = false
+		hiding = true
+	
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_spawned", self, "start_player_follow")
 	# warning-ignore:return_value_discarded
@@ -64,10 +70,12 @@ func _ready():
 	GameState.connect("player_won", self, "stop_player_follow")
 	# warning-ignore:return_value_discarded
 	GameState.connect("phase_changed", self, "react_to_phase_change")
+	# only in snow mode
+	GameState.connect("player_reached_last_room", self, 'teleport_out_until_player_restart')
+	
 	$EntitySprite.play("Idle")
 	
 func _physics_process(_delta):
-	#TODO Convert to NavMesh Later
 	
 	if starting_move:
 		if active:
@@ -148,6 +156,15 @@ func add_bullet_child(bullet):
 	bullet_container.add_child(bullet)
 	
 func start_player_follow(_player : Player):
+	# Don't spawn entity in final room in snow mode
+	if GameState.is_snow_mode :
+		if GameState.is_player_in_final_room:
+			teleport_out_until_player_restart()
+			return
+		else:
+			visible = true
+			hiding = false
+		
 	active = true
 	reposition(spawn_distance)
 
@@ -162,6 +179,11 @@ func reposition(distance : float):
 			global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
 func knock_back(away_from_position : Vector2, is_autobullet : bool = false):
+	if GameState.is_snow_mode:
+		if hiding:
+			return
+		GameState.entity_health -= knock_back_damage if !is_autobullet else knock_back_autobullet_damage
+		
 	if !knocked_back:
 		#determine speed
 		if GameState.is_snow_mode:
@@ -177,8 +199,6 @@ func knock_back(away_from_position : Vector2, is_autobullet : bool = false):
 		$KnockbackTime.start()
 		$HitParticle.restart()
 		$HitParticle.emitting = true
-	if GameState.is_snow_mode:
-		GameState.entity_health -= knock_back_damage if !is_autobullet else knock_back_autobullet_damage
 
 func _on_KnockbackTime_timeout():
 	knocked_back = false
@@ -207,7 +227,7 @@ func _on_ShootingWindDown_timeout():
 	$ShootingCoolDown.start()
 	is_shooting = false
 	is_shooting_cd = true
-	if GameState.is_snow_mode && awaiting_teleport_in:
+	if GameState.is_snow_mode && awaiting_teleport_in && !GameState.is_player_in_final_room :
 		awaiting_teleport_in = false
 		teleport_in()
 
@@ -224,8 +244,13 @@ func _on_VisibilityNotifier2D_screen_exited():
 	active = false
 	#Snow mode requires a lot of bullets to fire, and has long bullet patterns
 	#Therefore, we wait until the pattern is finished before teleporting
-	if GameState.is_snow_mode && is_shooting:
-		awaiting_teleport_in = true
+	if GameState.is_snow_mode:
+		if GameState.is_player_in_final_room:
+			awaiting_teleport_in = false
+		elif is_shooting:
+			awaiting_teleport_in = true
+		else:
+			teleport_in()
 	else:
 		teleport_in()
 	
@@ -234,29 +259,41 @@ func teleport_in():
 	reposition(repos_distance)
 	$AnimationPlayer.play("FadeIn")
 	$TeleportTimer.stop()
+	
+func teleport_out():
+	$AnimationPlayer.play("FadeOut")
+	
+	
+func teleport_out_until_player_restart():
+	active = false
+	teleport_out()
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	if anim_name == "FadeOut":
-		if active:
+		if GameState.is_snow_mode && GameState.is_player_in_final_room:
+			#This will stop the enemy until you warp back to the spawn
+			active = false
+		elif active:
 			active = false
 			reposition(repos_distance)
 			$AnimationPlayer.play("FadeIn")
 	elif anim_name == "FadeIn":
 		if is_instance_valid(GameState.cur_player):
 			active = true
-			$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
-			$TeleportTimer.start()
+			reset_and_start_teleport_timer()
+			
+func reset_and_start_teleport_timer():
+	$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
+	$TeleportTimer.start()
 
 func _on_TeleportTimer_timeout():
 	if active:
 		if is_shooting:
-			$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
-			$TeleportTimer.start()
+			reset_and_start_teleport_timer()
 		else:
-			$AnimationPlayer.play("FadeOut")
+			teleport_out()
 	else:
-		$TeleportTimer.wait_time = rand_range(repos_delay_min, repos_delay_max)
-		$TeleportTimer.start()
+		reset_and_start_teleport_timer()
 		
 func fire_bullet_pattern(_pattern_name):
 	var target_position = GameState.cur_player.global_position
@@ -438,3 +475,10 @@ func start_fever():
 
 func _on_Entity_shooting_pattern_ended():
 	$ShootingWindDown.start()
+
+
+func _on_VisibilityNotifier2D_screen_entered():
+	#If entity is about to teleport into screen, but comes back into screen manually
+	#just stop it
+	if awaiting_teleport_in:
+		awaiting_teleport_in = false
