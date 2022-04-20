@@ -22,6 +22,7 @@ var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
 var knocK_back_speed_normal : float = 400
 var knock_back_speed_under_attack : float = 100
+var knock_back_speed_autobullet : float = 0
 var knock_back_speed : float = knocK_back_speed_normal
 var is_shooting : bool = false
 var is_shooting_cd : bool = true
@@ -36,6 +37,7 @@ var repos_delay_max : float = 8
 var spawn_distance : float = 250
 var repos_distance : float = 150
 var knock_back_damage : float = 0
+var knock_back_autobullet_damage : float = 0
 var homing_bullets_to_spawn : int = 2
 var tight_homing_bullets_to_spawn : int = 0
 var wave_bullets_to_spawn : int = 1
@@ -159,7 +161,7 @@ func reposition(distance : float):
 		if GameState.cur_player.is_inside_tree():
 			global_position = GameState.cur_player.global_position + (Vector2.UP * distance).rotated(deg2rad(rand_range(0,360)))
 
-func knock_back(away_from_position : Vector2):
+func knock_back(away_from_position : Vector2, is_autobullet : bool = false):
 	if !knocked_back:
 		#determine speed
 		if GameState.is_snow_mode:
@@ -167,6 +169,8 @@ func knock_back(away_from_position : Vector2):
 				knock_back_speed = knock_back_speed_under_attack
 			else:
 				knock_back_speed = knocK_back_speed_normal
+			if is_autobullet:
+				knock_back_speed = knock_back_speed_autobullet
 		
 		knocked_back = true
 		knock_back_dir = (global_position - away_from_position).normalized()
@@ -174,15 +178,17 @@ func knock_back(away_from_position : Vector2):
 		$HitParticle.restart()
 		$HitParticle.emitting = true
 	if GameState.is_snow_mode:
-		GameState.entity_health -= knock_back_damage
+		GameState.entity_health -= knock_back_damage if !is_autobullet else knock_back_autobullet_damage
 
 func _on_KnockbackTime_timeout():
 	knocked_back = false
 
-func _on_Hurtbox_area_entered(area):
-	knock_back(area.global_position)
-	$Audio/ParryKnockback.pitch_scale = rand_range(0.95,1.05)
-	$Audio/ParryKnockback.play()
+func _on_Hurtbox_area_entered(area : Area2D):
+	var is_autobullet = area.is_in_group('enemy_homer')
+	knock_back(area.global_position, is_autobullet)
+	if !is_autobullet:
+		$Audio/ParryKnockback.pitch_scale = rand_range(0.95,1.05)
+		$Audio/ParryKnockback.play()
 	if area.name != "Attack":
 		area.queue_free()
 	elif starting_move:
