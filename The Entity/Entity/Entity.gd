@@ -128,7 +128,7 @@ func fire_bullet(template, angle_to_travel, speed, time_before_spawn = 0, base_a
 	if time_before_spawn:
 		yield(get_tree().create_timer(time_before_spawn), "timeout")
 	if !can_fire():
-		pass
+		return
 	var i = template.instance()
 	add_bullet_child(i)
 	i.set_as_toplevel(true)
@@ -317,8 +317,11 @@ func can_fire():
 		if !GameState.is_snow_mode:
 			return false
 		else:
-			#We can continue firing as long as we are awaiting teleport
-			if !awaiting_teleport_in:
+			# We can continue firing as long as we are awaiting teleport or not dead
+			# In snow mode only
+			if !is_instance_valid(GameState.cur_player):
+				return false
+			elif !awaiting_teleport_in:
 				return false
 			else:
 				return true

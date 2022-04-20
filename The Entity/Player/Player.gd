@@ -210,13 +210,13 @@ func attack():
 	$Audio/Prep.play()
 	invincible = true
 	
-	if is_instance_valid(GameState.cur_entity):
-		is_facing_up = GameState.cur_entity.position.y < position.y
-		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
-	else:
-		var maus = get_global_mouse_position()
-		is_facing_up = maus.y < global_position.y
-		update_sprite_xflip(-1 if maus.x < global_position.x else 1)
+#	if is_instance_valid(GameState.cur_entity):
+#		is_facing_up = GameState.cur_entity.position.y < position.y
+#		update_sprite_xflip(-1 if GameState.cur_entity.position.x < position.x else 1)
+#	else:
+	var maus = get_global_mouse_position()
+	is_facing_up = maus.y < global_position.y
+	update_sprite_xflip(-1 if maus.x < global_position.x else 1)
 		
 func knock_back_from_collider(collision : KinematicCollision2D):
 	if is_dashing:
@@ -319,7 +319,7 @@ func _on_ShootCoolDown_timeout():
 func _on_AttackPrep_timeout():
 	invincible = false
 	
-	var k = attack_template.instance() if !is_snow_mode() else snow_attack_template.instance()
+	var k = attack_template.instance() # if !is_snow_mode() else snow_attack_template.instance()
 	add_child(k)
 	k.set_as_toplevel(true)
 	k.global_position = global_position
@@ -362,8 +362,8 @@ func _on_GameState_dashes_changed(count:int):
 	
 func _on_GameState_parried(direction:float):
 	knock_back_dir = -Vector2.RIGHT.rotated(direction)
-	if is_snow_mode():
-		knock_back_dir = Vector2(0,0)
+#	if is_snow_mode():
+#		knock_back_dir = Vector2(0,0)
 	is_knocking_back = true
 	var orig_wait_time = $Timers/KnockBackTime.wait_time
 	$Timers/KnockBackTime.wait_time = attack_knock_back_time
