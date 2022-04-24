@@ -23,7 +23,6 @@ var knocked_back : bool = false
 var knock_back_dir : Vector2 = Vector2(0,0)
 var knocK_back_speed_normal : float = 400
 var knock_back_speed_under_attack : float = 400
-var knock_back_speed_autobullet : float = 0
 var knock_back_speed : float = knocK_back_speed_normal
 var is_shooting : bool = false
 var is_shooting_cd : bool = true
@@ -63,6 +62,7 @@ func _ready():
 	if GameState.is_snow_mode && GameState.is_player_in_final_room:
 		visible = false
 		hiding = true
+		$Hitbox/CollisionShape2D.set_deferred("disabled", true)
 	
 	# warning-ignore:return_value_discarded
 	GameState.connect("player_spawned", self, "start_player_follow")
@@ -166,6 +166,7 @@ func start_player_follow(_player : Player):
 		else:
 			visible = true
 			hiding = false
+			$Hitbox/CollisionShape2D.set_deferred("disabled", false)
 		
 	active = true
 	following_player = true
@@ -195,8 +196,9 @@ func knock_back(away_from_position : Vector2, is_autobullet : bool = false):
 				knock_back_speed = knock_back_speed_under_attack
 			else:
 				knock_back_speed = knocK_back_speed_normal
+			#No knockback for autobullets
 			if is_autobullet:
-				knock_back_speed = knock_back_speed_autobullet
+				return
 		
 		knocked_back = true
 		knock_back_dir = (global_position - away_from_position).normalized()
