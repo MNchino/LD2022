@@ -10,3 +10,4 @@ func _process(_delta):
 	animation = parent.animation
 	frame = parent.frame
 	flip_h = parent.flip_h
+	offset = parent.offset

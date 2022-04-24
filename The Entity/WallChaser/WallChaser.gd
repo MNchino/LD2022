@@ -12,6 +12,7 @@ var active = false
 func _ready():
 	GameState.connect("player_spawned", self, "start_chasing")
 	GameState.connect("player_died", self, "stop_chasing")
+	GameState.connect("entity_died", self, "stop_chasing", [null])
 	GameState.cur_chaser = self
 #	$AnimationPlayer.play("Pulse")
 	

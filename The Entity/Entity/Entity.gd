@@ -55,6 +55,7 @@ var current_bullet_pattern = "chino"
 var awaiting_teleport_in = false
 var hiding = false
 var following_player = false
+var exploding = false
 
 func _ready():
 	GameState.set_entity(self)
@@ -75,10 +76,13 @@ func _ready():
 	# only in snow mode
 	GameState.connect("player_reached_last_room", self, 'teleport_out_until_player_restart')
 	
+	GameState.connect("entity_died", self, "explode")
+	
 	$EntitySprite.play("Idle")
 	
 func _physics_process(_delta):
-	
+	if exploding:
+		return
 	if starting_move:
 		if active:
 			if is_instance_valid(GameState.cur_player):
@@ -128,6 +132,14 @@ func start_shoot():
 	$Audio/WaveCharge.pitch_scale = rand_range(0.9,1.1)
 	$Audio/WaveCharge.play()
 	is_shooting = true
+	
+func explode():
+	exploding = true
+	active = false
+	$AnimationPlayer.play("Explode")
+	
+func finish_explosion():
+	GameState.game_won()
 	
 func fire_shot():
 	if !active:
@@ -266,11 +278,15 @@ func _on_VisibilityNotifier2D_screen_exited():
 	
 ## Assert entity is already off screen	
 func teleport_in():
+	if exploding:
+		return
 	reposition(repos_distance)
 	$AnimationPlayer.play("FadeIn")
 	$TeleportTimer.stop()
 	
 func teleport_out():
+	if exploding:
+		return
 	$AnimationPlayer.play("FadeOut")
 	
 	

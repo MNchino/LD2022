@@ -6,7 +6,7 @@ func _init():
 	repos_delay_min = 1
 	repos_delay_max = 2
 	knock_back_damage = 1
-	knock_back_autobullet_damage = .1
+	knock_back_autobullet_damage = 100
 
 func react_to_phase_change(new_phase):
 	match(new_phase):

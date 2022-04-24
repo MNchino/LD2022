@@ -41,6 +41,7 @@ var num_teleports = 0
 var player_shooting_speed : float = shooting_speed_level[num_teleports]
 var player_shooting_amount : float = shooting_amount_level[num_teleports]
 var is_player_in_final_room : bool = false
+var is_entity_alive = true
 
 signal player_spawned(player)
 signal player_died(player)
@@ -54,6 +55,9 @@ signal unlocked_item()
 signal save_data_loaded()
 signal player_teleported_to_start()
 signal player_reached_last_room()
+
+signal entity_died()
+signal game_won()
 
 
 func _ready():
@@ -174,10 +178,15 @@ func hit_particle(pos : Vector2):
 	cur_hit_particle.emitting = true
 	
 func set_entity_health(new_health : float):
-	entity_health = new_health
+	entity_health = max(new_health, 0)
 	var health_remaining = entity_max_health - entity_health
 	var phase = -1
 	if is_snow_mode:
+		if entity_health <= 0:
+			print('we ded boiz')
+			emit_signal("entity_died")
+			is_entity_alive = false
+			return
 		for min_before_phase in phases_snow:
 			if health_remaining >= min_before_phase:
 				phase += 1
@@ -185,6 +194,9 @@ func set_entity_health(new_health : float):
 			cur_phase = phase
 			print ("changing to phase ", phase)
 			emit_signal("phase_changed", cur_phase)
+			
+func game_won():
+	emit_signal('game_won')
 
 func set_travelled_rooms(new_num : int):
 	travelled_rooms = new_num

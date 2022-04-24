@@ -11,6 +11,7 @@ func _ready():
 	GameState.connect("player_spawned", self, "lights_on_if_not_hittable")
 	GameState.connect("player_died", self, "lights_out")
 	GameState.connect('player_teleported_to_start', self, 'trigger_lights_out')
+	GameState.connect('game_won', self, 'lights_out', [null])
 	call_deferred("reparent",self)
 		
 func reparent(node):

@@ -272,7 +272,7 @@ func stop_slow_down():
 	is_slowed = false
 	
 func insta_kill():
-	if invincible:
+	if invincible || !GameState.is_entity_alive:
 		return
 	GameState.unset_player(self)
 	queue_free()
