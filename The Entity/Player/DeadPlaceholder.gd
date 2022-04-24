@@ -2,6 +2,7 @@ extends Node2D
 
 var secondframe : bool = false
 var xcy_frames = preload("res://Sprite/Player/XcyFrames.tres")
+var hidden = false
 
 func _ready():
 	GameState.connect("player_spawned", self, 'hide_body_from_light')
@@ -13,9 +14,20 @@ func _ready():
 		$PlayerSprite.frames = xcy_frames
 		
 func hide_body_from_light(_player):
-	if GameState.is_snow_mode:
+	if GameState.is_snow_mode && !hidden:
 		$PlayerSprite.material = null
 		$PlayerSprite.light_mask = 1
+		$PlayerSprite.z_as_relative = 0
+		$PlayerSprite.z_index = 0
+		hidden = true
+		call_deferred("reparent",self)
+		
+func reparent(node):
+	var target_new_parent = get_tree().get_nodes_in_group('sortyboy')[0]
+	var temp_pos = node.global_position
+	node.get_parent().remove_child(node) # error here  
+	target_new_parent.add_child(node)
+	node.global_position = temp_pos
 	
 func _process(_delta):
 	if $PlayerSprite.frame == 0:

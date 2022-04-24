@@ -15,6 +15,7 @@ var intro_started : bool = false
 var intro_done : bool = false
 var phases = [0,3,6,9]
 var phases_xcy = [0,2,5,8]
+var phases_snow = [0,50, 100, 150, 200, 250]
 var cur_phase = -1
 var is_snow_mode = false
 var is_xcy_mode = false
@@ -27,8 +28,8 @@ var max_int = 9223372036854775807
 var alo_high_score = max_int
 var xcy_high_score = max_int
 var snow_high_score = max_int
-var entity_max_health = 300
-var entity_health = entity_max_health
+var entity_max_health : float = 300
+var entity_health = entity_max_health setget set_entity_health
 var freeze_timer : Timer
 var root : Viewport
 var rooms = []
@@ -145,7 +146,7 @@ func reset():
 	finished = false
 	is_snow_mode = false
 	is_xcy_mode = false
-	entity_health = entity_max_health
+	set_entity_health(entity_max_health)
 	reset_dashes()
 	GInput.enable_game_input()
 	
@@ -157,7 +158,7 @@ func soft_reset():
 	cur_player = null
 	for berri in get_tree().get_nodes_in_group('glowboi'):
 		berri.show_to_player()
-	entity_health =  min(entity_health +health_to_gain_on_soft_reset, entity_max_health)
+	set_entity_health(min(entity_health +health_to_gain_on_soft_reset, entity_max_health))
 
 func freeze(time : float = 1.0):
 	freeze_timer.wait_time = time
@@ -171,6 +172,19 @@ func hit_particle(pos : Vector2):
 	cur_hit_particle.restart()
 	cur_hit_particle.position = pos
 	cur_hit_particle.emitting = true
+	
+func set_entity_health(new_health : float):
+	entity_health = new_health
+	var health_remaining = entity_max_health - entity_health
+	var phase = -1
+	if is_snow_mode:
+		for min_before_phase in phases_snow:
+			if health_remaining >= min_before_phase:
+				phase += 1
+		if cur_phase != phase:
+			cur_phase = phase
+			print ("changing to phase ", phase)
+			emit_signal("phase_changed", cur_phase)
 
 func set_travelled_rooms(new_num : int):
 	travelled_rooms = new_num

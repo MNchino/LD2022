@@ -13,8 +13,14 @@ func activate():
 	aim_and_fire_bullet()
 
 func aim_and_fire_bullet():
+	if !is_instance_valid(GameState.cur_entity):
+		return
 	var target_position = GameState.cur_entity.global_position
 	var angle_to_travel = (target_position - global_position).normalized()
+	
+	#Travel randomly if entity not there
+	if !GameState.cur_entity.active:
+		angle_to_travel = Vector2.RIGHT.rotated(deg2rad(randi()%360))
 	if homing_bullets_to_spawn == 1:
 		call_deferred('fire_bullet',homing_bullet_template,angle_to_travel,homing_bullet_speed)
 	else:

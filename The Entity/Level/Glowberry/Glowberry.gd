@@ -63,6 +63,11 @@ func _on_ParryHurtbox_area_entered(_area):
 		if is_instance_valid(GameState.cur_entity):
 			var target_position = GameState.cur_entity.global_position
 			var angle_to_travel = (target_position - global_position).normalized()
+			
+			#Travel randomly if entity not there
+			if !GameState.cur_entity.active:
+				angle_to_travel = Vector2.RIGHT.rotated(deg2rad(randi()%360))
+			
 			for k in range(homing_bullets_to_spawn):
 				var bullet_dir = Vector2(1,0).rotated(deg2rad(rad2deg(angle_to_travel.angle()) + 360.0*(float(k + 0.5)/homing_bullets_to_spawn)))
 				call_deferred('fire_bullet',homing_bullet_template,bullet_dir,homing_bullet_speed)

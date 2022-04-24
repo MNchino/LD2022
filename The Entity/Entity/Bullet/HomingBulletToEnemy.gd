@@ -9,7 +9,7 @@ var visited_enemy = false
 var turn_speed = 12
 
 func _physics_process(_delta):
-	if homing && is_instance_valid(GameState.cur_entity) && !GameState.cur_entity.hiding:
+	if homing && is_instance_valid(GameState.cur_entity) && GameState.cur_entity.active:
 		var enemy_pos = GameState.cur_entity.global_position
 		var distance_to_enemy = (enemy_pos - global_position).length()
 		var angle_to_enemy = (enemy_pos - global_position).normalized()
