@@ -2,7 +2,7 @@ extends "res://Level/SquareRandomRoom/DrunkardWalkGenerator.gd"
 
 var chaser_template = preload("res://WallChaser/WallChaser.tscn")
 var room_template_2 = preload("res://SnowMode/AlternateSquareRandomRoom.tscn")
-var snow_max_rooms = 4
+var snow_max_rooms = 15
 
 func _init():
 	room_template = room_template_2

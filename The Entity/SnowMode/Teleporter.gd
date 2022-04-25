@@ -13,5 +13,5 @@ func _ready():
 
 
 func _on_Teleporter_body_entered(body):
-	if !GameState.is_entity_alive:
+	if GameState.is_entity_alive:
 		GameState.teleport_back_to_beginning()

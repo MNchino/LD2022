@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://UI/DeathGUI.tscn" type="PackedScene" id=2]
@@ -10,8 +10,8 @@
 [ext_resource path="res://Sprite/Additive.tres" type="Material" id=10]
 [ext_resource path="res://Sprite/Particles/HitParticle.gd" type="Script" id=11]
 
-[sub_resource type="Animation" id=5]
-resource_name = "RESET"
+[sub_resource type="Animation" id=7]
+resource_name = "FadeIn"
 length = 2.0
 tracks/0/type = "method"
 tracks/0/path = NodePath("FadeIn")
@@ -38,6 +38,22 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "RESET"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeIn/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
 }
 
 [sub_resource type="Gradient" id=6]
@@ -76,12 +92,14 @@ __meta__ = {
 
 [node name="FadeIn" type="AnimationPlayer" parent="UI"]
 autoplay = "RESET"
+anims/FadeIn = SubResource( 7 )
 anims/RESET = SubResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
-modulate = Color( 0, 0, 0, 1 )
+modulate = Color( 0, 0, 0, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
 [node name="DeathGUI" parent="UI" instance=ExtResource( 2 )]
 

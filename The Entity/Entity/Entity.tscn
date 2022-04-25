@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Entity/Entity.gd" type="Script" id=1]
 [ext_resource path="res://Sprite/Entity/EntitySprite.tscn" type="PackedScene" id=2]
@@ -8,28 +8,7 @@
 [ext_resource path="res://Sound/EntityCharge.wav" type="AudioStream" id=6]
 [ext_resource path="res://Sprite/Particles/ExplosionParticles.tres" type="Material" id=7]
 [ext_resource path="res://Sprite/Particles/WhitePixel.png" type="Texture" id=8]
-
-[sub_resource type="Shader" id=11]
-code = "shader_type canvas_item;
-
-// Makes character more white
-// pls don't sue me for whitewashing, kai wanted this.
-uniform float whiteness = 0;
-
-void fragment() {
-	float alpha = texture(TEXTURE, UV).a;
-	float red = texture(TEXTURE, UV).r;
-	float green = texture(TEXTURE, UV).g;
-	float blue = texture(TEXTURE, UV).b;
-	COLOR.r = whiteness + (1.0 - whiteness)*red;
-	COLOR.g = whiteness + (1.0 - whiteness)*green;
-	COLOR.b = whiteness + (1.0 - whiteness)*blue;
-	COLOR.a = alpha;
-}"
-
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
-shader_param/whiteness = 0.0
+[ext_resource path="res://Sprite/Unshaded.tres" type="Material" id=9]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 10.0
@@ -120,6 +99,20 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 4.525 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finish_explosion"
+} ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -262,6 +255,7 @@ collision_layer = 4
 script = ExtResource( 1 )
 
 [node name="ExplosionParticle" type="Particles2D" parent="."]
+material = ExtResource( 9 )
 emitting = false
 amount = 64
 lifetime = 3.0
@@ -270,6 +264,7 @@ explosiveness = 0.95
 process_material = ExtResource( 7 )
 
 [node name="ErodingParticle" type="Particles2D" parent="."]
+material = ExtResource( 9 )
 emitting = false
 amount = 64
 lifetime = 5.0
@@ -278,7 +273,6 @@ process_material = ExtResource( 7 )
 texture = ExtResource( 8 )
 
 [node name="EntitySprite" parent="." instance=ExtResource( 2 )]
-material = SubResource( 12 )
 position = Vector2( 0, 24 )
 animation = "AttackPrep"
 

@@ -10,6 +10,7 @@ var star_bullet_template = preload("res://Entity/Bullet/StarBulletPath.tscn")
 var bullet_container_template = preload("res://Entity/Bullet/BulletContainer.tscn")
 var straight_bullet_template = preload("res://Entity/Bullet/StraightBullet.tscn")
 var chino_bullet_templates = [preload("res://Entity/Bullet/OBulletPath.tscn"), preload("res://Entity/Bullet/NBulletPath.tscn"), preload("res://Entity/Bullet/IBulletPath.tscn"), preload("res://Entity/Bullet/HBulletPath.tscn"), preload("res://Entity/Bullet/CbulletPath.tscn")]
+var special_material = preload("res://Entity/unshaded_sihloette.tres")
 
 signal shooting_pattern_ended()
 
@@ -51,11 +52,12 @@ var circle_bullets_to_spawn = 0
 var shape_bullet_speed = 80
 var letter_bullet_speed = 240
 var bullet_container = null
-var current_bullet_pattern = "chino"
+var current_bullet_pattern = "default"
 var awaiting_teleport_in = false
 var hiding = false
 var following_player = false
 var exploding = false
+var bullet_pattern_phases = ["burst", "cross", "shapes", "swirl", "chino", "burst"]
 
 func _ready():
 	GameState.set_entity(self)
@@ -136,6 +138,7 @@ func start_shoot():
 func explode():
 	exploding = true
 	active = false
+	$EntitySprite.material = special_material
 	$AnimationPlayer.play("Explode")
 	
 func finish_explosion():
@@ -358,20 +361,60 @@ func fire_bullet_pattern(_pattern_name):
 		"chino":
 			var time = 0.3
 			play_fire_sound()
-			fire_straight_bullets(10, angle_to_travel,homing_bullet_speed,0,used_angle)
-#			fire_shaped_bullets('o', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
-#			yield(get_tree().create_timer(time), "timeout")
-#			play_fire_sound()
-#			fire_shaped_bullets('n', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
-#			yield(get_tree().create_timer(time), "timeout")
-#			play_fire_sound()
-#			fire_shaped_bullets('i', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
-#			yield(get_tree().create_timer(time), "timeout")
-#			play_fire_sound()
-#			fire_shaped_bullets('h', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
-#			yield(get_tree().create_timer(time), "timeout")
-#			play_fire_sound()
-#			fire_shaped_bullets('c', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			fire_shaped_bullets('o', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('n', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('i', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('h', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_shaped_bullets('c', 1, angle_to_travel, letter_bullet_speed, 0, used_angle)
+			$ShootingWindDown.start()
+		"swirl":
+			var time = 0.1
+			var num_bullets = 16
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			play_fire_sound()
+			fire_curving_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+			yield(get_tree().create_timer(time), "timeout")
+			$ShootingWindDown.start()
+		"cross":
+			var time = 0.1
+			var num_bullets = 4
+			fire_homing_bullets(2,angle_to_travel,homing_bullet_speed)
+			for i in range(8):
+				play_fire_sound()
+				fire_straight_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+				yield(get_tree().create_timer(time), "timeout")
+			$ShootingWindDown.start()
+		"burst":
+			var time = 0.1
+			var num_bullets = 12
+			for i in range(16):
+				play_fire_sound()
+				fire_straight_bullets(num_bullets, angle_to_travel, homing_bullet_speed, time, used_angle)
+				if i % 4 == 0:
+					fire_homing_bullets(4,angle_to_travel,homing_bullet_speed)
+				yield(get_tree().create_timer(time), "timeout")
 			$ShootingWindDown.start()
 			
 func wait(time: float):
@@ -483,23 +526,26 @@ func fire_wave_bullets(num : int, angle : Vector2, speed : float):
 				fire_bullet(bullet_template,bullet_dir,speed)
 		
 func react_to_phase_change(new_phase):
-	match(new_phase):
-		0:
-			wave_bullets_to_spawn = 1
-			homing_bullets_to_spawn = 0
-		1:
-			alternating_wave_bullets_to_spawn = 1
-			alternating_homing_bullets_to_spawn = 2
-			alternating_wave_homing = true
-			wave_bullets_to_spawn = 0
-			homing_bullets_to_spawn = 0
-		2:
-			alternating_wave_homing = false
-			wave_bullets_to_spawn = 1
-			homing_bullets_to_spawn = 2
-		3:
-			homing_bullets_to_spawn = 4
-			wave_bullets_to_spawn = 3
+	if GameState.is_snow_mode:
+		current_bullet_pattern = bullet_pattern_phases[new_phase]
+	else:
+		match(new_phase):
+			0:
+				wave_bullets_to_spawn = 1
+				homing_bullets_to_spawn = 0
+			1:
+				alternating_wave_bullets_to_spawn = 1
+				alternating_homing_bullets_to_spawn = 2
+				alternating_wave_homing = true
+				wave_bullets_to_spawn = 0
+				homing_bullets_to_spawn = 0
+			2:
+				alternating_wave_homing = false
+				wave_bullets_to_spawn = 1
+				homing_bullets_to_spawn = 2
+			3:
+				homing_bullets_to_spawn = 4
+				wave_bullets_to_spawn = 3
 
 func start_fever():
 	repos_delay_max = repos_delay_min

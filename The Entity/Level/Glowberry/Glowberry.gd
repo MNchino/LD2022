@@ -93,7 +93,8 @@ func lights_out(_player : Player):
 	active = false
 	
 func trigger_lights_out():
-	lights_out(null)
+	if is_hittable:
+		lights_out(null)
 	
 func lights_on_if_not_hittable(_player: Player):
 	if !is_hittable:

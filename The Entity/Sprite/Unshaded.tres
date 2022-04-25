@@ -1,4 +1,27 @@
-[gd_resource type="CanvasItemMaterial" format=2]
+[gd_resource type="CanvasItemMaterial" load_steps=3 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+// Makes character more white
+// pls don't sue me for whitewashing, kai wanted this.
+uniform float whiteness = 0;
+
+void fragment() {
+	float alpha = texture(TEXTURE, UV).a;
+	float red = texture(TEXTURE, UV).r;
+	float green = texture(TEXTURE, UV).g;
+	float blue = texture(TEXTURE, UV).b;
+	COLOR.r = whiteness + (1.0 - whiteness)*red;
+	COLOR.g = whiteness + (1.0 - whiteness)*green;
+	COLOR.b = whiteness + (1.0 - whiteness)*blue;
+	COLOR.a = alpha;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/whiteness = 0.0
 
 [resource]
+next_pass = SubResource( 2 )
 light_mode = 1

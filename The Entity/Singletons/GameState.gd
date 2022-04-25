@@ -196,6 +196,8 @@ func set_entity_health(new_health : float):
 			emit_signal("phase_changed", cur_phase)
 			
 func game_won():
+	finish_game(null)
+	save_game()
 	emit_signal('game_won')
 
 func set_travelled_rooms(new_num : int):
@@ -296,6 +298,15 @@ func respawn_in_next_room():
 	spawnpoint.spawn()
 
 func save_game():
+	#Save high scores
+	var high_score = time_taken
+	if is_snow_mode:
+		snow_high_score = min(high_score, snow_high_score)
+	elif is_xcy_mode:
+		xcy_high_score = min(high_score, xcy_high_score)
+	else:
+		alo_high_score = min(high_score, alo_high_score)
+	
 	var save_game = File.new()
 	var error = save_game.open("user://save_game.save", File.WRITE)
 	if error == OK:

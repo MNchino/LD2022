@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Sound/Background.ogg" type="AudioStream" id=1]
 [ext_resource path="res://Sprite/Tileset/Tileset.tres" type="TileSet" id=2]
@@ -277,8 +277,8 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "RESET"
+[sub_resource type="Animation" id=29]
+resource_name = "FadeIn"
 length = 2.0
 tracks/0/type = "method"
 tracks/0/path = NodePath("FadeIn")
@@ -305,6 +305,22 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "RESET"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeIn/ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -690,12 +706,15 @@ position = Vector2( 413, 247 )
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="FadeIn" type="AnimationPlayer" parent="UI"]
+reset_on_save = false
+anims/FadeIn = SubResource( 29 )
 anims/RESET = SubResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="UI/FadeIn"]
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
 [node name="StartingAnim" type="Node2D" parent="UI"]
 modulate = Color( 0.00392157, 0, 0.501961, 0 )

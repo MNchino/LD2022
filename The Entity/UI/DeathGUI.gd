@@ -163,6 +163,7 @@ func do_ending_state():
 	if $PassTimer.is_stopped():
 		$PassTimer.start()
 		visible = false
+		GameState.save_game()
 		GameState.camera.target.get_node("PlayerSprite").visible = false
 
 func _on_PassTimer_timeout():
