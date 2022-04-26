@@ -30,6 +30,13 @@ func _ready():
 		"at least the entity will never give you up, never let you down.",
 		"Error 69: nice.",
 		"This is why you don't leave chino unsupervised",
+		"If you were going to practice, use training mode.",
+		"Fun fact: the first ever playthrough of this mode took 18 hours",
+		"In order to reach the goal, we're first going to have to talk about parallel universes.",
+		"what if we added a car to this game...",
+		"if you robbed a zoo and stole the pandas, can you actually resell them?",
+		"the entity is actually just a big tsundere btw",
+		"I have cookies ooooo mmm I know u really want them mmmm mmm mmMMmm they tasty",
 		
 		"betcha can't drown 3 times in a row",
 		"whatever you do, don't drown a lot. water is expensive",
